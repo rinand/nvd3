@@ -3,7 +3,7 @@
 var nv = window.nv || {};
 
 
-nv.version = '1.1.15b';
+nv.version = '1.1.15b'; //'1.1.15b-zl'
 nv.dev = true //set false when in production
 
 window.nv = nv;
@@ -4650,8 +4650,7 @@ nv.models.indentedTree = function() {
 
             d3.select(this).select('span')
               .attr('class', d3.functor(column.classes) )
-              .text(function(d) { return column.format ? column.format(d) :
-                                        (d[column.key] || '-') });
+              .text(function(d) { return column.format ? (d[column.key] ? column.format(d[column.key]) : '-') :  (d[column.key] || '-'); });
           });
 
         if  (column.showCount) {
@@ -10992,6 +10991,7 @@ nv.models.scatter = function() {
     , singlePoint  = false
     , dispatch     = d3.dispatch('elementClick', 'elementMouseover', 'elementMouseout')
     , useVoronoi   = true
+    , showLabel    = false //@zl
     ;
 
   //============================================================
@@ -11120,9 +11120,10 @@ nv.models.scatter = function() {
                 */
                 var pX = getX(point,pointIndex);
                 var pY = getY(point,pointIndex);
-
-                return [x(pX)+ Math.random() * 1e-7,
-                        y(pY)+ Math.random() * 1e-7,
+                var gid = (typeof groupIndex === 'undefined')? 0 : groupIndex; //@zl
+              //https://github.com/luke3141/nvd3/commit/e39ea4084c580acd5abb6e3da08e54722c09eca7
+                return [x(pX) + Math.floor(Math.random() * 100 + 1)/1000000, //@zl
+                        y(pY) + gid/100 + Math.floor(Math.random() * 10+ 1)/1000000, //@zl -- this could cause issue in scatter func. 
                         groupIndex,
                         pointIndex, point]; //temp hack to add noise untill I think of a better way so there are no duplicates
               })
@@ -11175,6 +11176,23 @@ nv.models.scatter = function() {
               [width + 10,-10]
           ]);
 
+
+//@zl - https://github.com/luke3141/nvd3/commit/e39ea4084c580acd5abb6e3da08e54722c09eca7
+     // delete duplicates from vertices - essential assumption for d3.geom.voronoi
+/**
+     var epsilon = 1e-6; // d3 uses 1e-6 to determine equivalence.
+     vertices = vertices.sort(function(a,b){return ((a[0] - b[0]) || (a[1] - b[1]))});
+     for (var i = 0; i < vertices.length - 1; ) {
+   if ((Math.abs(vertices[i][0] - vertices[i+1][0]) < epsilon) &&
+       (Math.abs(vertices[i][1] - vertices[i+1][1]) < epsilon)) {
+       vertices.splice(i+1, 1);
+   } else {
+       i++;
+   }
+     }
+**/
+//====================================================================================
+
           var voronoi = d3.geom.voronoi(vertices).map(function(d, i) {
               return {
                 'data': bounds.clip(d),
@@ -11191,10 +11209,15 @@ nv.models.scatter = function() {
           pointPaths.exit().remove();
           pointPaths
               .attr('d', function(d) {
-                if (d.data.length === 0)
+                if (typeof d === 'undefined' || d.data.length === 0) { //@zl
                     return 'M 0 0'
-                else
-                    return 'M' + d.data.join('L') + 'Z';
+                  }
+                else{
+                   var cleandata = d.data; //@zl
+                    if (d.data[0].length == 2) //@zl
+                       cleandata = d.data.map(function(d){ return [d[0]||0 , d[1]||0]; }); //@zl
+                    return 'M' + cleandata.join('L') + 'Z'; //@zl
+                  }
               });
 
           var mouseEventCallback = function(d,mDispatch) {
@@ -11310,6 +11333,40 @@ nv.models.scatter = function() {
 
         var points = groups.selectAll('circle.nv-point')
             .data(function(d) { return d.values }, pointKey);
+
+//@zl-------------------
+if(showLabel)
+{
+        var titles =  groups.selectAll('text')
+            .data(function(d) { return d.values }, pointKey);
+
+        titles.enter().append('text')
+            .style('fill', function (d,i) { return d.color })
+            .style('stroke-opacity', 0)
+            .style('fill-opacity', 1)
+            .attr('x', function(d,i) { return nv.utils.NaNtoZero(x0(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
+            .attr('y', function(d,i) { return nv.utils.NaNtoZero(y0(getY(d,i))) })
+            .text(function(d,i){return d.tooltip;});
+
+        titles.exit().remove();
+
+        groups.exit().selectAll('text.nv-point').transition()
+            .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) })
+            .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) })
+            .remove();
+
+        titles.each(function(d,i) {
+          d3.select(this)
+            .classed('nv-point', true)
+            .classed('nv-point-' + i, false)
+            .classed('hover',false);
+
+        });
+         titles.transition()
+             .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
+            .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) });
+}
+//-------------------            
         points.enter().append('circle')
             .style('fill', function (d,i) { return d.color })
             .style('stroke', function (d,i) { return d.color })
@@ -11620,7 +11677,12 @@ nv.models.scatter = function() {
     singlePoint = _;
     return chart;
   };
-
+//@zl------------------------
+  chart.showLabel = function(_){
+    if (!arguments.length) return showLabel;
+    showLabel = _;
+    return chart;
+};
   //============================================================
 
 
@@ -11667,6 +11729,7 @@ nv.models.scatterChart = function() {
     , dispatch     = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState')
     , noData       = "No Data Available."
     , transitionDuration = 250
+    , showLabel    = false //@zl
     ;
 
   scatter
@@ -11811,7 +11874,7 @@ nv.models.scatterChart = function() {
       // Legend
 
       if (showLegend) {
-        var legendWidth = (showControls) ? availableWidth / 2 : availableWidth;
+        var legendWidth = (showControls) ?  (availableWidth -180) : availableWidth; //@zl
         legend.width(legendWidth);
 
         wrap.select('.nv-legendWrap')
@@ -11861,7 +11924,10 @@ nv.models.scatterChart = function() {
           .color(data.map(function(d,i) {
             return d.color || color(d, i);
           }).filter(function(d,i) { return !data[i].disabled }));
-
+//@zl-------------
+      if (showLabel)
+        scatter.showLabel(true)
+//----------------
       if (xPadding !== 0)
         scatter.xDomain(null);
 
@@ -12249,6 +12315,14 @@ nv.models.scatterChart = function() {
     return chart;
   };
 
+//@zl-------------------------
+  chart.showLabel = function(_) {
+    if (!arguments.length) return showLabel;
+    showLabel = _;
+    return chart;
+  };
+
+
   //============================================================
 
 
@@ -12269,6 +12343,7 @@ nv.models.scatterPlusLineChart = function() {
     , distX        = nv.models.distribution()
     , distY        = nv.models.distribution()
     ;
+    d3.fisheye = false; //@zl
 
   var margin       = {top: 30, right: 20, bottom: 50, left: 75}
     , width        = null
@@ -12295,6 +12370,7 @@ nv.models.scatterPlusLineChart = function() {
     , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState')
     , noData       = "No Data Available."
     , transitionDuration = 250
+    , showLabel    = false //@zl
     ;
 
   scatter
@@ -12449,7 +12525,7 @@ nv.models.scatterPlusLineChart = function() {
       // Legend
 
       if (showLegend) {
-        legend.width( availableWidth / 2 );
+        legend.width( availableWidth - 180); //@zl
 
         wrap.select('.nv-legendWrap')
             .datum(data)
@@ -12462,7 +12538,7 @@ nv.models.scatterPlusLineChart = function() {
         }
 
         wrap.select('.nv-legendWrap')
-            .attr('transform', 'translate(' + (availableWidth / 2) + ',' + (-margin.top) +')');
+            .attr('transform', 'translate(' + (180) + ',' + (-margin.top) +')'); //@zl
       }
 
       //------------------------------------------------------------
@@ -12490,8 +12566,12 @@ nv.models.scatterPlusLineChart = function() {
           .height(availableHeight)
           .color(data.map(function(d,i) {
             return d.color || color(d, i);
-          }).filter(function(d,i) { return !data[i].disabled }))
+          }).filter(function(d,i) { return !data[i].disabled }));
 
+//@zl-------
+if (showLabel)
+      scatter.showLabel(showLabel);
+//---------
       wrap.select('.nv-scatterWrap')
           .datum(data.filter(function(d) { return !d.disabled }))
           .call(scatter);
@@ -12511,13 +12591,13 @@ nv.models.scatterPlusLineChart = function() {
 
       regLine
           .transition()
-          .attr('x1', x.range()[0])
-          .attr('x2', x.range()[1])
-          .attr('y1', function(d,i) {return y(x.domain()[0] * d.slope + d.intercept) })
-          .attr('y2', function(d,i) { return y(x.domain()[1] * d.slope + d.intercept) })
+          .attr('x1',  function(d,i) {return (typeof d.slope !== 'undefined')? x.range()[0]: x(d.intercept);}) //@zl
+          .attr('x2', function(d,i) {return (typeof d.slope !== 'undefined')? x.range()[1]: x(d.intercept);}) //@zl
+          .attr('y1', function(d,i) {return (typeof d.slope !== 'undefined')? y(x.domain()[0] * d.slope + d.intercept) :y.range()[0] }) //@zl
+          .attr('y2', function(d,i) { return (typeof d.slope !== 'undefined')? y(x.domain()[1] * d.slope + d.intercept):y.range()[1] }) //@zl
           .style('stroke', function(d,i,j) { return color(d,j) })
           .style('stroke-opacity', function(d,i) {
-            return (d.disabled || typeof d.slope === 'undefined' || typeof d.intercept === 'undefined') ? 0 : 1 
+             return (d.disabled || (typeof d.slope === 'undefined' && typeof d.intercept === 'undefined'))? 0 : 1   //@zl
           });
 
       //------------------------------------------------------------
@@ -12868,7 +12948,12 @@ nv.models.scatterPlusLineChart = function() {
     transitionDuration = _;
     return chart;
   };
-
+  //@zl --------------------
+  chart.showLabel = function(_) {
+    if (!arguments.length) return showLabel;
+    showLabel = _;
+    return chart;
+  };
   //============================================================
 
 
