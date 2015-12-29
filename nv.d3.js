@@ -1,19 +1,9 @@
-// Zipline 
-// @ScatterPlusLineChart
-//   - showLable option added
-//   - horizental line added as a regression line w/o series 
-//   - https://github.com/SolarCity/zipline/commit/b9121604d04b8112e1d86118737b6c9e5d64a0b6
-//   - https://github.com/SolarCity/zipline/commit/fa2a6c07aa99302c08c92911030b0c0b09b5b53d
-//
-// @multiChart
-//   - support bar / stackedbar /line
-// fix performance issue with veroni issue
 (function(){
 
 var nv = window.nv || {};
 
 
-nv.version = '1.1.15b'; //'1.1.15b-zl'
+nv.version = '1.1.15b';
 nv.dev = true //set false when in production
 
 window.nv = nv;
@@ -39,12 +29,7 @@ if (nv.dev) {
     nv.logs.endTime = +new Date();
     nv.logs.totalTime = nv.logs.endTime - nv.logs.startTime;
     nv.log('total', nv.logs.totalTime); // used for development, to keep track of graph generation times
-  });!function(){function t(t,e){return new Date(e,t+1,0).getDate()}function e(t,e,n){return function(r,a,o){var i=t(r),l=[];if(r>i&&e(i),o>1)for(;a>i;){var s=new Date(+i);n(s)%o===0&&l.push(s),e(i)}else for(;a>i;)l.push(new Date(+i)),e(i);return l}}var n=window.nv||{};n.version="1.1.15b",n.dev=!0,window.nv=n,n.tooltip=n.tooltip||{},n.utils=n.utils||{},n.models=n.models||{},n.charts={},n.graphs=[],n.logs={},n.dispatch=d3.dispatch("render_start","render_end"),n.dev&&(n.dispatch.on("render_start",function(){n.logs.startTime=+new Date}),n.dispatch.on("render_end",function(){n.logs.endTime=+new Date,n.logs.totalTime=n.logs.endTime-n.logs.startTime,n.log("total",n.logs.totalTime)})),n.log=function(){if(n.dev&&console.log&&console.log.apply)console.log.apply(console,arguments);else if(n.dev&&"function"==typeof console.log&&Function.prototype.bind){var t=Function.prototype.bind.call(console.log,console);t.apply(console,arguments)}return arguments[arguments.length-1]},n.render=function(t){t=t||1,n.render.active=!0,n.dispatch.render_start(),setTimeout(function(){for(var e,r,a=0;t>a&&(r=n.render.queue[a]);a++)e=r.generate(),typeof r.callback==typeof Function&&r.callback(e),n.graphs.push(e);n.render.queue.splice(0,a),n.render.queue.length?setTimeout(arguments.callee,0):(n.dispatch.render_end(),n.render.active=!1)},0)},n.render.active=!1,n.render.queue=[],n.addGraph=function(t){typeof arguments[0]==typeof Function&&(t={generate:arguments[0],callback:arguments[1]}),n.render.queue.push(t),n.render.active||n.render()},n.identity=function(t){return t},n.strip=function(t){return t.replace(/(\s|&)/g,"")},d3.time.monthEnd=function(t){return new Date(t.getFullYear(),t.getMonth(),0)},d3.time.monthEnds=e(d3.time.monthEnd,function(e){e.setUTCDate(e.getUTCDate()+1),e.setDate(t(e.getMonth()+1,e.getFullYear()))},function(t){return t.getMonth()}),n.interactiveGuideline=function(){"use strict";function t(d){d.each(function(d){function f(){var n=d3.mouse(this),r=n[0],a=n[1],s=!0,u=!1;if(c&&(r=d3.event.offsetX,a=d3.event.offsetY,"svg"!==d3.event.target.tagName&&(s=!1),d3.event.target.className.baseVal.match("nv-legend")&&(u=!0)),s&&(r-=o.left,a-=o.top),0>r||0>a||r>g||a>h||d3.event.relatedTarget&&void 0===d3.event.relatedTarget.ownerSVGElement||u){if(c&&d3.event.relatedTarget&&void 0===d3.event.relatedTarget.ownerSVGElement&&d3.event.relatedTarget.className.match(e.nvPointerEventsClass))return;return l.elementMouseout({mouseX:r,mouseY:a}),void t.renderGuideLine(null)}var d=i.invert(r);l.elementMousemove({mouseX:r,mouseY:a,pointXValue:d}),"dblclick"===d3.event.type&&l.elementDblclick({mouseX:r,mouseY:a,pointXValue:d})}var p=d3.select(this),g=r||960,h=a||400,m=p.selectAll("g.nv-wrap.nv-interactiveLineLayer").data([d]),v=m.enter().append("g").attr("class"," nv-wrap nv-interactiveLineLayer");v.append("g").attr("class","nv-interactiveGuideLine"),u&&(u.on("mousemove",f,!0).on("mouseout",f,!0).on("dblclick",f),t.renderGuideLine=function(t){if(s){var e=m.select(".nv-interactiveGuideLine").selectAll("line").data(null!=t?[n.utils.NaNtoZero(t)]:[],String);e.enter().append("line").attr("class","nv-guideline").attr("x1",function(t){return t}).attr("x2",function(t){return t}).attr("y1",h).attr("y2",0),e.exit().remove()}})})}var e=n.models.tooltip(),r=null,a=null,o={left:0,top:0},i=d3.scale.linear(),l=(d3.scale.linear(),d3.dispatch("elementMousemove","elementMouseout","elementDblclick")),s=!0,u=null,c=-1!==navigator.userAgent.indexOf("MSIE");return t.dispatch=l,t.tooltip=e,t.margin=function(e){return arguments.length?(o.top="undefined"!=typeof e.top?e.top:o.top,o.left="undefined"!=typeof e.left?e.left:o.left,t):o},t.width=function(e){return arguments.length?(r=e,t):r},t.height=function(e){return arguments.length?(a=e,t):a},t.xScale=function(e){return arguments.length?(i=e,t):i},t.showGuideLine=function(e){return arguments.length?(s=e,t):s},t.svgContainer=function(e){return arguments.length?(u=e,t):u},t},n.interactiveBisect=function(t,e,n){"use strict";if(!t instanceof Array)return null;"function"!=typeof n&&(n=function(t){return t.x});var r=d3.bisector(n).left,a=d3.max([0,r(t,e)-1]),o=n(t[a],a);if("undefined"==typeof o&&(o=a),o===e)return a;var i=d3.min([a+1,t.length-1]),l=n(t[i],i);return"undefined"==typeof l&&(l=i),Math.abs(l-e)>=Math.abs(o-e)?a:i},n.nearestValueIndex=function(t,e,n){"use strict";var r=1/0,a=null;return t.forEach(function(t,o){var i=Math.abs(e-t);r>=i&&n>i&&(r=i,a=o)}),a},function(){"use strict";window.nv.tooltip={},window.nv.models.tooltip=function(){function t(){if(d){var t=d3.select(d);"svg"!==t.node().tagName&&(t=t.select("svg"));var e=t.node()?t.attr("viewBox"):null;if(e){e=e.split(" ");var n=parseInt(t.style("width"))/e[2];p.left=p.left*n,p.top=p.top*n}}}function e(t){var e;e=d3.select(d?d:"body");var n=e.select(".nvtooltip");return null===n.node()&&(n=e.append("div").attr("class","nvtooltip "+(c?c:"xy-tooltip")).attr("id",h)),n.node().innerHTML=t,n.style("top",0).style("left",0).style("opacity",0),n.selectAll("div, table, td, tr").classed(m,!0),n.classed(m,!0),n.node()}function r(){if(g&&b(o)){t();var a=p.left,c=null!=u?u:p.top,h=e(x(o));if(f=h,d){var m=d.getElementsByTagName("svg")[0],v=(m?m.getBoundingClientRect():d.getBoundingClientRect(),{left:0,top:0});if(m){var y=m.getBoundingClientRect(),k=d.getBoundingClientRect(),w=y.top;if(0>w){var A=d.getBoundingClientRect();w=Math.abs(w)>A.height?0:w}v.top=Math.abs(w-k.top),v.left=Math.abs(y.left-k.left)}a+=d.offsetLeft+v.left-2*d.scrollLeft,c+=d.offsetTop+v.top-2*d.scrollTop}return s&&s>0&&(c=Math.floor(c/s)*s),n.tooltip.calcTooltipPosition([a,c],i,l,h),r}}var a=null,o=null,i="w",l=50,s=25,u=null,c=null,d=null,f=null,p={left:null,top:null},g=!0,h="nvtooltip-"+Math.floor(1e5*Math.random()),m="nv-pointer-events-none",v=function(t){return t},y=function(t){return t},x=function(t){if(null!=a)return a;if(null==t)return"";var e=d3.select(document.createElement("table")),n=e.selectAll("thead").data([t]).enter().append("thead");n.append("tr").append("td").attr("colspan",3).append("strong").classed("x-value",!0).html(y(t.value));var r=e.selectAll("tbody").data([t]).enter().append("tbody"),o=r.selectAll("tr").data(function(t){return t.series}).enter().append("tr").classed("highlight",function(t){return t.highlight});o.append("td").classed("legend-color-guide",!0).append("div").style("background-color",function(t){return t.color}),o.append("td").classed("key",!0).html(function(t){return t.key}),o.append("td").classed("value",!0).html(function(t,e){return v(t.value,e)}),o.selectAll("td").each(function(t){if(t.highlight){var e=d3.scale.linear().domain([0,1]).range(["#fff",t.color]),n=.6;d3.select(this).style("border-bottom-color",e(n)).style("border-top-color",e(n))}});var i=e.node().outerHTML;return void 0!==t.footer&&(i+="<div class='footer'>"+t.footer+"</div>"),i},b=function(t){return t&&t.series&&t.series.length>0?!0:!1};return r.nvPointerEventsClass=m,r.content=function(t){return arguments.length?(a=t,r):a},r.tooltipElem=function(){return f},r.contentGenerator=function(t){return arguments.length?("function"==typeof t&&(x=t),r):x},r.data=function(t){return arguments.length?(o=t,r):o},r.gravity=function(t){return arguments.length?(i=t,r):i},r.distance=function(t){return arguments.length?(l=t,r):l},r.snapDistance=function(t){return arguments.length?(s=t,r):s},r.classes=function(t){return arguments.length?(c=t,r):c},r.chartContainer=function(t){return arguments.length?(d=t,r):d},r.position=function(t){return arguments.length?(p.left="undefined"!=typeof t.left?t.left:p.left,p.top="undefined"!=typeof t.top?t.top:p.top,r):p},r.fixedTop=function(t){return arguments.length?(u=t,r):u},r.enabled=function(t){return arguments.length?(g=t,r):g},r.valueFormatter=function(t){return arguments.length?("function"==typeof t&&(v=t),r):v},r.headerFormatter=function(t){return arguments.length?("function"==typeof t&&(y=t),r):y},r.id=function(){return h},r},n.tooltip.show=function(t,e,r,a,o,i){var l=document.createElement("div");l.className="nvtooltip "+(i?i:"xy-tooltip");var s=o;(!o||o.tagName.match(/g|svg/i))&&(s=document.getElementsByTagName("body")[0]),l.style.left=0,l.style.top=0,l.style.opacity=0,l.innerHTML=e,s.appendChild(l),o&&(t[0]=t[0]-o.scrollLeft,t[1]=t[1]-o.scrollTop),n.tooltip.calcTooltipPosition(t,r,a,l)},n.tooltip.findFirstNonSVGParent=function(t){for(;null!==t.tagName.match(/^g|svg$/i);)t=t.parentNode;return t},n.tooltip.findTotalOffsetTop=function(t,e){var n=e;do isNaN(t.offsetTop)||(n+=t.offsetTop);while(t=t.offsetParent);return n},n.tooltip.findTotalOffsetLeft=function(t,e){var n=e;do isNaN(t.offsetLeft)||(n+=t.offsetLeft);while(t=t.offsetParent);return n},n.tooltip.calcTooltipPosition=function(t,e,r,a){var o,i,l=parseInt(a.offsetHeight),s=parseInt(a.offsetWidth),u=n.utils.windowSize().width,c=n.utils.windowSize().height,d=window.pageYOffset,f=window.pageXOffset;c=window.innerWidth>=document.body.scrollWidth?c:c-16,u=window.innerHeight>=document.body.scrollHeight?u:u-16,e=e||"s",r=r||20;var p=function(t){return n.tooltip.findTotalOffsetTop(t,i)},g=function(t){return n.tooltip.findTotalOffsetLeft(t,o)};switch(e){case"e":o=t[0]-s-r,i=t[1]-l/2;var h=g(a),m=p(a);f>h&&(o=t[0]+r>f?t[0]+r:f-h+o),d>m&&(i=d-m+i),m+l>d+c&&(i=d+c-m+i-l);break;case"w":o=t[0]+r,i=t[1]-l/2;var h=g(a),m=p(a);h+s>u&&(o=t[0]-s-r),d>m&&(i=d+5),m+l>d+c&&(i=d+c-m+i-l);break;case"n":o=t[0]-s/2-5,i=t[1]+r;var h=g(a),m=p(a);f>h&&(o=f+5),h+s>u&&(o=o-s/2+5),m+l>d+c&&(i=d+c-m+i-l);break;case"s":o=t[0]-s/2,i=t[1]-l-r;var h=g(a),m=p(a);f>h&&(o=f+5),h+s>u&&(o=o-s/2+5),d>m&&(i=d);break;case"none":o=t[0],i=t[1]-r;var h=g(a),m=p(a)}return a.style.left=o+"px",a.style.top=i+"px",a.style.opacity=1,a.style.position="absolute",a},n.tooltip.cleanup=function(){for(var t=document.getElementsByClassName("nvtooltip"),e=[];t.length;)e.push(t[0]),t[0].style.transitionDelay="0 !important",t[0].style.opacity=0,t[0].className="nvtooltip-pending-removal";setTimeout(function(){for(;e.length;){var t=e.pop();t.parentNode.removeChild(t)}},500)}}(),n.utils.windowSize=function(){var t={width:640,height:480};return document.body&&document.body.offsetWidth&&(t.width=document.body.offsetWidth,t.height=document.body.offsetHeight),"CSS1Compat"==document.compatMode&&document.documentElement&&document.documentElement.offsetWidth&&(t.width=document.documentElement.offsetWidth,t.height=document.documentElement.offsetHeight),window.innerWidth&&window.innerHeight&&(t.width=window.innerWidth,t.height=window.innerHeight),t},n.utils.windowResize=function(t){if(void 0!==t){var e=window.onresize;window.onresize=function(n){"function"==typeof e&&e(n),t(n)}}},n.utils.getColor=function(t){return arguments.length?"[object Array]"===Object.prototype.toString.call(t)?function(e,n){return e.color||t[n%t.length]}:t:n.utils.defaultColor()},n.utils.defaultColor=function(){var t=d3.scale.category20().range();return function(e,n){return e.color||t[n%t.length]}},n.utils.customTheme=function(t,e,n){e=e||function(t){return t.key},n=n||d3.scale.category20().range();var r=n.length;return function(a){var o=e(a);return r||(r=n.length),"undefined"!=typeof t[o]?"function"==typeof t[o]?t[o]():t[o]:n[--r]}},n.utils.pjax=function(t,e){function r(r){d3.html(r,function(r){var a=d3.select(e).node();a.parentNode.replaceChild(d3.select(r).select(e).node(),a),n.utils.pjax(t,e)})}d3.selectAll(t).on("click",function(){history.pushState(this.href,this.textContent,this.href),r(this.href),d3.event.preventDefault()}),d3.select(window).on("popstate",function(){d3.event.state&&r(d3.event.state)})},n.utils.calcApproxTextWidth=function(t){if("function"==typeof t.style&&"function"==typeof t.text){var e=parseInt(t.style("font-size").replace("px","")),n=t.text().length;return n*e*.5}return 0},n.utils.NaNtoZero=function(t){return"number"!=typeof t||isNaN(t)||null===t||1/0===t?0:t},n.utils.optionsFunc=function(t){return t&&d3.map(t).forEach(function(t,e){"function"==typeof this[t]&&this[t](e)}.bind(this)),this},n.models.axis=function(){"use strict";function t(n){return n.each(function(t){var n=d3.select(this),o=n.selectAll("g.nv-wrap.nv-axis").data([t]),v=o.enter().append("g").attr("class","nvd3 nv-wrap nv-axis"),y=(v.append("g"),o.select("g"));null!==g?e.ticks(g):("top"==e.orient()||"bottom"==e.orient())&&e.ticks(Math.abs(i.range()[1]-i.range()[0])/100),y.transition().call(e),m=m||e.scale();var x=e.tickFormat();null==x&&(x=m.tickFormat());var b=y.selectAll("text.nv-axislabel").data([l||null]);switch(b.exit().remove(),e.orient()){case"top":b.enter().append("text").attr("class","nv-axislabel");var k=2==i.range().length?i.range()[1]:i.range()[i.range().length-1]+(i.range()[1]-i.range()[0]);if(b.attr("text-anchor","middle").attr("y",0).attr("x",k/2),s){var w=o.selectAll("g.nv-axisMaxMin").data(i.domain());w.enter().append("g").attr("class","nv-axisMaxMin").append("text"),w.exit().remove(),w.attr("transform",function(t){return"translate("+i(t)+",0)"}).select("text").attr("dy","-0.5em").attr("y",-e.tickPadding()).attr("text-anchor","middle").text(function(t){var e=x(t);return(""+e).match("NaN")?"":e}),w.transition().attr("transform",function(t,e){return"translate("+i.range()[e]+",0)"})}break;case"bottom":var A=36,S=30,M=y.selectAll("g").select("text");if(c%360){M.each(function(){var t=this.getBBox().width;t>S&&(S=t)});var C=Math.abs(Math.sin(c*Math.PI/180)),A=(C?C*S:S)+30;M.attr("transform",function(){return"rotate("+c+" 0,0)"}).style("text-anchor",c%360>0?"start":"end")}b.enter().append("text").attr("class","nv-axislabel");var k=2==i.range().length?i.range()[1]:i.range()[i.range().length-1]+(i.range()[1]-i.range()[0]);if(b.attr("text-anchor","middle").attr("y",A).attr("x",k/2),s){var w=o.selectAll("g.nv-axisMaxMin").data([i.domain()[0],i.domain()[i.domain().length-1]]);w.enter().append("g").attr("class","nv-axisMaxMin").append("text"),w.exit().remove(),w.attr("transform",function(t){return"translate("+(i(t)+(p?i.rangeBand()/2:0))+",0)"}).select("text").attr("dy",".71em").attr("y",e.tickPadding()).attr("transform",function(){return"rotate("+c+" 0,0)"}).style("text-anchor",c?c%360>0?"start":"end":"middle").text(function(t){var e=x(t);return(""+e).match("NaN")?"":e}),w.transition().attr("transform",function(t){return"translate("+(i(t)+(p?i.rangeBand()/2:0))+",0)"})}f&&M.attr("transform",function(t,e){return"translate(0,"+(e%2==0?"0":"12")+")"});break;case"right":if(b.enter().append("text").attr("class","nv-axislabel"),b.style("text-anchor",d?"middle":"begin").attr("transform",d?"rotate(90)":"").attr("y",d?-Math.max(r.right,a)+12:-10).attr("x",d?i.range()[0]/2:e.tickPadding()),s){var w=o.selectAll("g.nv-axisMaxMin").data(i.domain());w.enter().append("g").attr("class","nv-axisMaxMin").append("text").style("opacity",0),w.exit().remove(),w.attr("transform",function(t){return"translate(0,"+i(t)+")"}).select("text").attr("dy",".32em").attr("y",0).attr("x",e.tickPadding()).style("text-anchor","start").text(function(t){var e=x(t);return(""+e).match("NaN")?"":e}),w.transition().attr("transform",function(t,e){return"translate(0,"+i.range()[e]+")"}).select("text").style("opacity",1)}break;case"left":if(b.enter().append("text").attr("class","nv-axislabel"),b.style("text-anchor",d?"middle":"end").attr("transform",d?"rotate(-90)":"").attr("y",d?-Math.max(r.left,a)+h:-10).attr("x",d?-i.range()[0]/2:-e.tickPadding()),s){var w=o.selectAll("g.nv-axisMaxMin").data(i.domain());w.enter().append("g").attr("class","nv-axisMaxMin").append("text").style("opacity",0),w.exit().remove(),w.attr("transform",function(t){return"translate(0,"+m(t)+")"}).select("text").attr("dy",".32em").attr("y",0).attr("x",-e.tickPadding()).attr("text-anchor","end").text(function(t){var e=x(t);return(""+e).match("NaN")?"":e}),w.transition().attr("transform",function(t,e){return"translate(0,"+i.range()[e]+")"}).select("text").style("opacity",1)}}if(b.text(function(t){return t}),!s||"left"!==e.orient()&&"right"!==e.orient()||(y.selectAll("g").each(function(t){d3.select(this).select("text").attr("opacity",1),(i(t)<i.range()[1]+10||i(t)>i.range()[0]-10)&&((t>1e-10||-1e-10>t)&&d3.select(this).attr("opacity",0),d3.select(this).select("text").attr("opacity",0))}),i.domain()[0]==i.domain()[1]&&0==i.domain()[0]&&o.selectAll("g.nv-axisMaxMin").style("opacity",function(t,e){return e?0:1})),s&&("top"===e.orient()||"bottom"===e.orient())){var D=[];o.selectAll("g.nv-axisMaxMin").each(function(t,e){try{D.push(e?i(t)-this.getBBox().width-4:i(t)+this.getBBox().width+4)}catch(n){D.push(e?i(t)-4:i(t)+4)}}),y.selectAll("g").each(function(t){(i(t)<D[0]||i(t)>D[1])&&(t>1e-10||-1e-10>t?d3.select(this).remove():d3.select(this).select("text").remove())})}u&&y.selectAll(".tick").filter(function(t){return!parseFloat(Math.round(1e5*t.__data__)/1e6)&&void 0!==t.__data__}).classed("zero",!0),m=i.copy()}),t}var e=d3.svg.axis(),r={top:0,right:0,bottom:0,left:0},a=75,o=60,i=d3.scale.linear(),l=null,s=!0,u=!0,c=0,d=!0,f=!1,p=!1,g=null,h=12;e.scale(i).orient("bottom").tickFormat(function(t){return t});var m;return t.axis=e,d3.rebind(t,e,"orient","tickValues","tickSubdivide","tickSize","tickPadding","tickFormat"),d3.rebind(t,i,"domain","range","rangeBand","rangeBands"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(r.top="undefined"!=typeof e.top?e.top:r.top,r.right="undefined"!=typeof e.right?e.right:r.right,r.bottom="undefined"!=typeof e.bottom?e.bottom:r.bottom,r.left="undefined"!=typeof e.left?e.left:r.left,t):r},t.width=function(e){return arguments.length?(a=e,t):a},t.ticks=function(e){return arguments.length?(g=e,t):g},t.height=function(e){return arguments.length?(o=e,t):o},t.axisLabel=function(e){return arguments.length?(l=e,t):l},t.showMaxMin=function(e){return arguments.length?(s=e,t):s},t.highlightZero=function(e){return arguments.length?(u=e,t):u},t.scale=function(n){return arguments.length?(i=n,e.scale(i),p="function"==typeof i.rangeBands,d3.rebind(t,i,"domain","range","rangeBand","rangeBands"),t):i},t.rotateYLabel=function(e){return arguments.length?(d=e,t):d},t.rotateLabels=function(e){return arguments.length?(c=e,t):c},t.staggerLabels=function(e){return arguments.length?(f=e,t):f},t.axisLabelDistance=function(e){return arguments.length?(h=e,t):h},t},n.models.historicalBar=function(){"use strict";function t(k){return k.each(function(t){var k=l-i.left-i.right,w=s-i.top-i.bottom,A=d3.select(this);c.domain(e||d3.extent(t[0].values.map(f).concat(g))),c.range(m?a||[.5*k/t[0].values.length,k*(t[0].values.length-.5)/t[0].values.length]:a||[0,k]),d.domain(r||d3.extent(t[0].values.map(p).concat(h))).range(o||[w,0]),c.domain()[0]===c.domain()[1]&&c.domain(c.domain()[0]?[c.domain()[0]-.01*c.domain()[0],c.domain()[1]+.01*c.domain()[1]]:[-1,1]),d.domain()[0]===d.domain()[1]&&d.domain(d.domain()[0]?[d.domain()[0]+.01*d.domain()[0],d.domain()[1]-.01*d.domain()[1]]:[-1,1]);var S=A.selectAll("g.nv-wrap.nv-historicalBar-"+u).data([t[0].values]),M=S.enter().append("g").attr("class","nvd3 nv-wrap nv-historicalBar-"+u),C=M.append("defs"),D=M.append("g"),I=S.select("g");D.append("g").attr("class","nv-bars"),S.attr("transform","translate("+i.left+","+i.top+")"),A.on("click",function(t,e){x.chartClick({data:t,index:e,pos:d3.event,id:u})}),C.append("clipPath").attr("id","nv-chart-clip-path-"+u).append("rect"),S.select("#nv-chart-clip-path-"+u+" rect").attr("width",k).attr("height",w),I.attr("clip-path",v?"url(#nv-chart-clip-path-"+u+")":"");var W=S.select(".nv-bars").selectAll(".nv-bar").data(function(t){return t},function(t,e){return f(t,e)});W.exit().remove();W.enter().append("rect").attr("x",0).attr("y",function(t,e){return n.utils.NaNtoZero(d(Math.max(0,p(t,e))))}).attr("height",function(t,e){return n.utils.NaNtoZero(Math.abs(d(p(t,e))-d(0)))}).attr("transform",function(e,n){return"translate("+(c(f(e,n))-k/t[0].values.length*.45)+",0)"}).on("mouseover",function(e,n){b&&(d3.select(this).classed("hover",!0),x.elementMouseover({point:e,series:t[0],pos:[c(f(e,n)),d(p(e,n))],pointIndex:n,seriesIndex:0,e:d3.event}))}).on("mouseout",function(e,n){b&&(d3.select(this).classed("hover",!1),x.elementMouseout({point:e,series:t[0],pointIndex:n,seriesIndex:0,e:d3.event}))}).on("click",function(t,e){b&&(x.elementClick({value:p(t,e),data:t,index:e,pos:[c(f(t,e)),d(p(t,e))],e:d3.event,id:u}),d3.event.stopPropagation())}).on("dblclick",function(t,e){b&&(x.elementDblClick({value:p(t,e),data:t,index:e,pos:[c(f(t,e)),d(p(t,e))],e:d3.event,id:u}),d3.event.stopPropagation())});W.attr("fill",function(t,e){return y(t,e)}).attr("class",function(t,e,n){return(p(t,e)<0?"nv-bar negative":"nv-bar positive")+" nv-bar-"+n+"-"+e}).transition().attr("transform",function(e,n){return"translate("+(c(f(e,n))-k/t[0].values.length*.45)+",0)"}).attr("width",k/t[0].values.length*.9),W.transition().attr("y",function(t,e){var r=p(t,e)<0?d(0):d(0)-d(p(t,e))<1?d(0)-1:d(p(t,e));return n.utils.NaNtoZero(r)}).attr("height",function(t,e){return n.utils.NaNtoZero(Math.max(Math.abs(d(p(t,e))-d(0)),1))})}),t}var e,r,a,o,i={top:0,right:0,bottom:0,left:0},l=960,s=500,u=Math.floor(1e4*Math.random()),c=d3.scale.linear(),d=d3.scale.linear(),f=function(t){return t.x},p=function(t){return t.y},g=[],h=[0],m=!1,v=!0,y=n.utils.defaultColor(),x=d3.dispatch("chartClick","elementClick","elementDblClick","elementMouseover","elementMouseout"),b=!0;return t.highlightPoint=function(t,e){d3.select(".nv-historicalBar-"+u).select(".nv-bars .nv-bar-0-"+t).classed("hover",e)},t.clearHighlights=function(){d3.select(".nv-historicalBar-"+u).select(".nv-bars .nv-bar.hover").classed("hover",!1)},t.dispatch=x,t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(f=e,t):f},t.y=function(e){return arguments.length?(p=e,t):p},t.margin=function(e){return arguments.length?(i.top="undefined"!=typeof e.top?e.top:i.top,i.right="undefined"!=typeof e.right?e.right:i.right,i.bottom="undefined"!=typeof e.bottom?e.bottom:i.bottom,i.left="undefined"!=typeof e.left?e.left:i.left,t):i},t.width=function(e){return arguments.length?(l=e,t):l},t.height=function(e){return arguments.length?(s=e,t):s},t.xScale=function(e){return arguments.length?(c=e,t):c},t.yScale=function(e){return arguments.length?(d=e,t):d},t.xDomain=function(n){return arguments.length?(e=n,t):e},t.yDomain=function(e){return arguments.length?(r=e,t):r},t.xRange=function(e){return arguments.length?(a=e,t):a},t.yRange=function(e){return arguments.length?(o=e,t):o},t.forceX=function(e){return arguments.length?(g=e,t):g},t.forceY=function(e){return arguments.length?(h=e,t):h},t.padData=function(e){return arguments.length?(m=e,t):m},t.clipEdge=function(e){return arguments.length?(v=e,t):v},t.color=function(e){return arguments.length?(y=n.utils.getColor(e),t):y},t.id=function(e){return arguments.length?(u=e,t):u},t.interactive=function(){return arguments.length?(b=!1,t):b},t},n.models.bullet=function(){"use strict";function t(n){return n.each(function(t,n){{var r=f-e.left-e.right,g=p-e.top-e.bottom,v=d3.select(this),y=o.call(this,t,n).slice().sort(d3.descending),x=i.call(this,t,n).slice().sort(d3.descending),b=l.call(this,t,n).slice().sort(d3.descending),k=s.call(this,t,n).slice(),w=u.call(this,t,n).slice(),A=c.call(this,t,n).slice(),S=d3.scale.linear().domain(d3.extent(d3.merge([d,y]))).range(a?[r,0]:[0,r]);this.__chart__||d3.scale.linear().domain([0,1/0]).range(S.range())}this.__chart__=S;var M=d3.min(y),C=d3.max(y),D=y[1],I=v.selectAll("g.nv-wrap.nv-bullet").data([t]),W=I.enter().append("g").attr("class","nvd3 nv-wrap nv-bullet"),N=W.append("g"),z=I.select("g");N.append("rect").attr("class","nv-range nv-rangeMax"),N.append("rect").attr("class","nv-range nv-rangeAvg"),N.append("rect").attr("class","nv-range nv-rangeMin"),N.append("rect").attr("class","nv-measure"),N.append("path").attr("class","nv-markerTriangle"),I.attr("transform","translate("+e.left+","+e.top+")");var F=function(t){return Math.abs(S(t)-S(0))},L=function(t){return S(0>t?t:0)};z.select("rect.nv-rangeMax").attr("height",g).attr("width",F(C>0?C:M)).attr("x",L(C>0?C:M)).datum(C>0?C:M),z.select("rect.nv-rangeAvg").attr("height",g).attr("width",F(D)).attr("x",L(D)).datum(D),z.select("rect.nv-rangeMin").attr("height",g).attr("width",F(C)).attr("x",L(C)).attr("width",F(C>0?M:C)).attr("x",L(C>0?M:C)).datum(C>0?M:C),z.select("rect.nv-measure").style("fill",h).attr("height",g/3).attr("y",g/3).attr("width",0>b?S(0)-S(b[0]):S(b[0])-S(0)).attr("x",L(b)).on("mouseover",function(){m.elementMouseover({value:b[0],label:A[0]||"Current",pos:[S(b[0]),g/2]})}).on("mouseout",function(){m.elementMouseout({value:b[0],label:A[0]||"Current"})});var B=g/6;x[0]?z.selectAll("path.nv-markerTriangle").attr("transform",function(){return"translate("+S(x[0])+","+g/2+")"}).attr("d","M0,"+B+"L"+B+","+-B+" "+-B+","+-B+"Z").on("mouseover",function(){m.elementMouseover({value:x[0],label:w[0]||"Previous",pos:[S(x[0]),g/2]})}).on("mouseout",function(){m.elementMouseout({value:x[0],label:w[0]||"Previous"})}):z.selectAll("path.nv-markerTriangle").remove(),I.selectAll(".nv-range").on("mouseover",function(t,e){var n=k[e]||(e?1==e?"Mean":"Minimum":"Maximum");m.elementMouseover({value:t,label:n,pos:[S(t),g/2]})}).on("mouseout",function(t,e){var n=k[e]||(e?1==e?"Mean":"Minimum":"Maximum");m.elementMouseout({value:t,label:n})})}),t}var e={top:0,right:0,bottom:0,left:0},r="left",a=!1,o=function(t){return t.ranges},i=function(t){return t.markers},l=function(t){return t.measures},s=function(t){return t.rangeLabels?t.rangeLabels:[]},u=function(t){return t.markerLabels?t.markerLabels:[]},c=function(t){return t.measureLabels?t.measureLabels:[]},d=[0],f=380,p=30,g=null,h=n.utils.getColor(["#1f77b4"]),m=d3.dispatch("elementMouseover","elementMouseout");return t.dispatch=m,t.options=n.utils.optionsFunc.bind(t),t.orient=function(e){return arguments.length?(r=e,a="right"==r||"bottom"==r,t):r},t.ranges=function(e){return arguments.length?(o=e,t):o},t.markers=function(e){return arguments.length?(i=e,t):i},t.measures=function(e){return arguments.length?(l=e,t):l},t.forceX=function(e){return arguments.length?(d=e,t):d},t.width=function(e){return arguments.length?(f=e,t):f},t.height=function(e){return arguments.length?(p=e,t):p},t.margin=function(n){return arguments.length?(e.top="undefined"!=typeof n.top?n.top:e.top,e.right="undefined"!=typeof n.right?n.right:e.right,e.bottom="undefined"!=typeof n.bottom?n.bottom:e.bottom,e.left="undefined"!=typeof n.left?n.left:e.left,t):e},t.tickFormat=function(e){return arguments.length?(g=e,t):g},t.color=function(e){return arguments.length?(h=n.utils.getColor(e),t):h},t},n.models.bulletChart=function(){"use strict";function t(n){return n.each(function(r,p){var v=d3.select(this),y=(u||parseInt(v.style("width"))||960)-o.left-o.right,x=c-o.top-o.bottom,b=this;if(t.update=function(){t(n)},t.container=this,!r||!i.call(this,r,p)){var k=v.selectAll(".nv-noData").data([g]);return k.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),k.attr("x",o.left+y/2).attr("y",18+o.top+x/2).text(function(t){return t}),t}v.selectAll(".nv-noData").remove();var w=i.call(this,r,p).slice().sort(d3.descending),A=l.call(this,r,p).slice().sort(d3.descending),S=s.call(this,r,p).slice().sort(d3.descending),M=v.selectAll("g.nv-wrap.nv-bulletChart").data([r]),C=M.enter().append("g").attr("class","nvd3 nv-wrap nv-bulletChart"),D=C.append("g"),I=M.select("g");D.append("g").attr("class","nv-bulletWrap"),D.append("g").attr("class","nv-titles"),M.attr("transform","translate("+o.left+","+o.top+")");var W=d3.scale.linear().domain([0,Math.max(w[0],A[0],S[0])]).range(a?[y,0]:[0,y]),N=this.__chart__||d3.scale.linear().domain([0,1/0]).range(W.range());this.__chart__=W;var z=D.select(".nv-titles").append("g").attr("text-anchor","end").attr("transform","translate(-6,"+(c-o.top-o.bottom)/2+")");z.append("text").attr("class","nv-title").text(function(t){return t.title}),z.append("text").attr("class","nv-subtitle").attr("dy","1em").text(function(t){return t.subtitle}),e.width(y).height(x);var F=I.select(".nv-bulletWrap");d3.transition(F).call(e);var L=d||W.tickFormat(y/100),B=I.selectAll("g.nv-tick").data(W.ticks(y/50),function(t){return this.textContent||L(t)}),P=B.enter().append("g").attr("class","nv-tick").attr("transform",function(t){return"translate("+N(t)+",0)"}).style("opacity",1e-6);P.append("line").attr("y1",x).attr("y2",7*x/6),P.append("text").attr("text-anchor","middle").attr("dy","1em").attr("y",7*x/6).text(L);var H=d3.transition(B).attr("transform",function(t){return"translate("+W(t)+",0)"}).style("opacity",1);H.select("line").attr("y1",x).attr("y2",7*x/6),H.select("text").attr("y",7*x/6),d3.transition(B.exit()).attr("transform",function(t){return"translate("+W(t)+",0)"}).style("opacity",1e-6).remove(),h.on("tooltipShow",function(t){t.key=r.title,f&&m(t,b.parentNode)})}),d3.timer.flush(),t}var e=n.models.bullet(),r="left",a=!1,o={top:5,right:40,bottom:20,left:120},i=function(t){return t.ranges},l=function(t){return t.markers},s=function(t){return t.measures},u=null,c=55,d=null,f=!0,p=function(t,e,n){return"<h3>"+e+"</h3><p>"+n+"</p>"},g="No Data Available.",h=d3.dispatch("tooltipShow","tooltipHide"),m=function(e,r){var a=e.pos[0]+(r.offsetLeft||0)+o.left,i=e.pos[1]+(r.offsetTop||0)+o.top,l=p(e.key,e.label,e.value,e,t);n.tooltip.show([a,i],l,e.value<0?"e":"w",null,r)};return e.dispatch.on("elementMouseover.tooltip",function(t){h.tooltipShow(t)}),e.dispatch.on("elementMouseout.tooltip",function(t){h.tooltipHide(t)}),h.on("tooltipHide",function(){f&&n.tooltip.cleanup()}),t.dispatch=h,t.bullet=e,d3.rebind(t,e,"color"),t.options=n.utils.optionsFunc.bind(t),t.orient=function(e){return arguments.length?(r=e,a="right"==r||"bottom"==r,t):r},t.ranges=function(e){return arguments.length?(i=e,t):i},t.markers=function(e){return arguments.length?(l=e,t):l},t.measures=function(e){return arguments.length?(s=e,t):s},t.width=function(e){return arguments.length?(u=e,t):u},t.height=function(e){return arguments.length?(c=e,t):c},t.margin=function(e){return arguments.length?(o.top="undefined"!=typeof e.top?e.top:o.top,o.right="undefined"!=typeof e.right?e.right:o.right,o.bottom="undefined"!=typeof e.bottom?e.bottom:o.bottom,o.left="undefined"!=typeof e.left?e.left:o.left,t):o},t.tickFormat=function(e){return arguments.length?(d=e,t):d},t.tooltips=function(e){return arguments.length?(f=e,t):f},t.tooltipContent=function(e){return arguments.length?(p=e,t):p},t.noData=function(e){return arguments.length?(g=e,t):g},t},n.models.cumulativeLineChart=function(){"use strict";function t(A){return A.each(function(A){function z(){d3.select(t.container).style("cursor","ew-resize")}function P(){L.x=d3.event.x,L.i=Math.round(F.invert(L.x)),T()}function H(){d3.select(t.container).style("cursor","auto"),M.index=L.i,W.stateChange(M)}function T(){re.data([L]);var e=t.transitionDuration();t.transitionDuration(0),t.update(),t.transitionDuration(e)}var E=d3.select(this).classed("nv-chart-"+S,!0),Y=this,R=(p||parseInt(E.style("width"))||960)-d.left-d.right,V=(g||parseInt(E.style("height"))||400)-d.top-d.bottom;if(t.update=function(){E.transition().duration(N).call(t)},t.container=this,M.disabled=A.map(function(t){return!!t.disabled}),!C){var _;C={};for(_ in M)C[_]=M[_]instanceof Array?M[_].slice(0):M[_]}var X=d3.behavior.drag().on("dragstart",z).on("drag",P).on("dragend",H);if(!(A&&A.length&&A.filter(function(t){return t.values.length}).length)){var Z=E.selectAll(".nv-noData").data([D]);return Z.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),Z.attr("x",d.left+R/2).attr("y",d.top+V/2).text(function(t){return t}),t}if(E.selectAll(".nv-noData").remove(),r=o.xScale(),a=o.yScale(),w)o.yDomain(null);else{var G=A.filter(function(t){return!t.disabled}).map(function(t){var e=d3.extent(t.values,o.y());return e[0]<-.95&&(e[0]=-.95),[(e[0]-e[1])/(1+e[1]),(e[1]-e[0])/(1+e[0])]}),O=[d3.min(G,function(t){return t[0]}),d3.max(G,function(t){return t[1]})];o.yDomain(O)}F.domain([0,A[0].values.length-1]).range([0,R]).clamp(!0);var A=e(L.i,A),K=k?"none":"all",q=E.selectAll("g.nv-wrap.nv-cumulativeLine").data([A]),j=q.enter().append("g").attr("class","nvd3 nv-wrap nv-cumulativeLine").append("g"),U=q.select("g");
-if(j.append("g").attr("class","nv-interactive"),j.append("g").attr("class","nv-x nv-axis").style("pointer-events","none"),j.append("g").attr("class","nv-y nv-axis"),j.append("g").attr("class","nv-background"),j.append("g").attr("class","nv-linesWrap").style("pointer-events",K),j.append("g").attr("class","nv-avgLinesWrap").style("pointer-events","none"),j.append("g").attr("class","nv-legendWrap"),j.append("g").attr("class","nv-controlsWrap"),h&&(s.width(R),U.select(".nv-legendWrap").datum(A).call(s),d.top!=s.height()&&(d.top=s.height(),V=(g||parseInt(E.style("height"))||400)-d.top-d.bottom),U.select(".nv-legendWrap").attr("transform","translate(0,"+-d.top+")")),b){var $=[{key:"Re-scale y-axis",disabled:!w}];u.width(140).color(["#444","#444","#444"]).rightAlign(!1).margin({top:5,right:0,bottom:5,left:20}),U.select(".nv-controlsWrap").datum($).attr("transform","translate(0,"+-d.top+")").call(u)}q.attr("transform","translate("+d.left+","+d.top+")"),y&&U.select(".nv-y.nv-axis").attr("transform","translate("+R+",0)");var J=A.filter(function(t){return t.tempDisabled});q.select(".tempDisabled").remove(),J.length&&q.append("text").attr("class","tempDisabled").attr("x",R/2).attr("y","-.71em").style("text-anchor","end").text(J.map(function(t){return t.key}).join(", ")+" values cannot be calculated for this time period."),k&&(c.width(R).height(V).margin({left:d.left,top:d.top}).svgContainer(E).xScale(r),q.select(".nv-interactive").call(c)),j.select(".nv-background").append("rect"),U.select(".nv-background rect").attr("width",R).attr("height",V),o.y(function(t){return t.display.y}).width(R).height(V).color(A.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!A[e].disabled&&!A[e].tempDisabled}));var Q=U.select(".nv-linesWrap").datum(A.filter(function(t){return!t.disabled&&!t.tempDisabled}));Q.call(o),A.forEach(function(t,e){t.seriesIndex=e});var te=A.filter(function(t){return!t.disabled&&!!I(t)}),ee=U.select(".nv-avgLinesWrap").selectAll("line").data(te,function(t){return t.key}),ne=function(t){var e=a(I(t));return 0>e?0:e>V?V:e};ee.enter().append("line").style("stroke-width",2).style("stroke-dasharray","10,10").style("stroke",function(t){return o.color()(t,t.seriesIndex)}).attr("x1",0).attr("x2",R).attr("y1",ne).attr("y2",ne),ee.style("stroke-opacity",function(t){var e=a(I(t));return 0>e||e>V?0:1}).attr("x1",0).attr("x2",R).attr("y1",ne).attr("y2",ne),ee.exit().remove();var re=Q.selectAll(".nv-indexLine").data([L]);re.enter().append("rect").attr("class","nv-indexLine").attr("width",3).attr("x",-2).attr("fill","red").attr("fill-opacity",.5).style("pointer-events","all").call(X),re.attr("transform",function(t){return"translate("+F(t.i)+",0)"}).attr("height",V),m&&(i.scale(r).ticks(Math.min(A[0].values.length,R/70)).tickSize(-V,0),U.select(".nv-x.nv-axis").attr("transform","translate(0,"+a.range()[0]+")"),d3.transition(U.select(".nv-x.nv-axis")).call(i)),v&&(l.scale(a).ticks(V/36).tickSize(-R,0),d3.transition(U.select(".nv-y.nv-axis")).call(l)),U.select(".nv-background rect").on("click",function(){L.x=d3.mouse(this)[0],L.i=Math.round(F.invert(L.x)),M.index=L.i,W.stateChange(M),T()}),o.dispatch.on("elementClick",function(t){L.i=t.pointIndex,L.x=F(L.i),M.index=L.i,W.stateChange(M),T()}),u.dispatch.on("legendClick",function(e){e.disabled=!e.disabled,w=!e.disabled,M.rescaleY=w,W.stateChange(M),t.update()}),s.dispatch.on("stateChange",function(e){M.disabled=e.disabled,W.stateChange(M),t.update()}),c.dispatch.on("elementMousemove",function(e){o.clearHighlights();var r,a,s,u=[];if(A.filter(function(t,e){return t.seriesIndex=e,!t.disabled}).forEach(function(i,l){a=n.interactiveBisect(i.values,e.pointXValue,t.x()),o.highlightPoint(l,a,!0);var c=i.values[a];"undefined"!=typeof c&&("undefined"==typeof r&&(r=c),"undefined"==typeof s&&(s=t.xScale()(t.x()(c,a))),u.push({key:i.key,value:t.y()(c,a),color:f(i,i.seriesIndex)}))}),u.length>2){var p=t.yScale().invert(e.mouseY),g=Math.abs(t.yScale().domain()[0]-t.yScale().domain()[1]),h=.03*g,m=n.nearestValueIndex(u.map(function(t){return t.value}),p,h);null!==m&&(u[m].highlight=!0)}var v=i.tickFormat()(t.x()(r,a),a);c.tooltip.position({left:s+d.left,top:e.mouseY+d.top}).chartContainer(Y.parentNode).enabled(x).valueFormatter(function(t){return l.tickFormat()(t)}).data({value:v,series:u})(),c.renderGuideLine(s)}),c.dispatch.on("elementMouseout",function(){W.tooltipHide(),o.clearHighlights()}),W.on("tooltipShow",function(t){x&&B(t,Y.parentNode)}),W.on("changeState",function(e){"undefined"!=typeof e.disabled&&(A.forEach(function(t,n){t.disabled=e.disabled[n]}),M.disabled=e.disabled),"undefined"!=typeof e.index&&(L.i=e.index,L.x=F(L.i),M.index=e.index,re.data([L])),"undefined"!=typeof e.rescaleY&&(w=e.rescaleY),t.update()})}),t}function e(t,e){return e.map(function(e){if(!e.values)return e;var n=e.values[t];if(null==n)return e;var r=o.y()(n,t);return-.95>r&&!z?(e.tempDisabled=!0,e):(e.tempDisabled=!1,e.values=e.values.map(function(t,e){return t.display={y:(o.y()(t,e)-r)/(1+r)},t}),e)})}var r,a,o=n.models.line(),i=n.models.axis(),l=n.models.axis(),s=n.models.legend(),u=n.models.legend(),c=n.interactiveGuideline(),d={top:30,right:30,bottom:50,left:60},f=n.utils.defaultColor(),p=null,g=null,h=!0,m=!0,v=!0,y=!1,x=!0,b=!0,k=!1,w=!0,A=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" at "+e+"</p>"},S=o.id(),M={index:0,rescaleY:w},C=null,D="No Data Available.",I=function(t){return t.average},W=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),N=250,z=!1;i.orient("bottom").tickPadding(7),l.orient(y?"right":"left"),u.updateState(!1);var F=d3.scale.linear(),L={i:0,x:0},B=function(e,r){var a=e.pos[0]+(r.offsetLeft||0),s=e.pos[1]+(r.offsetTop||0),u=i.tickFormat()(o.x()(e.point,e.pointIndex)),c=l.tickFormat()(o.y()(e.point,e.pointIndex)),d=A(e.series.key,u,c,e,t);n.tooltip.show([a,s],d,null,null,r)};return o.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+d.left,t.pos[1]+d.top],W.tooltipShow(t)}),o.dispatch.on("elementMouseout.tooltip",function(t){W.tooltipHide(t)}),W.on("tooltipHide",function(){x&&n.tooltip.cleanup()}),t.dispatch=W,t.lines=o,t.legend=s,t.xAxis=i,t.yAxis=l,t.interactiveLayer=c,d3.rebind(t,o,"defined","isArea","x","y","xScale","yScale","size","xDomain","yDomain","xRange","yRange","forceX","forceY","interactive","clipEdge","clipVoronoi","useVoronoi","id"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(d.top="undefined"!=typeof e.top?e.top:d.top,d.right="undefined"!=typeof e.right?e.right:d.right,d.bottom="undefined"!=typeof e.bottom?e.bottom:d.bottom,d.left="undefined"!=typeof e.left?e.left:d.left,t):d},t.width=function(e){return arguments.length?(p=e,t):p},t.height=function(e){return arguments.length?(g=e,t):g},t.color=function(e){return arguments.length?(f=n.utils.getColor(e),s.color(f),t):f},t.rescaleY=function(e){return arguments.length?(w=e,t):w},t.showControls=function(e){return arguments.length?(b=e,t):b},t.useInteractiveGuideline=function(e){return arguments.length?(k=e,e===!0&&(t.interactive(!1),t.useVoronoi(!1)),t):k},t.showLegend=function(e){return arguments.length?(h=e,t):h},t.showXAxis=function(e){return arguments.length?(m=e,t):m},t.showYAxis=function(e){return arguments.length?(v=e,t):v},t.rightAlignYAxis=function(e){return arguments.length?(y=e,l.orient(e?"right":"left"),t):y},t.tooltips=function(e){return arguments.length?(x=e,t):x},t.tooltipContent=function(e){return arguments.length?(A=e,t):A},t.state=function(e){return arguments.length?(M=e,t):M},t.defaultState=function(e){return arguments.length?(C=e,t):C},t.noData=function(e){return arguments.length?(D=e,t):D},t.average=function(e){return arguments.length?(I=e,t):I},t.transitionDuration=function(e){return arguments.length?(N=e,t):N},t.noErrorCheck=function(e){return arguments.length?(z=e,t):z},t},n.models.discreteBar=function(){"use strict";function t(n){return n.each(function(t){var n=u-s.left-s.right,d=c-s.top-s.bottom,w=d3.select(this);t.forEach(function(t,e){t.values.forEach(function(t){t.series=e})});var A=e&&r?[]:t.map(function(t){return t.values.map(function(t,e){return{x:g(t,e),y:h(t,e),y0:t.y0}})});f.domain(e||d3.merge(A).map(function(t){return t.x})).rangeBands(a||[0,n],.1),p.domain(r||d3.extent(d3.merge(A).map(function(t){return t.y}).concat(m))),p.range(y?o||[d-(p.domain()[0]<0?12:0),p.domain()[1]>0?12:0]:o||[d,0]),i=i||f,l=l||p.copy().range([p(0),p(0)]);{var S=w.selectAll("g.nv-wrap.nv-discretebar").data([t]),M=S.enter().append("g").attr("class","nvd3 nv-wrap nv-discretebar"),C=M.append("g");S.select("g")}C.append("g").attr("class","nv-groups"),S.attr("transform","translate("+s.left+","+s.top+")");var D=S.select(".nv-groups").selectAll(".nv-group").data(function(t){return t},function(t){return t.key});D.enter().append("g").style("stroke-opacity",1e-6).style("fill-opacity",1e-6),D.exit().transition().style("stroke-opacity",1e-6).style("fill-opacity",1e-6).remove(),D.attr("class",function(t,e){return"nv-group nv-series-"+e}).classed("hover",function(t){return t.hover}),D.transition().style("stroke-opacity",1).style("fill-opacity",.75);var I=D.selectAll("g.nv-bar").data(function(t){return t.values});I.exit().remove();var W=I.enter().append("g").attr("transform",function(t,e){return"translate("+(f(g(t,e))+.05*f.rangeBand())+", "+p(0)+")"}).on("mouseover",function(e,n){d3.select(this).classed("hover",!0),b.elementMouseover({value:h(e,n),point:e,series:t[e.series],pos:[f(g(e,n))+f.rangeBand()*(e.series+.5)/t.length,p(h(e,n))],pointIndex:n,seriesIndex:e.series,e:d3.event})}).on("mouseout",function(e,n){d3.select(this).classed("hover",!1),b.elementMouseout({value:h(e,n),point:e,series:t[e.series],pointIndex:n,seriesIndex:e.series,e:d3.event})}).on("click",function(e,n){b.elementClick({value:h(e,n),point:e,series:t[e.series],pos:[f(g(e,n))+f.rangeBand()*(e.series+.5)/t.length,p(h(e,n))],pointIndex:n,seriesIndex:e.series,e:d3.event}),d3.event.stopPropagation()}).on("dblclick",function(e,n){b.elementDblClick({value:h(e,n),point:e,series:t[e.series],pos:[f(g(e,n))+f.rangeBand()*(e.series+.5)/t.length,p(h(e,n))],pointIndex:n,seriesIndex:e.series,e:d3.event}),d3.event.stopPropagation()});W.append("rect").attr("height",0).attr("width",.9*f.rangeBand()/t.length),y?(W.append("text").attr("text-anchor","middle"),I.select("text").text(function(t,e){return x(h(t,e))}).transition().attr("x",.9*f.rangeBand()/2).attr("y",function(t,e){return h(t,e)<0?p(h(t,e))-p(0)+12:-4})):I.selectAll("text").remove(),I.attr("class",function(t,e){return h(t,e)<0?"nv-bar negative":"nv-bar positive"}).style("fill",function(t,e){return t.color||v(t,e)}).style("stroke",function(t,e){return t.color||v(t,e)}).select("rect").attr("class",k).transition().attr("width",.9*f.rangeBand()/t.length),I.transition().attr("transform",function(t,e){var n=f(g(t,e))+.05*f.rangeBand(),r=h(t,e)<0?p(0):p(0)-p(h(t,e))<1?p(0)-1:p(h(t,e));return"translate("+n+", "+r+")"}).select("rect").attr("height",function(t,e){return Math.max(Math.abs(p(h(t,e))-p(r&&r[0]||0))||1)}),i=f.copy(),l=p.copy()}),t}var e,r,a,o,i,l,s={top:0,right:0,bottom:0,left:0},u=960,c=500,d=Math.floor(1e4*Math.random()),f=d3.scale.ordinal(),p=d3.scale.linear(),g=function(t){return t.x},h=function(t){return t.y},m=[0],v=n.utils.defaultColor(),y=!1,x=d3.format(",.2f"),b=d3.dispatch("chartClick","elementClick","elementDblClick","elementMouseover","elementMouseout"),k="discreteBar";return t.dispatch=b,t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(g=e,t):g},t.y=function(e){return arguments.length?(h=e,t):h},t.margin=function(e){return arguments.length?(s.top="undefined"!=typeof e.top?e.top:s.top,s.right="undefined"!=typeof e.right?e.right:s.right,s.bottom="undefined"!=typeof e.bottom?e.bottom:s.bottom,s.left="undefined"!=typeof e.left?e.left:s.left,t):s},t.width=function(e){return arguments.length?(u=e,t):u},t.height=function(e){return arguments.length?(c=e,t):c},t.xScale=function(e){return arguments.length?(f=e,t):f},t.yScale=function(e){return arguments.length?(p=e,t):p},t.xDomain=function(n){return arguments.length?(e=n,t):e},t.yDomain=function(e){return arguments.length?(r=e,t):r},t.xRange=function(e){return arguments.length?(a=e,t):a},t.yRange=function(e){return arguments.length?(o=e,t):o},t.forceY=function(e){return arguments.length?(m=e,t):m},t.color=function(e){return arguments.length?(v=n.utils.getColor(e),t):v},t.id=function(e){return arguments.length?(d=e,t):d},t.showValues=function(e){return arguments.length?(y=e,t):y},t.valueFormat=function(e){return arguments.length?(x=e,t):x},t.rectClass=function(e){return arguments.length?(k=e,t):k},t},n.models.discreteBarChart=function(){"use strict";function t(n){return n.each(function(n){var c=d3.select(this),m=this,k=(s||parseInt(c.style("width"))||960)-l.left-l.right,w=(u||parseInt(c.style("height"))||400)-l.top-l.bottom;if(t.update=function(){y.beforeUpdate(),c.transition().duration(x).call(t)},t.container=this,!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var A=c.selectAll(".nv-noData").data([v]);return A.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),A.attr("x",l.left+k/2).attr("y",l.top+w/2).text(function(t){return t}),t}c.selectAll(".nv-noData").remove(),e=a.xScale(),r=a.yScale().clamp(!0);var S=c.selectAll("g.nv-wrap.nv-discreteBarWithAxes").data([n]),M=S.enter().append("g").attr("class","nvd3 nv-wrap nv-discreteBarWithAxes").append("g"),C=M.append("defs"),D=S.select("g");M.append("g").attr("class","nv-x nv-axis"),M.append("g").attr("class","nv-y nv-axis").append("g").attr("class","nv-zeroLine").append("line"),M.append("g").attr("class","nv-barsWrap"),D.attr("transform","translate("+l.left+","+l.top+")"),p&&D.select(".nv-y.nv-axis").attr("transform","translate("+k+",0)"),a.width(k).height(w);var I=D.select(".nv-barsWrap").datum(n.filter(function(t){return!t.disabled}));if(I.transition().call(a),C.append("clipPath").attr("id","nv-x-label-clip-"+a.id()).append("rect"),D.select("#nv-x-label-clip-"+a.id()+" rect").attr("width",e.rangeBand()*(g?2:1)).attr("height",16).attr("x",-e.rangeBand()/(g?1:2)),d){o.scale(e).ticks(k/100).tickSize(-w,0),D.select(".nv-x.nv-axis").attr("transform","translate(0,"+(r.range()[0]+(a.showValues()&&r.domain()[0]<0?16:0))+")"),D.select(".nv-x.nv-axis").transition().call(o);var W=D.select(".nv-x.nv-axis").selectAll("g");g&&W.selectAll("text").attr("transform",function(t,e,n){return"translate(0,"+(n%2==0?"5":"17")+")"})}f&&(i.scale(r).ticks(w/36).tickSize(-k,0),D.select(".nv-y.nv-axis").transition().call(i)),D.select(".nv-zeroLine line").attr("x1",0).attr("x2",k).attr("y1",r(0)).attr("y2",r(0)),y.on("tooltipShow",function(t){h&&b(t,m.parentNode)})}),t}var e,r,a=n.models.discreteBar(),o=n.models.axis(),i=n.models.axis(),l={top:15,right:10,bottom:50,left:60},s=null,u=null,c=n.utils.getColor(),d=!0,f=!0,p=!1,g=!1,h=!0,m=function(t,e,n){return"<h3>"+e+"</h3><p>"+n+"</p>"},v="No Data Available.",y=d3.dispatch("tooltipShow","tooltipHide","beforeUpdate"),x=250;o.orient("bottom").highlightZero(!1).showMaxMin(!1).tickFormat(function(t){return t}),i.orient(p?"right":"left").tickFormat(d3.format(",.1f"));var b=function(e,r){var l=e.pos[0]+(r.offsetLeft||0),s=e.pos[1]+(r.offsetTop||0),u=o.tickFormat()(a.x()(e.point,e.pointIndex)),c=i.tickFormat()(a.y()(e.point,e.pointIndex)),d=m(e.series.key,u,c,e,t);n.tooltip.show([l,s],d,e.value<0?"n":"s",null,r)};return a.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+l.left,t.pos[1]+l.top],y.tooltipShow(t)}),a.dispatch.on("elementMouseout.tooltip",function(t){y.tooltipHide(t)}),y.on("tooltipHide",function(){h&&n.tooltip.cleanup()}),t.dispatch=y,t.discretebar=a,t.xAxis=o,t.yAxis=i,d3.rebind(t,a,"x","y","xDomain","yDomain","xRange","yRange","forceX","forceY","id","showValues","valueFormat"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(l.top="undefined"!=typeof e.top?e.top:l.top,l.right="undefined"!=typeof e.right?e.right:l.right,l.bottom="undefined"!=typeof e.bottom?e.bottom:l.bottom,l.left="undefined"!=typeof e.left?e.left:l.left,t):l},t.width=function(e){return arguments.length?(s=e,t):s},t.height=function(e){return arguments.length?(u=e,t):u},t.color=function(e){return arguments.length?(c=n.utils.getColor(e),a.color(c),t):c},t.showXAxis=function(e){return arguments.length?(d=e,t):d},t.showYAxis=function(e){return arguments.length?(f=e,t):f},t.rightAlignYAxis=function(e){return arguments.length?(p=e,i.orient(e?"right":"left"),t):p},t.staggerLabels=function(e){return arguments.length?(g=e,t):g},t.tooltips=function(e){return arguments.length?(h=e,t):h},t.tooltipContent=function(e){return arguments.length?(m=e,t):m},t.noData=function(e){return arguments.length?(v=e,t):v},t.transitionDuration=function(e){return arguments.length?(x=e,t):x},t},n.models.distribution=function(){"use strict";function t(n){return n.each(function(t){var n=(a-("x"===i?r.left+r.right:r.top+r.bottom),"x"==i?"y":"x"),c=d3.select(this);e=e||u;var d=c.selectAll("g.nv-distribution").data([t]),f=d.enter().append("g").attr("class","nvd3 nv-distribution"),p=(f.append("g"),d.select("g"));d.attr("transform","translate("+r.left+","+r.top+")");var g=p.selectAll("g.nv-dist").data(function(t){return t},function(t){return t.key});g.enter().append("g"),g.attr("class",function(t,e){return"nv-dist nv-series-"+e}).style("stroke",function(t,e){return s(t,e)});var h=g.selectAll("line.nv-dist"+i).data(function(t){return t.values});h.enter().append("line").attr(i+"1",function(t,n){return e(l(t,n))}).attr(i+"2",function(t,n){return e(l(t,n))}),g.exit().selectAll("line.nv-dist"+i).transition().attr(i+"1",function(t,e){return u(l(t,e))}).attr(i+"2",function(t,e){return u(l(t,e))}).style("stroke-opacity",0).remove(),h.attr("class",function(t,e){return"nv-dist"+i+" nv-dist"+i+"-"+e}).attr(n+"1",0).attr(n+"2",o),h.transition().attr(i+"1",function(t,e){return u(l(t,e))}).attr(i+"2",function(t,e){return u(l(t,e))}),e=u.copy()}),t}var e,r={top:0,right:0,bottom:0,left:0},a=400,o=8,i="x",l=function(t){return t[i]},s=n.utils.defaultColor(),u=d3.scale.linear();return t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(r.top="undefined"!=typeof e.top?e.top:r.top,r.right="undefined"!=typeof e.right?e.right:r.right,r.bottom="undefined"!=typeof e.bottom?e.bottom:r.bottom,r.left="undefined"!=typeof e.left?e.left:r.left,t):r},t.width=function(e){return arguments.length?(a=e,t):a},t.axis=function(e){return arguments.length?(i=e,t):i},t.size=function(e){return arguments.length?(o=e,t):o},t.getData=function(e){return arguments.length?(l=d3.functor(e),t):l},t.scale=function(e){return arguments.length?(u=e,t):u},t.color=function(e){return arguments.length?(s=n.utils.getColor(e),t):s},t},n.models.historicalBarChart=function(){"use strict";function t(n){return n.each(function(v){var S=d3.select(this),M=this,C=(c||parseInt(S.style("width"))||960)-s.left-s.right,D=(d||parseInt(S.style("height"))||400)-s.top-s.bottom;if(t.update=function(){S.transition().duration(w).call(t)},t.container=this,y.disabled=v.map(function(t){return!!t.disabled}),!x){var I;x={};for(I in y)x[I]=y[I]instanceof Array?y[I].slice(0):y[I]}if(!(v&&v.length&&v.filter(function(t){return t.values.length}).length)){var W=S.selectAll(".nv-noData").data([b]);return W.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),W.attr("x",s.left+C/2).attr("y",s.top+D/2).text(function(t){return t}),t}S.selectAll(".nv-noData").remove(),e=a.xScale(),r=a.yScale();var N=S.selectAll("g.nv-wrap.nv-historicalBarChart").data([v]),z=N.enter().append("g").attr("class","nvd3 nv-wrap nv-historicalBarChart").append("g"),F=N.select("g");z.append("g").attr("class","nv-x nv-axis"),z.append("g").attr("class","nv-y nv-axis"),z.append("g").attr("class","nv-barsWrap"),z.append("g").attr("class","nv-legendWrap"),f&&(l.width(C),F.select(".nv-legendWrap").datum(v).call(l),s.top!=l.height()&&(s.top=l.height(),D=(d||parseInt(S.style("height"))||400)-s.top-s.bottom),N.select(".nv-legendWrap").attr("transform","translate(0,"+-s.top+")")),N.attr("transform","translate("+s.left+","+s.top+")"),h&&F.select(".nv-y.nv-axis").attr("transform","translate("+C+",0)"),a.width(C).height(D).color(v.map(function(t,e){return t.color||u(t,e)}).filter(function(t,e){return!v[e].disabled}));var L=F.select(".nv-barsWrap").datum(v.filter(function(t){return!t.disabled}));L.transition().call(a),p&&(o.scale(e).tickSize(-D,0),F.select(".nv-x.nv-axis").attr("transform","translate(0,"+r.range()[0]+")"),F.select(".nv-x.nv-axis").transition().call(o)),g&&(i.scale(r).ticks(D/36).tickSize(-C,0),F.select(".nv-y.nv-axis").transition().call(i)),l.dispatch.on("legendClick",function(e){e.disabled=!e.disabled,v.filter(function(t){return!t.disabled}).length||v.map(function(t){return t.disabled=!1,N.selectAll(".nv-series").classed("disabled",!1),t}),y.disabled=v.map(function(t){return!!t.disabled}),k.stateChange(y),n.transition().call(t)}),l.dispatch.on("legendDblclick",function(e){v.forEach(function(t){t.disabled=!0}),e.disabled=!1,y.disabled=v.map(function(t){return!!t.disabled}),k.stateChange(y),t.update()}),k.on("tooltipShow",function(t){m&&A(t,M.parentNode)}),k.on("changeState",function(e){"undefined"!=typeof e.disabled&&(v.forEach(function(t,n){t.disabled=e.disabled[n]}),y.disabled=e.disabled),t.update()})}),t}var e,r,a=n.models.historicalBar(),o=n.models.axis(),i=n.models.axis(),l=n.models.legend(),s={top:30,right:90,bottom:50,left:90},u=n.utils.defaultColor(),c=null,d=null,f=!1,p=!0,g=!0,h=!1,m=!0,v=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" at "+e+"</p>"},y={},x=null,b="No Data Available.",k=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),w=250;o.orient("bottom").tickPadding(7),i.orient(h?"right":"left");var A=function(e,r){if(r){var l=d3.select(r).select("svg"),s=l.node()?l.attr("viewBox"):null;if(s){s=s.split(" ");var u=parseInt(l.style("width"))/s[2];e.pos[0]=e.pos[0]*u,e.pos[1]=e.pos[1]*u}}var c=e.pos[0]+(r.offsetLeft||0),d=e.pos[1]+(r.offsetTop||0),f=o.tickFormat()(a.x()(e.point,e.pointIndex)),p=i.tickFormat()(a.y()(e.point,e.pointIndex)),g=v(e.series.key,f,p,e,t);n.tooltip.show([c,d],g,null,null,r)};return a.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+s.left,t.pos[1]+s.top],k.tooltipShow(t)}),a.dispatch.on("elementMouseout.tooltip",function(t){k.tooltipHide(t)}),k.on("tooltipHide",function(){m&&n.tooltip.cleanup()}),t.dispatch=k,t.bars=a,t.legend=l,t.xAxis=o,t.yAxis=i,d3.rebind(t,a,"defined","isArea","x","y","size","xScale","yScale","xDomain","yDomain","xRange","yRange","forceX","forceY","interactive","clipEdge","clipVoronoi","id","interpolate","highlightPoint","clearHighlights","interactive"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(s.top="undefined"!=typeof e.top?e.top:s.top,s.right="undefined"!=typeof e.right?e.right:s.right,s.bottom="undefined"!=typeof e.bottom?e.bottom:s.bottom,s.left="undefined"!=typeof e.left?e.left:s.left,t):s},t.width=function(e){return arguments.length?(c=e,t):c},t.height=function(e){return arguments.length?(d=e,t):d},t.color=function(e){return arguments.length?(u=n.utils.getColor(e),l.color(u),t):u},t.showLegend=function(e){return arguments.length?(f=e,t):f},t.showXAxis=function(e){return arguments.length?(p=e,t):p},t.showYAxis=function(e){return arguments.length?(g=e,t):g},t.rightAlignYAxis=function(e){return arguments.length?(h=e,i.orient(e?"right":"left"),t):h},t.tooltips=function(e){return arguments.length?(m=e,t):m},t.tooltipContent=function(e){return arguments.length?(v=e,t):v},t.state=function(e){return arguments.length?(y=e,t):y},t.defaultState=function(e){return arguments.length?(x=e,t):x},t.noData=function(e){return arguments.length?(b=e,t):b},t.transitionDuration=function(e){return arguments.length?(w=e,t):w},t},n.models.indentedTree=function(){"use strict";function t(e){return e.each(function(e){function n(e,r,a){return d3.event.stopPropagation(),d3.event.shiftKey&&!a?(d3.event.shiftKey=!1,e.values&&e.values.forEach(function(t){(t.values||t._values)&&n(t,0,!0)}),!0):i(e)?(e.values?(e._values=e.values,e.values=null):(e.values=e._values,e._values=null),void t.update()):!0}function r(t){return t._values&&t._values.length?p:t.values&&t.values.length?g:""}function o(t){return t._values&&t._values.length}function i(t){var e=t.values||t._values;return e&&e.length}var y=1,x=d3.select(this),b=d3.layout.tree().children(function(t){return t.values}).size([a,c]);t.update=function(){x.transition().duration(600).call(t)},e[0]||(e[0]={key:u});var k=b.nodes(e[0]),w=d3.select(this).selectAll("div").data([[k]]),A=w.enter().append("div").attr("class","nvd3 nv-wrap nv-indentedtree"),S=A.append("table"),M=w.select("table").attr("width","100%").attr("class",f);if(l){var C=S.append("thead"),D=C.append("tr");d.forEach(function(t){D.append("th").attr("width",t.width?t.width:"10%").style("text-align","numeric"==t.type?"right":"left").append("span").text(t.label)})}var I=M.selectAll("tbody").data(function(t){return t});I.enter().append("tbody"),y=d3.max(k,function(t){return t.depth}),b.size([a,y*c]);var W=I.selectAll("tr").data(function(t){return t.filter(function(t){return s&&!t.children?s(t):!0})},function(t){return t.id||t.id||++v});W.exit().remove(),W.select("img.nv-treeicon").attr("src",r).classed("folded",o);var N=W.enter().append("tr");d.forEach(function(t,e){var a=N.append("td").style("padding-left",function(t){return(e?0:t.depth*c+12+(r(t)?0:16))+"px"},"important").style("text-align","numeric"==t.type?"right":"left");0==e&&a.append("img").classed("nv-treeicon",!0).classed("nv-folded",o).attr("src",r).style("width","14px").style("height","14px").style("padding","0 1px").style("display",function(t){return r(t)?"inline-block":"none"}).on("click",n),a.each(function(n){!e&&m(n)?d3.select(this).append("a").attr("href",m).attr("class",d3.functor(t.classes)).append("span"):d3.select(this).append("span"),d3.select(this).select("span").attr("class",d3.functor(t.classes)).text(function(e){return t.format?e[t.key]?t.format(e[t.key]):"-":e[t.key]||"-"})}),t.showCount&&(a.append("span").attr("class","nv-childrenCount"),W.selectAll("span.nv-childrenCount").text(function(t){return t.values&&t.values.length||t._values&&t._values.length?"("+(t.values&&t.values.filter(function(t){return s?s(t):!0}).length||t._values&&t._values.filter(function(t){return s?s(t):!0}).length||0)+")":""}))}),W.order().on("click",function(t){h.elementClick({row:this,data:t,pos:[t.x,t.y]})}).on("dblclick",function(t){h.elementDblclick({row:this,data:t,pos:[t.x,t.y]})}).on("mouseover",function(t){h.elementMouseover({row:this,data:t,pos:[t.x,t.y]})}).on("mouseout",function(t){h.elementMouseout({row:this,data:t,pos:[t.x,t.y]})})}),t}var e={top:0,right:0,bottom:0,left:0},r=960,a=500,o=n.utils.defaultColor(),i=Math.floor(1e4*Math.random()),l=!0,s=!1,u="No Data Available.",c=20,d=[{key:"key",label:"Name",type:"text"}],f=null,p="images/grey-plus.png",g="images/grey-minus.png",h=d3.dispatch("elementClick","elementDblclick","elementMouseover","elementMouseout"),m=function(t){return t.url},v=0;return t.options=n.utils.optionsFunc.bind(t),t.margin=function(n){return arguments.length?(e.top="undefined"!=typeof n.top?n.top:e.top,e.right="undefined"!=typeof n.right?n.right:e.right,e.bottom="undefined"!=typeof n.bottom?n.bottom:e.bottom,e.left="undefined"!=typeof n.left?n.left:e.left,t):e},t.width=function(e){return arguments.length?(r=e,t):r},t.height=function(e){return arguments.length?(a=e,t):a},t.color=function(e){return arguments.length?(o=n.utils.getColor(e),scatter.color(o),t):o},t.id=function(e){return arguments.length?(i=e,t):i},t.header=function(e){return arguments.length?(l=e,t):l},t.noData=function(e){return arguments.length?(u=e,t):u},t.filterZero=function(e){return arguments.length?(s=e,t):s},t.columns=function(e){return arguments.length?(d=e,t):d},t.tableClass=function(e){return arguments.length?(f=e,t):f},t.iconOpen=function(e){return arguments.length?(p=e,t):p},t.iconClose=function(e){return arguments.length?(g=e,t):g},t.getUrl=function(e){return arguments.length?(m=e,t):m},t},n.models.legend=function(){"use strict";function t(f){return f.each(function(t){var f=r-e.left-e.right,p=d3.select(this),g=p.selectAll("g.nv-legend").data([t]),h=(g.enter().append("g").attr("class","nvd3 nv-legend").append("g"),g.select("g"));g.attr("transform","translate("+e.left+","+e.top+")");var m=h.selectAll(".nv-series").data(function(t){return t}),v=m.enter().append("g").attr("class","nv-series").on("mouseover",function(t,e){d.legendMouseover(t,e)}).on("mouseout",function(t,e){d.legendMouseout(t,e)}).on("click",function(e,n){d.legendClick(e,n),u&&(c?(t.forEach(function(t){t.disabled=!0}),e.disabled=!1):(e.disabled=!e.disabled,t.every(function(t){return t.disabled})&&t.forEach(function(t){t.disabled=!1})),d.stateChange({disabled:t.map(function(t){return!!t.disabled})}))}).on("dblclick",function(e,n){d.legendDblclick(e,n),u&&(t.forEach(function(t){t.disabled=!0}),e.disabled=!1,d.stateChange({disabled:t.map(function(t){return!!t.disabled})}))});if(v.append("circle").style("stroke-width",2).attr("class","nv-legend-symbol").attr("r",5),v.append("text").attr("text-anchor","start").attr("class","nv-legend-text").attr("dy",".32em").attr("dx","8"),m.classed("disabled",function(t){return t.disabled}),m.exit().remove(),m.select("circle").style("fill",function(t,e){return t.color||i(t,e)}).style("stroke",function(t,e){return t.color||i(t,e)}),m.select("text").text(o),l){var y=[];m.each(function(){var t,e=d3.select(this).select("text");try{if(t=e.getComputedTextLength(),0>=t)throw Error()}catch(r){t=n.utils.calcApproxTextWidth(e)}y.push(t+28)});for(var x=0,b=0,k=[];f>b&&x<y.length;)k[x]=y[x],b+=y[x++];for(0===x&&(x=1);b>f&&x>1;){k=[],x--;for(var w=0;w<y.length;w++)y[w]>(k[w%x]||0)&&(k[w%x]=y[w]);b=k.reduce(function(t,e){return t+e})}for(var A=[],S=0,M=0;x>S;S++)A[S]=M,M+=k[S];m.attr("transform",function(t,e){return"translate("+A[e%x]+","+(5+20*Math.floor(e/x))+")"}),s?h.attr("transform","translate("+(r-e.right-b)+","+e.top+")"):h.attr("transform","translate(0,"+e.top+")"),a=e.top+e.bottom+20*Math.ceil(y.length/x)}else{var C,D=5,I=5,W=0;m.attr("transform",function(){var t=d3.select(this).select("text").node().getComputedTextLength()+28;return C=I,r<e.left+e.right+C+t&&(I=C=5,D+=20),I+=t,I>W&&(W=I),"translate("+C+","+D+")"}),h.attr("transform","translate("+(r-e.right-W)+","+e.top+")"),a=e.top+e.bottom+D+15}}),t}var e={top:5,right:0,bottom:5,left:0},r=400,a=20,o=function(t){return t.key},i=n.utils.defaultColor(),l=!0,s=!0,u=!0,c=!1,d=d3.dispatch("legendClick","legendDblclick","legendMouseover","legendMouseout","stateChange");return t.dispatch=d,t.options=n.utils.optionsFunc.bind(t),t.margin=function(n){return arguments.length?(e.top="undefined"!=typeof n.top?n.top:e.top,e.right="undefined"!=typeof n.right?n.right:e.right,e.bottom="undefined"!=typeof n.bottom?n.bottom:e.bottom,e.left="undefined"!=typeof n.left?n.left:e.left,t):e},t.width=function(e){return arguments.length?(r=e,t):r},t.height=function(e){return arguments.length?(a=e,t):a},t.key=function(e){return arguments.length?(o=e,t):o},t.color=function(e){return arguments.length?(i=n.utils.getColor(e),t):i},t.align=function(e){return arguments.length?(l=e,t):l},t.rightAlign=function(e){return arguments.length?(s=e,t):s},t.updateState=function(e){return arguments.length?(u=e,t):u},t.radioButtonMode=function(e){return arguments.length?(c=e,t):c},t},n.models.line=function(){"use strict";function t(v){return v.each(function(t){var v=i-o.left-o.right,y=l-o.top-o.bottom,x=d3.select(this);e=a.xScale(),r=a.yScale(),h=h||e,m=m||r;var b=x.selectAll("g.nv-wrap.nv-line").data([t]),k=b.enter().append("g").attr("class","nvd3 nv-wrap nv-line"),w=k.append("defs"),A=k.append("g"),S=b.select("g");A.append("g").attr("class","nv-groups"),A.append("g").attr("class","nv-scatterWrap"),b.attr("transform","translate("+o.left+","+o.top+")"),a.width(v).height(y);
-var M=b.select(".nv-scatterWrap");M.transition().call(a),w.append("clipPath").attr("id","nv-edge-clip-"+a.id()).append("rect"),b.select("#nv-edge-clip-"+a.id()+" rect").attr("width",v).attr("height",y>0?y:0),S.attr("clip-path",p?"url(#nv-edge-clip-"+a.id()+")":""),M.attr("clip-path",p?"url(#nv-edge-clip-"+a.id()+")":"");var C=b.select(".nv-groups").selectAll(".nv-group").data(function(t){return t},function(t){return t.key});C.enter().append("g").style("stroke-opacity",1e-6).style("fill-opacity",1e-6),C.exit().remove(),C.attr("class",function(t,e){return"nv-group nv-series-"+e}).classed("hover",function(t){return t.hover}).style("fill",function(t,e){return s(t,e)}).style("stroke",function(t,e){return s(t,e)}),C.transition().style("stroke-opacity",1).style("fill-opacity",.5);var D=C.selectAll("path.nv-area").data(function(t){return f(t)?[t]:[]});D.enter().append("path").attr("class","nv-area").attr("d",function(t){return d3.svg.area().interpolate(g).defined(d).x(function(t,e){return n.utils.NaNtoZero(h(u(t,e)))}).y0(function(t,e){return n.utils.NaNtoZero(m(c(t,e)))}).y1(function(){return m(r.domain()[0]<=0?r.domain()[1]>=0?0:r.domain()[1]:r.domain()[0])}).apply(this,[t.values])}),C.exit().selectAll("path.nv-area").remove(),D.transition().attr("d",function(t){return d3.svg.area().interpolate(g).defined(d).x(function(t,r){return n.utils.NaNtoZero(e(u(t,r)))}).y0(function(t,e){return n.utils.NaNtoZero(r(c(t,e)))}).y1(function(){return r(r.domain()[0]<=0?r.domain()[1]>=0?0:r.domain()[1]:r.domain()[0])}).apply(this,[t.values])});var I=C.selectAll("path.nv-line").data(function(t){return[t.values]});I.enter().append("path").attr("class","nv-line").attr("d",d3.svg.line().interpolate(g).defined(d).x(function(t,e){return n.utils.NaNtoZero(h(u(t,e)))}).y(function(t,e){return n.utils.NaNtoZero(m(c(t,e)))})),I.transition().attr("d",d3.svg.line().interpolate(g).defined(d).x(function(t,r){return n.utils.NaNtoZero(e(u(t,r)))}).y(function(t,e){return n.utils.NaNtoZero(r(c(t,e)))})),h=e.copy(),m=r.copy()}),t}var e,r,a=n.models.scatter(),o={top:0,right:0,bottom:0,left:0},i=960,l=500,s=n.utils.defaultColor(),u=function(t){return t.x},c=function(t){return t.y},d=function(t,e){return!isNaN(c(t,e))&&null!==c(t,e)},f=function(t){return t.area},p=!1,g="linear";a.size(16).sizeDomain([16,256]);var h,m;return t.dispatch=a.dispatch,t.scatter=a,d3.rebind(t,a,"id","interactive","size","xScale","yScale","zScale","xDomain","yDomain","xRange","yRange","sizeDomain","forceX","forceY","forceSize","clipVoronoi","useVoronoi","clipRadius","padData","highlightPoint","clearHighlights"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(o.top="undefined"!=typeof e.top?e.top:o.top,o.right="undefined"!=typeof e.right?e.right:o.right,o.bottom="undefined"!=typeof e.bottom?e.bottom:o.bottom,o.left="undefined"!=typeof e.left?e.left:o.left,t):o},t.width=function(e){return arguments.length?(i=e,t):i},t.height=function(e){return arguments.length?(l=e,t):l},t.x=function(e){return arguments.length?(u=e,a.x(e),t):u},t.y=function(e){return arguments.length?(c=e,a.y(e),t):c},t.clipEdge=function(e){return arguments.length?(p=e,t):p},t.color=function(e){return arguments.length?(s=n.utils.getColor(e),a.color(s),t):s},t.interpolate=function(e){return arguments.length?(g=e,t):g},t.defined=function(e){return arguments.length?(d=e,t):d},t.isArea=function(e){return arguments.length?(f=d3.functor(e),t):f},t},n.models.lineChart=function(){"use strict";function t(x){return x.each(function(x){var C=d3.select(this),D=this,I=(d||parseInt(C.style("width"))||960)-u.left-u.right,W=(f||parseInt(C.style("height"))||400)-u.top-u.bottom;if(t.update=function(){C.transition().duration(S).call(t)},t.container=this,b.disabled=x.map(function(t){return!!t.disabled}),!k){var N;k={};for(N in b)k[N]=b[N]instanceof Array?b[N].slice(0):b[N]}if(!(x&&x.length&&x.filter(function(t){return t.values.length}).length)){var z=C.selectAll(".nv-noData").data([w]);return z.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),z.attr("x",u.left+I/2).attr("y",u.top+W/2).text(function(t){return t}),t}C.selectAll(".nv-noData").remove(),e=a.xScale(),r=a.yScale();var F=C.selectAll("g.nv-wrap.nv-lineChart").data([x]),L=F.enter().append("g").attr("class","nvd3 nv-wrap nv-lineChart").append("g"),B=F.select("g");L.append("rect").style("opacity",0),L.append("g").attr("class","nv-x nv-axis"),L.append("g").attr("class","nv-y nv-axis"),L.append("g").attr("class","nv-linesWrap"),L.append("g").attr("class","nv-legendWrap"),L.append("g").attr("class","nv-interactive"),B.select("rect").attr("width",I).attr("height",W>0?W:0),p&&(l.width(I),B.select(".nv-legendWrap").datum(x).call(l),u.top!=l.height()&&(u.top=l.height(),W=(f||parseInt(C.style("height"))||400)-u.top-u.bottom),F.select(".nv-legendWrap").attr("transform","translate(0,"+-u.top+")")),F.attr("transform","translate("+u.left+","+u.top+")"),m&&B.select(".nv-y.nv-axis").attr("transform","translate("+I+",0)"),v&&(s.width(I).height(W).margin({left:u.left,top:u.top}).svgContainer(C).xScale(e),F.select(".nv-interactive").call(s)),a.width(I).height(W).color(x.map(function(t,e){return t.color||c(t,e)}).filter(function(t,e){return!x[e].disabled}));var P=B.select(".nv-linesWrap").datum(x.filter(function(t){return!t.disabled}));P.transition().call(a),g&&(o.scale(e).ticks(I/100).tickSize(-W,0),B.select(".nv-x.nv-axis").attr("transform","translate(0,"+r.range()[0]+")"),B.select(".nv-x.nv-axis").transition().call(o)),h&&(i.scale(r).ticks(W/36).tickSize(-I,0),B.select(".nv-y.nv-axis").transition().call(i)),l.dispatch.on("stateChange",function(e){b=e,A.stateChange(b),t.update()}),s.dispatch.on("elementMousemove",function(e){a.clearHighlights();var r,l,d,f=[];if(x.filter(function(t,e){return t.seriesIndex=e,!t.disabled}).forEach(function(o,i){l=n.interactiveBisect(o.values,e.pointXValue,t.x()),a.highlightPoint(i,l,!0);var s=o.values[l];"undefined"!=typeof s&&("undefined"==typeof r&&(r=s),"undefined"==typeof d&&(d=t.xScale()(t.x()(s,l))),f.push({key:o.key,value:t.y()(s,l),color:c(o,o.seriesIndex)}))}),f.length>2){var p=t.yScale().invert(e.mouseY),g=Math.abs(t.yScale().domain()[0]-t.yScale().domain()[1]),h=.03*g,m=n.nearestValueIndex(f.map(function(t){return t.value}),p,h);null!==m&&(f[m].highlight=!0)}var v=o.tickFormat()(t.x()(r,l));s.tooltip.position({left:d+u.left,top:e.mouseY+u.top}).chartContainer(D.parentNode).enabled(y).valueFormatter(function(t){return i.tickFormat()(t)}).data({value:v,series:f})(),s.renderGuideLine(d)}),s.dispatch.on("elementMouseout",function(){A.tooltipHide(),a.clearHighlights()}),A.on("tooltipShow",function(t){y&&M(t,D.parentNode)}),A.on("changeState",function(e){"undefined"!=typeof e.disabled&&x.length===e.disabled.length&&(x.forEach(function(t,n){t.disabled=e.disabled[n]}),b.disabled=e.disabled),t.update()})}),t}var e,r,a=n.models.line(),o=n.models.axis(),i=n.models.axis(),l=n.models.legend(),s=n.interactiveGuideline(),u={top:30,right:20,bottom:50,left:60},c=n.utils.defaultColor(),d=null,f=null,p=!0,g=!0,h=!0,m=!1,v=!1,y=!0,x=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" at "+e+"</p>"},b={},k=null,w="No Data Available.",A=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),S=250;o.orient("bottom").tickPadding(7),i.orient(m?"right":"left");var M=function(e,r){var l=e.pos[0]+(r.offsetLeft||0),s=e.pos[1]+(r.offsetTop||0),u=o.tickFormat()(a.x()(e.point,e.pointIndex)),c=i.tickFormat()(a.y()(e.point,e.pointIndex)),d=x(e.series.key,u,c,e,t);n.tooltip.show([l,s],d,null,null,r)};return a.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+u.left,t.pos[1]+u.top],A.tooltipShow(t)}),a.dispatch.on("elementMouseout.tooltip",function(t){A.tooltipHide(t)}),A.on("tooltipHide",function(){y&&n.tooltip.cleanup()}),t.dispatch=A,t.lines=a,t.legend=l,t.xAxis=o,t.yAxis=i,t.interactiveLayer=s,d3.rebind(t,a,"defined","isArea","x","y","size","xScale","yScale","xDomain","yDomain","xRange","yRange","forceX","forceY","interactive","clipEdge","clipVoronoi","useVoronoi","id","interpolate"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(u.top="undefined"!=typeof e.top?e.top:u.top,u.right="undefined"!=typeof e.right?e.right:u.right,u.bottom="undefined"!=typeof e.bottom?e.bottom:u.bottom,u.left="undefined"!=typeof e.left?e.left:u.left,t):u},t.width=function(e){return arguments.length?(d=e,t):d},t.height=function(e){return arguments.length?(f=e,t):f},t.color=function(e){return arguments.length?(c=n.utils.getColor(e),l.color(c),t):c},t.showLegend=function(e){return arguments.length?(p=e,t):p},t.showXAxis=function(e){return arguments.length?(g=e,t):g},t.showYAxis=function(e){return arguments.length?(h=e,t):h},t.rightAlignYAxis=function(e){return arguments.length?(m=e,i.orient(e?"right":"left"),t):m},t.useInteractiveGuideline=function(e){return arguments.length?(v=e,e===!0&&(t.interactive(!1),t.useVoronoi(!1)),t):v},t.tooltips=function(e){return arguments.length?(y=e,t):y},t.tooltipContent=function(e){return arguments.length?(x=e,t):x},t.state=function(e){return arguments.length?(b=e,t):b},t.defaultState=function(e){return arguments.length?(k=e,t):k},t.noData=function(e){return arguments.length?(w=e,t):w},t.transitionDuration=function(e){return arguments.length?(S=e,t):S},t},n.models.linePlusBarChart=function(){"use strict";function t(n){return n.each(function(n){var g=d3.select(this),h=this,x=(f||parseInt(g.style("width"))||960)-d.left-d.right,M=(p||parseInt(g.style("height"))||400)-d.top-d.bottom;if(t.update=function(){g.transition().call(t)},b.disabled=n.map(function(t){return!!t.disabled}),!k){var C;k={};for(C in b)k[C]=b[C]instanceof Array?b[C].slice(0):b[C]}if(!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var D=g.selectAll(".nv-noData").data([w]);return D.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),D.attr("x",d.left+x/2).attr("y",d.top+M/2).text(function(t){return t}),t}g.selectAll(".nv-noData").remove();var I=n.filter(function(t){return!t.disabled&&t.bar}),W=n.filter(function(t){return!t.bar});e=W.filter(function(t){return!t.disabled}).length&&W.filter(function(t){return!t.disabled})[0].values.length?o.xScale():i.xScale(),r=i.yScale(),a=o.yScale();var N=d3.select(this).selectAll("g.nv-wrap.nv-linePlusBar").data([n]),z=N.enter().append("g").attr("class","nvd3 nv-wrap nv-linePlusBar").append("g"),F=N.select("g");z.append("g").attr("class","nv-x nv-axis"),z.append("g").attr("class","nv-y1 nv-axis"),z.append("g").attr("class","nv-y2 nv-axis"),z.append("g").attr("class","nv-barsWrap"),z.append("g").attr("class","nv-linesWrap"),z.append("g").attr("class","nv-legendWrap"),v&&(c.width(x/2),F.select(".nv-legendWrap").datum(n.map(function(t){return t.originalKey=void 0===t.originalKey?t.key:t.originalKey,t.key=t.originalKey+(t.bar?" (left axis)":" (right axis)"),t})).call(c),d.top!=c.height()&&(d.top=c.height(),M=(p||parseInt(g.style("height"))||400)-d.top-d.bottom),F.select(".nv-legendWrap").attr("transform","translate("+x/2+","+-d.top+")")),N.attr("transform","translate("+d.left+","+d.top+")"),o.width(x).height(M).color(n.map(function(t,e){return t.color||m(t,e)}).filter(function(t,e){return!n[e].disabled&&!n[e].bar})),i.width(x).height(M).color(n.map(function(t,e){return t.color||m(t,e)}).filter(function(t,e){return!n[e].disabled&&n[e].bar}));var L=F.select(".nv-barsWrap").datum(I.length?I:[{values:[]}]),B=F.select(".nv-linesWrap").datum(W[0]&&!W[0].disabled?W:[{values:[]}]);d3.transition(L).call(i),d3.transition(B).call(o),l.scale(e).ticks(x/100).tickSize(-M,0),F.select(".nv-x.nv-axis").attr("transform","translate(0,"+r.range()[0]+")"),d3.transition(F.select(".nv-x.nv-axis")).call(l),s.scale(r).ticks(M/36).tickSize(-x,0),d3.transition(F.select(".nv-y1.nv-axis")).style("opacity",I.length?1:0).call(s),u.scale(a).ticks(M/36).tickSize(I.length?0:-x,0),F.select(".nv-y2.nv-axis").style("opacity",W.length?1:0).attr("transform","translate("+x+",0)"),d3.transition(F.select(".nv-y2.nv-axis")).call(u),c.dispatch.on("stateChange",function(e){b=e,A.stateChange(b),t.update()}),A.on("tooltipShow",function(t){y&&S(t,h.parentNode)}),A.on("changeState",function(e){"undefined"!=typeof e.disabled&&(n.forEach(function(t,n){t.disabled=e.disabled[n]}),b.disabled=e.disabled),t.update()})}),t}var e,r,a,o=n.models.line(),i=n.models.historicalBar(),l=n.models.axis(),s=n.models.axis(),u=n.models.axis(),c=n.models.legend(),d={top:30,right:60,bottom:50,left:60},f=null,p=null,g=function(t){return t.x},h=function(t){return t.y},m=n.utils.defaultColor(),v=!0,y=!0,x=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" at "+e+"</p>"},b={},k=null,w="No Data Available.",A=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState");i.padData(!0),o.clipEdge(!1).padData(!0),l.orient("bottom").tickPadding(7).highlightZero(!1),s.orient("left"),u.orient("right");var S=function(e,r){var a=e.pos[0]+(r.offsetLeft||0),i=e.pos[1]+(r.offsetTop||0),c=l.tickFormat()(o.x()(e.point,e.pointIndex)),d=(e.series.bar?s:u).tickFormat()(o.y()(e.point,e.pointIndex)),f=x(e.series.key,c,d,e,t);n.tooltip.show([a,i],f,e.value<0?"n":"s",null,r)};return o.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+d.left,t.pos[1]+d.top],A.tooltipShow(t)}),o.dispatch.on("elementMouseout.tooltip",function(t){A.tooltipHide(t)}),i.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+d.left,t.pos[1]+d.top],A.tooltipShow(t)}),i.dispatch.on("elementMouseout.tooltip",function(t){A.tooltipHide(t)}),A.on("tooltipHide",function(){y&&n.tooltip.cleanup()}),t.dispatch=A,t.legend=c,t.lines=o,t.bars=i,t.xAxis=l,t.y1Axis=s,t.y2Axis=u,d3.rebind(t,o,"defined","size","clipVoronoi","interpolate"),t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(g=e,o.x(e),i.x(e),t):g},t.y=function(e){return arguments.length?(h=e,o.y(e),i.y(e),t):h},t.margin=function(e){return arguments.length?(d.top="undefined"!=typeof e.top?e.top:d.top,d.right="undefined"!=typeof e.right?e.right:d.right,d.bottom="undefined"!=typeof e.bottom?e.bottom:d.bottom,d.left="undefined"!=typeof e.left?e.left:d.left,t):d},t.width=function(e){return arguments.length?(f=e,t):f},t.height=function(e){return arguments.length?(p=e,t):p},t.color=function(e){return arguments.length?(m=n.utils.getColor(e),c.color(m),t):m},t.showLegend=function(e){return arguments.length?(v=e,t):v},t.tooltips=function(e){return arguments.length?(y=e,t):y},t.tooltipContent=function(e){return arguments.length?(x=e,t):x},t.state=function(e){return arguments.length?(b=e,t):b},t.defaultState=function(e){return arguments.length?(k=e,t):k},t.noData=function(e){return arguments.length?(w=e,t):w},t},n.models.lineWithFocusChart=function(){"use strict";function t(n){return n.each(function(n){function A(t){var e=+("e"==t),n=e?1:-1,r=B/3;return"M"+.5*n+","+r+"A6,6 0 0 "+e+" "+6.5*n+","+(r+6)+"V"+(2*r-6)+"A6,6 0 0 "+e+" "+.5*n+","+2*r+"ZM"+2.5*n+","+(r+8)+"V"+(2*r-8)+"M"+4.5*n+","+(r+8)+"V"+(2*r-8)}function I(){p.empty()||p.extent(k),_.data([p.empty()?a.domain():k]).each(function(t){var n=a(t[0])-e.range()[0],r=e.range()[1]-a(t[1]);d3.select(this).select(".left").attr("width",0>n?0:n),d3.select(this).select(".right").attr("x",a(t[1])).attr("width",0>r?0:r)})}function W(){k=p.empty()?null:p.extent();var t=p.empty()?a.domain():p.extent();if(!(Math.abs(t[0]-t[1])<=1)){M.brush({extent:t,brush:p}),I();var e=E.select(".nv-focus .nv-linesWrap").datum(n.filter(function(t){return!t.disabled}).map(function(e){return{key:e.key,values:e.values.filter(function(e,n){return i.x()(e,n)>=t[0]&&i.x()(e,n)<=t[1]})}}));e.transition().duration(C).call(i),E.select(".nv-focus .nv-x.nv-axis").transition().duration(C).call(s),E.select(".nv-focus .nv-y.nv-axis").transition().duration(C).call(u)}}var N=d3.select(this),z=this,F=(v||parseInt(N.style("width"))||960)-g.left-g.right,L=(y||parseInt(N.style("height"))||400)-g.top-g.bottom-x,B=x-h.top-h.bottom;if(t.update=function(){N.transition().duration(C).call(t)},t.container=this,!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var P=N.selectAll(".nv-noData").data([S]);return P.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),P.attr("x",g.left+F/2).attr("y",g.top+L/2).text(function(t){return t}),t}N.selectAll(".nv-noData").remove(),e=i.xScale(),r=i.yScale(),a=l.xScale(),o=l.yScale();var H=N.selectAll("g.nv-wrap.nv-lineWithFocusChart").data([n]),T=H.enter().append("g").attr("class","nvd3 nv-wrap nv-lineWithFocusChart").append("g"),E=H.select("g");T.append("g").attr("class","nv-legendWrap");var Y=T.append("g").attr("class","nv-focus");Y.append("g").attr("class","nv-x nv-axis"),Y.append("g").attr("class","nv-y nv-axis"),Y.append("g").attr("class","nv-linesWrap");var R=T.append("g").attr("class","nv-context");R.append("g").attr("class","nv-x nv-axis"),R.append("g").attr("class","nv-y nv-axis"),R.append("g").attr("class","nv-linesWrap"),R.append("g").attr("class","nv-brushBackground"),R.append("g").attr("class","nv-x nv-brush"),b&&(f.width(F),E.select(".nv-legendWrap").datum(n).call(f),g.top!=f.height()&&(g.top=f.height(),L=(y||parseInt(N.style("height"))||400)-g.top-g.bottom-x),E.select(".nv-legendWrap").attr("transform","translate(0,"+-g.top+")")),H.attr("transform","translate("+g.left+","+g.top+")"),i.width(F).height(L).color(n.map(function(t,e){return t.color||m(t,e)}).filter(function(t,e){return!n[e].disabled})),l.defined(i.defined()).width(F).height(B).color(n.map(function(t,e){return t.color||m(t,e)}).filter(function(t,e){return!n[e].disabled})),E.select(".nv-context").attr("transform","translate(0,"+(L+g.bottom+h.top)+")");var V=E.select(".nv-context .nv-linesWrap").datum(n.filter(function(t){return!t.disabled}));d3.transition(V).call(l),s.scale(e).ticks(F/100).tickSize(-L,0),u.scale(r).ticks(L/36).tickSize(-F,0),E.select(".nv-focus .nv-x.nv-axis").attr("transform","translate(0,"+L+")"),p.x(a).on("brush",function(){var e=t.transitionDuration();t.transitionDuration(0),W(),t.transitionDuration(e)}),k&&p.extent(k);var _=E.select(".nv-brushBackground").selectAll("g").data([k||p.extent()]),X=_.enter().append("g");X.append("rect").attr("class","left").attr("x",0).attr("y",0).attr("height",B),X.append("rect").attr("class","right").attr("x",0).attr("y",0).attr("height",B);var Z=E.select(".nv-x.nv-brush").call(p);Z.selectAll("rect").attr("height",B),Z.selectAll(".resize").append("path").attr("d",A),W(),c.scale(a).ticks(F/100).tickSize(-B,0),E.select(".nv-context .nv-x.nv-axis").attr("transform","translate(0,"+o.range()[0]+")"),d3.transition(E.select(".nv-context .nv-x.nv-axis")).call(c),d.scale(o).ticks(B/36).tickSize(-F,0),d3.transition(E.select(".nv-context .nv-y.nv-axis")).call(d),E.select(".nv-context .nv-x.nv-axis").attr("transform","translate(0,"+o.range()[0]+")"),f.dispatch.on("stateChange",function(){t.update()}),M.on("tooltipShow",function(t){w&&D(t,z.parentNode)})}),t}var e,r,a,o,i=n.models.line(),l=n.models.line(),s=n.models.axis(),u=n.models.axis(),c=n.models.axis(),d=n.models.axis(),f=n.models.legend(),p=d3.svg.brush(),g={top:30,right:30,bottom:30,left:60},h={top:0,right:30,bottom:20,left:60},m=n.utils.defaultColor(),v=null,y=null,x=100,b=!0,k=null,w=!0,A=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" at "+e+"</p>"},S="No Data Available.",M=d3.dispatch("tooltipShow","tooltipHide","brush"),C=250;i.clipEdge(!0),l.interactive(!1),s.orient("bottom").tickPadding(5),u.orient("left"),c.orient("bottom").tickPadding(5),d.orient("left");var D=function(e,r){var a=e.pos[0]+(r.offsetLeft||0),o=e.pos[1]+(r.offsetTop||0),l=s.tickFormat()(i.x()(e.point,e.pointIndex)),c=u.tickFormat()(i.y()(e.point,e.pointIndex)),d=A(e.series.key,l,c,e,t);n.tooltip.show([a,o],d,null,null,r)};return i.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+g.left,t.pos[1]+g.top],M.tooltipShow(t)}),i.dispatch.on("elementMouseout.tooltip",function(t){M.tooltipHide(t)}),M.on("tooltipHide",function(){w&&n.tooltip.cleanup()}),t.dispatch=M,t.legend=f,t.lines=i,t.lines2=l,t.xAxis=s,t.yAxis=u,t.x2Axis=c,t.y2Axis=d,d3.rebind(t,i,"defined","isArea","size","xDomain","yDomain","xRange","yRange","forceX","forceY","interactive","clipEdge","clipVoronoi","id"),t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(i.x(e),l.x(e),t):i.x},t.y=function(e){return arguments.length?(i.y(e),l.y(e),t):i.y},t.margin=function(e){return arguments.length?(g.top="undefined"!=typeof e.top?e.top:g.top,g.right="undefined"!=typeof e.right?e.right:g.right,g.bottom="undefined"!=typeof e.bottom?e.bottom:g.bottom,g.left="undefined"!=typeof e.left?e.left:g.left,t):g},t.margin2=function(e){return arguments.length?(h=e,t):h},t.width=function(e){return arguments.length?(v=e,t):v},t.height=function(e){return arguments.length?(y=e,t):y},t.height2=function(e){return arguments.length?(x=e,t):x},t.color=function(e){return arguments.length?(m=n.utils.getColor(e),f.color(m),t):m},t.showLegend=function(e){return arguments.length?(b=e,t):b},t.tooltips=function(e){return arguments.length?(w=e,t):w},t.tooltipContent=function(e){return arguments.length?(A=e,t):A},t.interpolate=function(e){return arguments.length?(i.interpolate(e),l.interpolate(e),t):i.interpolate()},t.noData=function(e){return arguments.length?(S=e,t):S},t.xTickFormat=function(e){return arguments.length?(s.tickFormat(e),c.tickFormat(e),t):s.tickFormat()},t.yTickFormat=function(e){return arguments.length?(u.tickFormat(e),d.tickFormat(e),t):u.tickFormat()},t.brushExtent=function(e){return arguments.length?(k=e,t):k},t.transitionDuration=function(e){return arguments.length?(C=e,t):C},t},n.models.linePlusBarWithFocusChart=function(){"use strict";function t(n){return n.each(function(n){function F(t){var e=+("e"==t),n=e?1:-1,r=X/3;return"M"+.5*n+","+r+"A6,6 0 0 "+e+" "+6.5*n+","+(r+6)+"V"+(2*r-6)+"A6,6 0 0 "+e+" "+.5*n+","+2*r+"ZM"+2.5*n+","+(r+8)+"V"+(2*r-8)+"M"+4.5*n+","+(r+8)+"V"+(2*r-8)}function T(){b.empty()||b.extent(N),ne.data([b.empty()?a.domain():N]).each(function(t){var e=a(t[0])-a.range()[0],n=a.range()[1]-a(t[1]);d3.select(this).select(".left").attr("width",0>e?0:e),d3.select(this).select(".right").attr("x",a(t[1])).attr("width",0>n?0:n)})}function E(){N=b.empty()?null:b.extent(),e=b.empty()?a.domain():b.extent(),B.brush({extent:e,brush:b}),T(),d.width(V).height(_).color(n.map(function(t,e){return t.color||I(t,e)}).filter(function(t,e){return!n[e].disabled&&n[e].bar})),u.width(V).height(_).color(n.map(function(t,e){return t.color||I(t,e)}).filter(function(t,e){return!n[e].disabled&&!n[e].bar}));var t=$.select(".nv-focus .nv-barsWrap").datum(G.length?G.map(function(t){return{key:t.key,values:t.values.filter(function(t,n){return d.x()(t,n)>=e[0]&&d.x()(t,n)<=e[1]})}}):[{values:[]}]),l=$.select(".nv-focus .nv-linesWrap").datum(O[0].disabled?[{values:[]}]:O.map(function(t){return{key:t.key,values:t.values.filter(function(t,n){return u.x()(t,n)>=e[0]&&u.x()(t,n)<=e[1]})}}));r=G.length?d.xScale():u.xScale(),p.scale(r).ticks(V/100).tickSize(-_,0),p.domain([Math.ceil(e[0]),Math.floor(e[1])]),$.select(".nv-x.nv-axis").transition().duration(P).call(p),t.transition().duration(P).call(d),l.transition().duration(P).call(u),$.select(".nv-focus .nv-x.nv-axis").attr("transform","translate(0,"+o.range()[0]+")"),h.scale(o).ticks(_/36).tickSize(-V,0),$.select(".nv-focus .nv-y1.nv-axis").style("opacity",G.length?1:0),m.scale(i).ticks(_/36).tickSize(G.length?0:-V,0),$.select(".nv-focus .nv-y2.nv-axis").style("opacity",O.length?1:0).attr("transform","translate("+r.range()[1]+",0)"),$.select(".nv-focus .nv-y1.nv-axis").transition().duration(P).call(h),$.select(".nv-focus .nv-y2.nv-axis").transition().duration(P).call(m)}var Y=d3.select(this),R=this,V=(A||parseInt(Y.style("width"))||960)-k.left-k.right,_=(S||parseInt(Y.style("height"))||400)-k.top-k.bottom-M,X=M-w.top-w.bottom;if(t.update=function(){Y.transition().duration(P).call(t)},t.container=this,!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var Z=Y.selectAll(".nv-noData").data([L]);return Z.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),Z.attr("x",k.left+V/2).attr("y",k.top+_/2).text(function(t){return t}),t}Y.selectAll(".nv-noData").remove();var G=n.filter(function(t){return!t.disabled&&t.bar}),O=n.filter(function(t){return!t.bar});r=d.xScale(),a=g.scale(),o=d.yScale(),i=u.yScale(),l=f.yScale(),s=c.yScale();var K=n.filter(function(t){return!t.disabled&&t.bar}).map(function(t){return t.values.map(function(t,e){return{x:C(t,e),y:D(t,e)}})}),q=n.filter(function(t){return!t.disabled&&!t.bar}).map(function(t){return t.values.map(function(t,e){return{x:C(t,e),y:D(t,e)}})});r.range([0,V]),a.domain(d3.extent(d3.merge(K.concat(q)),function(t){return t.x})).range([0,V]);var j=Y.selectAll("g.nv-wrap.nv-linePlusBar").data([n]),U=j.enter().append("g").attr("class","nvd3 nv-wrap nv-linePlusBar").append("g"),$=j.select("g");U.append("g").attr("class","nv-legendWrap");var J=U.append("g").attr("class","nv-focus");J.append("g").attr("class","nv-x nv-axis"),J.append("g").attr("class","nv-y1 nv-axis"),J.append("g").attr("class","nv-y2 nv-axis"),J.append("g").attr("class","nv-barsWrap"),J.append("g").attr("class","nv-linesWrap");var Q=U.append("g").attr("class","nv-context");Q.append("g").attr("class","nv-x nv-axis"),Q.append("g").attr("class","nv-y1 nv-axis"),Q.append("g").attr("class","nv-y2 nv-axis"),Q.append("g").attr("class","nv-barsWrap"),Q.append("g").attr("class","nv-linesWrap"),Q.append("g").attr("class","nv-brushBackground"),Q.append("g").attr("class","nv-x nv-brush"),W&&(x.width(V/2),$.select(".nv-legendWrap").datum(n.map(function(t){return t.originalKey=void 0===t.originalKey?t.key:t.originalKey,t.key=t.originalKey+(t.bar?" (left axis)":" (right axis)"),t})).call(x),k.top!=x.height()&&(k.top=x.height(),_=(S||parseInt(Y.style("height"))||400)-k.top-k.bottom-M),$.select(".nv-legendWrap").attr("transform","translate("+V/2+","+-k.top+")")),j.attr("transform","translate("+k.left+","+k.top+")"),f.width(V).height(X).color(n.map(function(t,e){return t.color||I(t,e)}).filter(function(t,e){return!n[e].disabled&&n[e].bar})),c.width(V).height(X).color(n.map(function(t,e){return t.color||I(t,e)}).filter(function(t,e){return!n[e].disabled&&!n[e].bar}));var te=$.select(".nv-context .nv-barsWrap").datum(G.length?G:[{values:[]}]),ee=$.select(".nv-context .nv-linesWrap").datum(O[0].disabled?[{values:[]}]:O);$.select(".nv-context").attr("transform","translate(0,"+(_+k.bottom+w.top)+")"),te.transition().call(f),ee.transition().call(c),b.x(a).on("brush",E),N&&b.extent(N);var ne=$.select(".nv-brushBackground").selectAll("g").data([N||b.extent()]),re=ne.enter().append("g");re.append("rect").attr("class","left").attr("x",0).attr("y",0).attr("height",X),re.append("rect").attr("class","right").attr("x",0).attr("y",0).attr("height",X);var ae=$.select(".nv-x.nv-brush").call(b);ae.selectAll("rect").attr("height",X),ae.selectAll(".resize").append("path").attr("d",F),g.ticks(V/100).tickSize(-X,0),$.select(".nv-context .nv-x.nv-axis").attr("transform","translate(0,"+l.range()[0]+")"),$.select(".nv-context .nv-x.nv-axis").transition().call(g),v.scale(l).ticks(X/36).tickSize(-V,0),$.select(".nv-context .nv-y1.nv-axis").style("opacity",G.length?1:0).attr("transform","translate(0,"+a.range()[0]+")"),$.select(".nv-context .nv-y1.nv-axis").transition().call(v),y.scale(s).ticks(X/36).tickSize(G.length?0:-V,0),$.select(".nv-context .nv-y2.nv-axis").style("opacity",O.length?1:0).attr("transform","translate("+a.range()[1]+",0)"),$.select(".nv-context .nv-y2.nv-axis").transition().call(y),x.dispatch.on("stateChange",function(){t.update()}),B.on("tooltipShow",function(t){z&&H(t,R.parentNode)}),E()}),t}var e,r,a,o,i,l,s,u=n.models.line(),c=n.models.line(),d=n.models.historicalBar(),f=n.models.historicalBar(),p=n.models.axis(),g=n.models.axis(),h=n.models.axis(),m=n.models.axis(),v=n.models.axis(),y=n.models.axis(),x=n.models.legend(),b=d3.svg.brush(),k={top:30,right:30,bottom:30,left:60},w={top:0,right:30,bottom:20,left:60},A=null,S=null,M=100,C=function(t){return t.x},D=function(t){return t.y},I=n.utils.defaultColor(),W=!0,N=null,z=!0,F=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" at "+e+"</p>"},L="No Data Available.",B=d3.dispatch("tooltipShow","tooltipHide","brush"),P=0;u.clipEdge(!0),c.interactive(!1),p.orient("bottom").tickPadding(5),h.orient("left"),m.orient("right"),g.orient("bottom").tickPadding(5),v.orient("left"),y.orient("right");var H=function(r,a){e&&(r.pointIndex+=Math.ceil(e[0]));var o=r.pos[0]+(a.offsetLeft||0),i=r.pos[1]+(a.offsetTop||0),l=p.tickFormat()(u.x()(r.point,r.pointIndex)),s=(r.series.bar?h:m).tickFormat()(u.y()(r.point,r.pointIndex)),c=F(r.series.key,l,s,r,t);n.tooltip.show([o,i],c,r.value<0?"n":"s",null,a)};return u.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+k.left,t.pos[1]+k.top],B.tooltipShow(t)}),u.dispatch.on("elementMouseout.tooltip",function(t){B.tooltipHide(t)}),d.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+k.left,t.pos[1]+k.top],B.tooltipShow(t)}),d.dispatch.on("elementMouseout.tooltip",function(t){B.tooltipHide(t)}),B.on("tooltipHide",function(){z&&n.tooltip.cleanup()}),t.dispatch=B,t.legend=x,t.lines=u,t.lines2=c,t.bars=d,t.bars2=f,t.xAxis=p,t.x2Axis=g,t.y1Axis=h,t.y2Axis=m,t.y3Axis=v,t.y4Axis=y,d3.rebind(t,u,"defined","size","clipVoronoi","interpolate"),t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(C=e,u.x(e),d.x(e),t):C},t.y=function(e){return arguments.length?(D=e,u.y(e),d.y(e),t):D},t.margin=function(e){return arguments.length?(k.top="undefined"!=typeof e.top?e.top:k.top,k.right="undefined"!=typeof e.right?e.right:k.right,k.bottom="undefined"!=typeof e.bottom?e.bottom:k.bottom,k.left="undefined"!=typeof e.left?e.left:k.left,t):k},t.width=function(e){return arguments.length?(A=e,t):A},t.height=function(e){return arguments.length?(S=e,t):S},t.color=function(e){return arguments.length?(I=n.utils.getColor(e),x.color(I),t):I},t.showLegend=function(e){return arguments.length?(W=e,t):W},t.tooltips=function(e){return arguments.length?(z=e,t):z},t.tooltipContent=function(e){return arguments.length?(F=e,t):F},t.noData=function(e){return arguments.length?(L=e,t):L},t.brushExtent=function(e){return arguments.length?(N=e,t):N},t},n.models.multiBar=function(){"use strict";function t(n){return n.each(function(t){var n=c-u.left-u.right,D=d-u.top-u.bottom,I=d3.select(this);w&&t.length&&(w=[{values:t[0].values.map(function(t){return{x:t.x,y:0,series:t.series,size:.01}})}]),x&&(t=d3.layout.stack().offset(b).values(function(t){return t.values}).y(m)(!t.length&&w?w:t)),t.forEach(function(t,e){t.values.forEach(function(t){t.series=e})}),x&&t[0]&&t[0].values.map(function(e,n){var r=0,a=0;t.map(function(t){var e=t.values[n];e.size=Math.abs(e.y),e.y<0?(e.y1=a,a-=e.size):(e.y1=e.size+r,r+=e.size)})});var W=r&&a?[]:t.map(function(t){return t.values.map(function(t,e){return{x:h(t,e),y:m(t,e),y0:t.y0,y1:t.y1}})});f.domain(r||d3.merge(W).map(function(t){return t.x})).rangeBands(o||[0,n],M),p.domain(a||d3.extent(d3.merge(W).map(function(t){return x?t.y>0?t.y1:t.y1+t.y:t.y}).concat(v))).range(i||[D,0]),f.domain()[0]===f.domain()[1]&&f.domain(f.domain()[0]?[f.domain()[0]-.01*f.domain()[0],f.domain()[1]+.01*f.domain()[1]]:[-1,1]),p.domain()[0]===p.domain()[1]&&p.domain(p.domain()[0]?[p.domain()[0]+.01*p.domain()[0],p.domain()[1]-.01*p.domain()[1]]:[-1,1]),l=l||f,s=s||p;var N=I.selectAll("g.nv-wrap.nv-multibar").data([t]),z=N.enter().append("g").attr("class","nvd3 nv-wrap nv-multibar"),F=z.append("defs"),L=z.append("g"),B=N.select("g");L.append("g").attr("class","nv-groups"),N.attr("transform","translate("+u.left+","+u.top+")"),F.append("clipPath").attr("id","nv-edge-clip-"+g).append("rect"),N.select("#nv-edge-clip-"+g+" rect").attr("width",n).attr("height",D),B.attr("clip-path",y?"url(#nv-edge-clip-"+g+")":"");var P=N.select(".nv-groups").selectAll(".nv-group").data(function(t){return t
-},function(t,e){return e});P.enter().append("g").style("stroke-opacity",1e-6).style("fill-opacity",1e-6),P.exit().transition().selectAll("rect.nv-bar").delay(function(e,n){return t[0]?n*S/t[0].values.length:n}).attr("y",function(t){return s(x?t.y0:0)}).attr("height",0).remove(),P.attr("class",function(t,e){return"nv-group nv-series-"+e}).classed("hover",function(t){return t.hover}).style("fill",function(t,e){return k(t,e)}).style("stroke",function(t,e){return k(t,e)}),P.transition().style("stroke-opacity",1).style("fill-opacity",.75);var H=P.selectAll("rect.nv-bar").data(function(e){return w&&!t.length?w.values:e.values});H.exit().remove();H.enter().append("rect").attr("class",function(t,e){return m(t,e)<0?"nv-bar negative":"nv-bar positive"}).attr("x",function(e,n,r){return x?0:r*f.rangeBand()/t.length}).attr("y",function(t){return s(x?t.y0:0)}).attr("height",0).attr("width",f.rangeBand()/(x?1:t.length)).attr("transform",function(t,e){return"translate("+f(h(t,e))+",0)"});H.style("fill",function(t,e,n){return k(t,n,e)}).style("stroke",function(t,e,n){return k(t,n,e)}).on("mouseover",function(e,n){d3.select(this).classed("hover",!0),C.elementMouseover({value:m(e,n),point:e,series:t[e.series],pos:[f(h(e,n))+f.rangeBand()*(x?t.length/2:e.series+.5)/t.length,p(m(e,n)+(x?e.y0:0))],pointIndex:n,seriesIndex:e.series,e:d3.event})}).on("mouseout",function(e,n){d3.select(this).classed("hover",!1),C.elementMouseout({value:m(e,n),point:e,series:t[e.series],pointIndex:n,seriesIndex:e.series,e:d3.event})}).on("click",function(e,n){C.elementClick({value:m(e,n),point:e,series:t[e.series],pos:[f(h(e,n))+f.rangeBand()*(x?t.length/2:e.series+.5)/t.length,p(m(e,n)+(x?e.y0:0))],pointIndex:n,seriesIndex:e.series,e:d3.event}),d3.event.stopPropagation()}).on("dblclick",function(e,n){C.elementDblClick({value:m(e,n),point:e,series:t[e.series],pos:[f(h(e,n))+f.rangeBand()*(x?t.length/2:e.series+.5)/t.length,p(m(e,n)+(x?e.y0:0))],pointIndex:n,seriesIndex:e.series,e:d3.event}),d3.event.stopPropagation()}),H.attr("class",function(t,e){return m(t,e)<0?"nv-bar negative":"nv-bar positive"}).transition().attr("transform",function(t,e){return"translate("+f(h(t,e))+",0)"}),A&&(e||(e=t.map(function(){return!0})),H.style("fill",function(t,n,r){return d3.rgb(A(t,n)).darker(e.map(function(t,e){return e}).filter(function(t,n){return!e[n]})[r]).toString()}).style("stroke",function(t,n,r){return d3.rgb(A(t,n)).darker(e.map(function(t,e){return e}).filter(function(t,n){return!e[n]})[r]).toString()})),x?H.transition().delay(function(e,n){return n*S/t[0].values.length}).attr("y",function(t){return p(x?t.y1:0)}).attr("height",function(t){return Math.max(Math.abs(p(t.y+(x?t.y0:0))-p(x?t.y0:0)),1)}).attr("x",function(e){return x?0:e.series*f.rangeBand()/t.length}).attr("width",f.rangeBand()/(x?1:t.length)):H.transition().delay(function(e,n){return n*S/t[0].values.length}).attr("x",function(e){return e.series*f.rangeBand()/t.length}).attr("width",f.rangeBand()/t.length).attr("y",function(t,e){return m(t,e)<0?p(0):p(0)-p(m(t,e))<1?p(0)-1:p(m(t,e))||0}).attr("height",function(t,e){return Math.max(Math.abs(p(m(t,e))-p(0)),1)||0}),l=f.copy(),s=p.copy()}),t}var e,r,a,o,i,l,s,u={top:0,right:0,bottom:0,left:0},c=960,d=500,f=d3.scale.ordinal(),p=d3.scale.linear(),g=Math.floor(1e4*Math.random()),h=function(t){return t.x},m=function(t){return t.y},v=[0],y=!0,x=!1,b="zero",k=n.utils.defaultColor(),w=!1,A=null,S=1200,M=.1,C=d3.dispatch("chartClick","elementClick","elementDblClick","elementMouseover","elementMouseout");return t.dispatch=C,t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(h=e,t):h},t.y=function(e){return arguments.length?(m=e,t):m},t.margin=function(e){return arguments.length?(u.top="undefined"!=typeof e.top?e.top:u.top,u.right="undefined"!=typeof e.right?e.right:u.right,u.bottom="undefined"!=typeof e.bottom?e.bottom:u.bottom,u.left="undefined"!=typeof e.left?e.left:u.left,t):u},t.width=function(e){return arguments.length?(c=e,t):c},t.height=function(e){return arguments.length?(d=e,t):d},t.xScale=function(e){return arguments.length?(f=e,t):f},t.yScale=function(e){return arguments.length?(p=e,t):p},t.xDomain=function(e){return arguments.length?(r=e,t):r},t.yDomain=function(e){return arguments.length?(a=e,t):a},t.xRange=function(e){return arguments.length?(o=e,t):o},t.yRange=function(e){return arguments.length?(i=e,t):i},t.forceY=function(e){return arguments.length?(v=e,t):v},t.stacked=function(e){return arguments.length?(x=e,t):x},t.stackOffset=function(e){return arguments.length?(b=e,t):b},t.clipEdge=function(e){return arguments.length?(y=e,t):y},t.color=function(e){return arguments.length?(k=n.utils.getColor(e),t):k},t.barColor=function(e){return arguments.length?(A=n.utils.getColor(e),t):A},t.disabled=function(n){return arguments.length?(e=n,t):e},t.id=function(e){return arguments.length?(g=e,t):g},t.hideable=function(e){return arguments.length?(w=e,t):w},t.delay=function(e){return arguments.length?(S=e,t):S},t.groupSpacing=function(e){return arguments.length?(M=e,t):M},t},n.models.multiBarChart=function(){"use strict";function t(n){return n.each(function(n){var w=d3.select(this),N=this,z=(c||parseInt(w.style("width"))||960)-u.left-u.right,F=(d||parseInt(w.style("height"))||400)-u.top-u.bottom;if(t.update=function(){w.transition().duration(I).call(t)},t.container=this,A.disabled=n.map(function(t){return!!t.disabled}),!S){var L;S={};for(L in A)S[L]=A[L]instanceof Array?A[L].slice(0):A[L]}if(!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var B=w.selectAll(".nv-noData").data([M]);return B.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),B.attr("x",u.left+z/2).attr("y",u.top+F/2).text(function(t){return t}),t}w.selectAll(".nv-noData").remove(),e=a.xScale(),r=a.yScale();var P=w.selectAll("g.nv-wrap.nv-multiBarWithLegend").data([n]),H=P.enter().append("g").attr("class","nvd3 nv-wrap nv-multiBarWithLegend").append("g"),T=P.select("g");if(H.append("g").attr("class","nv-x nv-axis"),H.append("g").attr("class","nv-y nv-axis"),H.append("g").attr("class","nv-barsWrap"),H.append("g").attr("class","nv-legendWrap"),H.append("g").attr("class","nv-controlsWrap"),g&&(l.width(z-D()),a.barColor()&&n.forEach(function(t,e){t.color=d3.rgb("#ccc").darker(1.5*e).toString()}),T.select(".nv-legendWrap").datum(n).call(l),u.top!=l.height()&&(u.top=l.height(),F=(d||parseInt(w.style("height"))||400)-u.top-u.bottom),T.select(".nv-legendWrap").attr("transform","translate("+D()+","+-u.top+")")),p){var E=[{key:"Grouped",disabled:a.stacked()},{key:"Stacked",disabled:!a.stacked()}];s.width(D()).color(["#444","#444","#444"]),T.select(".nv-controlsWrap").datum(E).attr("transform","translate(0,"+-u.top+")").call(s)}P.attr("transform","translate("+u.left+","+u.top+")"),v&&T.select(".nv-y.nv-axis").attr("transform","translate("+z+",0)"),a.disabled(n.map(function(t){return t.disabled})).width(z).height(F).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled}));var Y=T.select(".nv-barsWrap").datum(n.filter(function(t){return!t.disabled}));if(Y.transition().call(a),h){o.scale(e).ticks(z/100).tickSize(-F,0),T.select(".nv-x.nv-axis").attr("transform","translate(0,"+r.range()[0]+")"),T.select(".nv-x.nv-axis").transition().call(o);var R=T.select(".nv-x.nv-axis > g").selectAll("g");if(R.selectAll("line, text").style("opacity",1),x){var V=function(t,e){return"translate("+t+","+e+")"},_=5,X=17;R.selectAll("text").attr("transform",function(t,e,n){return V(0,n%2==0?_:X)});var Z=d3.selectAll(".nv-x.nv-axis .nv-wrap g g text")[0].length;T.selectAll(".nv-x.nv-axis .nv-axisMaxMin text").attr("transform",function(t,e){return V(0,0===e||Z%2!==0?X:_)})}y&&R.filter(function(t,e){return e%Math.ceil(n[0].values.length/(z/100))!==0}).selectAll("text, line").style("opacity",0),b&&R.selectAll(".tick text").attr("transform","rotate("+b+" 0,0)").style("text-anchor",b>0?"start":"end"),T.select(".nv-x.nv-axis").selectAll("g.nv-axisMaxMin text").style("opacity",1)}m&&(i.scale(r).ticks(F/36).tickSize(-z,0),T.select(".nv-y.nv-axis").transition().call(i)),l.dispatch.on("stateChange",function(e){A=e,C.stateChange(A),t.update()}),s.dispatch.on("legendClick",function(e){if(e.disabled){switch(E=E.map(function(t){return t.disabled=!0,t}),e.disabled=!1,e.key){case"Grouped":a.stacked(!1);break;case"Stacked":a.stacked(!0)}A.stacked=a.stacked(),C.stateChange(A),t.update()}}),C.on("tooltipShow",function(t){k&&W(t,N.parentNode)}),C.on("changeState",function(e){"undefined"!=typeof e.disabled&&(n.forEach(function(t,n){t.disabled=e.disabled[n]}),A.disabled=e.disabled),"undefined"!=typeof e.stacked&&(a.stacked(e.stacked),A.stacked=e.stacked),t.update()})}),t}var e,r,a=n.models.multiBar(),o=n.models.axis(),i=n.models.axis(),l=n.models.legend(),s=n.models.legend(),u={top:30,right:20,bottom:50,left:60},c=null,d=null,f=n.utils.defaultColor(),p=!0,g=!0,h=!0,m=!0,v=!1,y=!0,x=!1,b=0,k=!0,w=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" on "+e+"</p>"},A={stacked:!1},S=null,M="No Data Available.",C=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),D=function(){return p?180:0},I=250;a.stacked(!1),o.orient("bottom").tickPadding(7).highlightZero(!0).showMaxMin(!1).tickFormat(function(t){return t}),i.orient(v?"right":"left").tickFormat(d3.format(",.1f")),s.updateState(!1);var W=function(e,r){var l=e.pos[0]+(r.offsetLeft||0),s=e.pos[1]+(r.offsetTop||0),u=o.tickFormat()(a.x()(e.point,e.pointIndex)),c=i.tickFormat()(a.y()(e.point,e.pointIndex)),d=w(e.series.key,u,c,e,t);n.tooltip.show([l,s],d,e.value<0?"n":"s",null,r)};return a.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+u.left,t.pos[1]+u.top],C.tooltipShow(t)}),a.dispatch.on("elementMouseout.tooltip",function(t){C.tooltipHide(t)}),C.on("tooltipHide",function(){k&&n.tooltip.cleanup()}),t.dispatch=C,t.multibar=a,t.legend=l,t.xAxis=o,t.yAxis=i,d3.rebind(t,a,"x","y","xDomain","yDomain","xRange","yRange","forceX","forceY","clipEdge","id","stacked","stackOffset","delay","barColor","groupSpacing"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(u.top="undefined"!=typeof e.top?e.top:u.top,u.right="undefined"!=typeof e.right?e.right:u.right,u.bottom="undefined"!=typeof e.bottom?e.bottom:u.bottom,u.left="undefined"!=typeof e.left?e.left:u.left,t):u},t.width=function(e){return arguments.length?(c=e,t):c},t.height=function(e){return arguments.length?(d=e,t):d},t.color=function(e){return arguments.length?(f=n.utils.getColor(e),l.color(f),t):f},t.showControls=function(e){return arguments.length?(p=e,t):p},t.showLegend=function(e){return arguments.length?(g=e,t):g},t.showXAxis=function(e){return arguments.length?(h=e,t):h},t.showYAxis=function(e){return arguments.length?(m=e,t):m},t.rightAlignYAxis=function(e){return arguments.length?(v=e,i.orient(e?"right":"left"),t):v},t.reduceXTicks=function(e){return arguments.length?(y=e,t):y},t.rotateLabels=function(e){return arguments.length?(b=e,t):b},t.staggerLabels=function(e){return arguments.length?(x=e,t):x},t.tooltip=function(e){return arguments.length?(w=e,t):w},t.tooltips=function(e){return arguments.length?(k=e,t):k},t.tooltipContent=function(e){return arguments.length?(w=e,t):w},t.state=function(e){return arguments.length?(A=e,t):A},t.defaultState=function(e){return arguments.length?(S=e,t):S},t.noData=function(e){return arguments.length?(M=e,t):M},t.transitionDuration=function(e){return arguments.length?(I=e,t):I},t},n.models.multiBarHorizontal=function(){"use strict";function t(n){return n.each(function(t){{var n=c-u.left-u.right,f=d-u.top-u.bottom;d3.select(this)}b&&(t=d3.layout.stack().offset("zero").values(function(t){return t.values}).y(m)(t)),t.forEach(function(t,e){t.values.forEach(function(t){t.series=e})}),b&&t[0].values.map(function(e,n){var r=0,a=0;t.map(function(t){var e=t.values[n];e.size=Math.abs(e.y),e.y<0?(e.y1=a-e.size,a-=e.size):(e.y1=r,r+=e.size)})});var M=r&&a?[]:t.map(function(t){return t.values.map(function(t,e){return{x:h(t,e),y:m(t,e),y0:t.y0,y1:t.y1}})});p.domain(r||d3.merge(M).map(function(t){return t.x})).rangeBands(o||[0,f],.1),g.domain(a||d3.extent(d3.merge(M).map(function(t){return b?t.y>0?t.y1+t.y:t.y1:t.y}).concat(v))),g.range(k&&!b?i||[g.domain()[0]<0?A:0,n-(g.domain()[1]>0?A:0)]:i||[0,n]),l=l||p,s=s||d3.scale.linear().domain(g.domain()).range([g(0),g(0)]);{var D=d3.select(this).selectAll("g.nv-wrap.nv-multibarHorizontal").data([t]),I=D.enter().append("g").attr("class","nvd3 nv-wrap nv-multibarHorizontal"),W=(I.append("defs"),I.append("g"));D.select("g")}W.append("g").attr("class","nv-groups"),D.attr("transform","translate("+u.left+","+u.top+")");var N=D.select(".nv-groups").selectAll(".nv-group").data(function(t){return t},function(t,e){return e});N.enter().append("g").style("stroke-opacity",1e-6).style("fill-opacity",1e-6),N.exit().transition().style("stroke-opacity",1e-6).style("fill-opacity",1e-6).remove(),N.attr("class",function(t,e){return"nv-group nv-series-"+e}).classed("hover",function(t){return t.hover}).style("fill",function(t,e){return y(t,e)}).style("stroke",function(t,e){return y(t,e)}),N.transition().style("stroke-opacity",1).style("fill-opacity",.75);var z=N.selectAll("g.nv-bar").data(function(t){return t.values});z.exit().remove();var F=z.enter().append("g").attr("transform",function(e,n,r){return"translate("+s(b?e.y0:0)+","+(b?0:r*p.rangeBand()/t.length+p(h(e,n)))+")"});F.append("rect").attr("width",0).attr("height",p.rangeBand()/(b?1:t.length)),z.on("mouseover",function(e,n){d3.select(this).classed("hover",!0),C.elementMouseover({value:m(e,n),point:e,series:t[e.series],pos:[g(m(e,n)+(b?e.y0:0)),p(h(e,n))+p.rangeBand()*(b?t.length/2:e.series+.5)/t.length],pointIndex:n,seriesIndex:e.series,e:d3.event})}).on("mouseout",function(e,n){d3.select(this).classed("hover",!1),C.elementMouseout({value:m(e,n),point:e,series:t[e.series],pointIndex:n,seriesIndex:e.series,e:d3.event})}).on("click",function(e,n){C.elementClick({value:m(e,n),point:e,series:t[e.series],pos:[p(h(e,n))+p.rangeBand()*(b?t.length/2:e.series+.5)/t.length,g(m(e,n)+(b?e.y0:0))],pointIndex:n,seriesIndex:e.series,e:d3.event}),d3.event.stopPropagation()}).on("dblclick",function(e,n){C.elementDblClick({value:m(e,n),point:e,series:t[e.series],pos:[p(h(e,n))+p.rangeBand()*(b?t.length/2:e.series+.5)/t.length,g(m(e,n)+(b?e.y0:0))],pointIndex:n,seriesIndex:e.series,e:d3.event}),d3.event.stopPropagation()}),F.append("text"),k&&!b?(z.select("text").attr("text-anchor",function(t,e){return m(t,e)<0?"end":"start"}).attr("y",p.rangeBand()/(2*t.length)).attr("dy",".32em").text(function(t,e){return S(m(t,e))}),z.transition().select("text").attr("x",function(t,e){return m(t,e)<0?-4:g(m(t,e))-g(0)+4})):z.selectAll("text").text(""),w&&!b?(F.append("text").classed("nv-bar-label",!0),z.select("text.nv-bar-label").attr("text-anchor",function(t,e){return m(t,e)<0?"start":"end"}).attr("y",p.rangeBand()/(2*t.length)).attr("dy",".32em").text(function(t,e){return h(t,e)}),z.transition().select("text.nv-bar-label").attr("x",function(t,e){return m(t,e)<0?g(0)-g(m(t,e))+4:-4})):z.selectAll("text.nv-bar-label").text(""),z.attr("class",function(t,e){return m(t,e)<0?"nv-bar negative":"nv-bar positive"}),x&&(e||(e=t.map(function(){return!0})),z.style("fill",function(t,n,r){return d3.rgb(x(t,n)).darker(e.map(function(t,e){return e}).filter(function(t,n){return!e[n]})[r]).toString()}).style("stroke",function(t,n,r){return d3.rgb(x(t,n)).darker(e.map(function(t,e){return e}).filter(function(t,n){return!e[n]})[r]).toString()})),b?z.transition().attr("transform",function(t,e){return"translate("+g(t.y1)+","+p(h(t,e))+")"}).select("rect").attr("width",function(t,e){return Math.abs(g(m(t,e)+t.y0)-g(t.y0))}).attr("height",p.rangeBand()):z.transition().attr("transform",function(e,n){return"translate("+g(m(e,n)<0?m(e,n):0)+","+(e.series*p.rangeBand()/t.length+p(h(e,n)))+")"}).select("rect").attr("height",p.rangeBand()/t.length).attr("width",function(t,e){return Math.max(Math.abs(g(m(t,e))-g(0)),1)}),l=p.copy(),s=g.copy()}),t}var e,r,a,o,i,l,s,u={top:0,right:0,bottom:0,left:0},c=960,d=500,f=Math.floor(1e4*Math.random()),p=d3.scale.ordinal(),g=d3.scale.linear(),h=function(t){return t.x},m=function(t){return t.y},v=[0],y=n.utils.defaultColor(),x=null,b=!1,k=!1,w=!1,A=60,S=d3.format(",.2f"),M=1200,C=d3.dispatch("chartClick","elementClick","elementDblClick","elementMouseover","elementMouseout");return t.dispatch=C,t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(h=e,t):h},t.y=function(e){return arguments.length?(m=e,t):m},t.margin=function(e){return arguments.length?(u.top="undefined"!=typeof e.top?e.top:u.top,u.right="undefined"!=typeof e.right?e.right:u.right,u.bottom="undefined"!=typeof e.bottom?e.bottom:u.bottom,u.left="undefined"!=typeof e.left?e.left:u.left,t):u},t.width=function(e){return arguments.length?(c=e,t):c},t.height=function(e){return arguments.length?(d=e,t):d},t.xScale=function(e){return arguments.length?(p=e,t):p},t.yScale=function(e){return arguments.length?(g=e,t):g},t.xDomain=function(e){return arguments.length?(r=e,t):r},t.yDomain=function(e){return arguments.length?(a=e,t):a},t.xRange=function(e){return arguments.length?(o=e,t):o},t.yRange=function(e){return arguments.length?(i=e,t):i},t.forceY=function(e){return arguments.length?(v=e,t):v},t.stacked=function(e){return arguments.length?(b=e,t):b},t.color=function(e){return arguments.length?(y=n.utils.getColor(e),t):y},t.barColor=function(e){return arguments.length?(x=n.utils.getColor(e),t):x},t.disabled=function(n){return arguments.length?(e=n,t):e},t.id=function(e){return arguments.length?(f=e,t):f},t.delay=function(e){return arguments.length?(M=e,t):M},t.showValues=function(e){return arguments.length?(k=e,t):k},t.showBarLabels=function(e){return arguments.length?(w=e,t):w},t.valueFormat=function(e){return arguments.length?(S=e,t):S},t.valuePadding=function(e){return arguments.length?(A=e,t):A},t},n.models.multiBarHorizontalChart=function(){"use strict";function t(n){return n.each(function(n){var v=d3.select(this),x=this,D=(c||parseInt(v.style("width"))||960)-u.left-u.right,I=(d||parseInt(v.style("height"))||400)-u.top-u.bottom;if(t.update=function(){v.transition().duration(M).call(t)},t.container=this,b.disabled=n.map(function(t){return!!t.disabled}),!k){var W;k={};for(W in b)k[W]=b[W]instanceof Array?b[W].slice(0):b[W]}if(!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var N=v.selectAll(".nv-noData").data([w]);return N.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),N.attr("x",u.left+D/2).attr("y",u.top+I/2).text(function(t){return t}),t}v.selectAll(".nv-noData").remove(),e=a.xScale(),r=a.yScale();var z=v.selectAll("g.nv-wrap.nv-multiBarHorizontalChart").data([n]),F=z.enter().append("g").attr("class","nvd3 nv-wrap nv-multiBarHorizontalChart").append("g"),L=z.select("g");if(F.append("g").attr("class","nv-x nv-axis"),F.append("g").attr("class","nv-y nv-axis").append("g").attr("class","nv-zeroLine").append("line"),F.append("g").attr("class","nv-barsWrap"),F.append("g").attr("class","nv-legendWrap"),F.append("g").attr("class","nv-controlsWrap"),g&&(l.width(D-S()),a.barColor()&&n.forEach(function(t,e){t.color=d3.rgb("#ccc").darker(1.5*e).toString()}),L.select(".nv-legendWrap").datum(n).call(l),u.top!=l.height()&&(u.top=l.height(),I=(d||parseInt(v.style("height"))||400)-u.top-u.bottom),L.select(".nv-legendWrap").attr("transform","translate("+S()+","+-u.top+")")),p){var B=[{key:"Grouped",disabled:a.stacked()},{key:"Stacked",disabled:!a.stacked()}];s.width(S()).color(["#444","#444","#444"]),L.select(".nv-controlsWrap").datum(B).attr("transform","translate(0,"+-u.top+")").call(s)}z.attr("transform","translate("+u.left+","+u.top+")"),a.disabled(n.map(function(t){return t.disabled})).width(D).height(I).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled}));var P=L.select(".nv-barsWrap").datum(n.filter(function(t){return!t.disabled}));if(P.transition().call(a),h){o.scale(e).ticks(I/24).tickSize(-D,0),L.select(".nv-x.nv-axis").transition().call(o);var H=L.select(".nv-x.nv-axis").selectAll("g");H.selectAll("line, text")}m&&(i.scale(r).ticks(D/100).tickSize(-I,0),L.select(".nv-y.nv-axis").attr("transform","translate(0,"+I+")"),L.select(".nv-y.nv-axis").transition().call(i)),L.select(".nv-zeroLine line").attr("x1",r(0)).attr("x2",r(0)).attr("y1",0).attr("y2",-I),l.dispatch.on("stateChange",function(e){b=e,A.stateChange(b),t.update()}),s.dispatch.on("legendClick",function(e){if(e.disabled){switch(B=B.map(function(t){return t.disabled=!0,t}),e.disabled=!1,e.key){case"Grouped":a.stacked(!1);break;case"Stacked":a.stacked(!0)}b.stacked=a.stacked(),A.stateChange(b),t.update()}}),A.on("tooltipShow",function(t){y&&C(t,x.parentNode)}),A.on("changeState",function(e){"undefined"!=typeof e.disabled&&(n.forEach(function(t,n){t.disabled=e.disabled[n]}),b.disabled=e.disabled),"undefined"!=typeof e.stacked&&(a.stacked(e.stacked),b.stacked=e.stacked),t.update()})}),t}var e,r,a=n.models.multiBarHorizontal(),o=n.models.axis(),i=n.models.axis(),l=n.models.legend().height(30),s=n.models.legend().height(30),u={top:30,right:20,bottom:50,left:60},c=null,d=null,f=n.utils.defaultColor(),p=!0,g=!0,h=!0,m=!0,v=!1,y=!0,x=function(t,e,n){return"<h3>"+t+" - "+e+"</h3><p>"+n+"</p>"},b={stacked:v},k=null,w="No Data Available.",A=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),S=function(){return p?180:0},M=250;a.stacked(v),o.orient("left").tickPadding(5).highlightZero(!1).showMaxMin(!1).tickFormat(function(t){return t}),i.orient("bottom").tickFormat(d3.format(",.1f")),s.updateState(!1);var C=function(e,r){var l=e.pos[0]+(r.offsetLeft||0),s=e.pos[1]+(r.offsetTop||0),u=o.tickFormat()(a.x()(e.point,e.pointIndex)),c=i.tickFormat()(a.y()(e.point,e.pointIndex)),d=x(e.series.key,u,c,e,t);n.tooltip.show([l,s],d,e.value<0?"e":"w",null,r)};return a.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+u.left,t.pos[1]+u.top],A.tooltipShow(t)}),a.dispatch.on("elementMouseout.tooltip",function(t){A.tooltipHide(t)}),A.on("tooltipHide",function(){y&&n.tooltip.cleanup()}),t.dispatch=A,t.multibar=a,t.legend=l,t.xAxis=o,t.yAxis=i,d3.rebind(t,a,"x","y","xDomain","yDomain","xRange","yRange","forceX","forceY","clipEdge","id","delay","showValues","showBarLabels","valueFormat","stacked","barColor"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(u.top="undefined"!=typeof e.top?e.top:u.top,u.right="undefined"!=typeof e.right?e.right:u.right,u.bottom="undefined"!=typeof e.bottom?e.bottom:u.bottom,u.left="undefined"!=typeof e.left?e.left:u.left,t):u},t.width=function(e){return arguments.length?(c=e,t):c},t.height=function(e){return arguments.length?(d=e,t):d},t.color=function(e){return arguments.length?(f=n.utils.getColor(e),l.color(f),t):f},t.showControls=function(e){return arguments.length?(p=e,t):p},t.showLegend=function(e){return arguments.length?(g=e,t):g},t.showXAxis=function(e){return arguments.length?(h=e,t):h},t.showYAxis=function(e){return arguments.length?(m=e,t):m},t.tooltip=function(e){return arguments.length?(x=e,t):x},t.tooltips=function(e){return arguments.length?(y=e,t):y},t.tooltipContent=function(e){return arguments.length?(x=e,t):x},t.state=function(e){return arguments.length?(b=e,t):b},t.defaultState=function(e){return arguments.length?(k=e,t):k},t.noData=function(e){return arguments.length?(w=e,t):w},t.transitionDuration=function(e){return arguments.length?(M=e,t):M},t},n.models.multiChart=function(){"use strict";function t(n){return n.each(function(n){var d=d3.select(this),C=this;t.update=function(){d.transition().call(t)},t.container=this;var D=(l||parseInt(d.style("width"))||960)-(o.left||60)-(o.right||20),I=(s||parseInt(d.style("height"))||400)-(o.top||30)-(o.bottom||50),W=n.filter(function(t){return"line"==t.type&&1==t.yAxis}),N=n.filter(function(t){return"line"==t.type&&2==t.yAxis}),z=n.filter(function(t){return"bar"==t.type&&1==t.yAxis}),F=n.filter(function(t){return"bar"==t.type&&2==t.yAxis}),L=n.filter(function(t){return"stackedbar"==t.type&&1==t.yAxis}),B=n.filter(function(t){return"stackedbar"==t.type&&2==t.yAxis}),P=n.filter(function(t){return!t.disabled&&1==t.yAxis}).map(function(t){return t.values.map(function(t){return{x:t.x,y:t.y}})}),H=n.filter(function(t){return!t.disabled&&2==t.yAxis}).map(function(t){return t.values.map(function(t){return{x:t.x,y:t.y}})});e.domain(d3.extent(d3.merge(P.concat(H)),function(t){return t.x})).range([0,D]);var T=d.selectAll("g.wrap.multiChart").data([n]),E=T.enter().append("g").attr("class","wrap nvd3 multiChart").append("g");E.append("g").attr("class","x axis"),E.append("g").attr("class","y1 axis"),E.append("g").attr("class","y2 axis"),E.append("g").attr("class","lines1Wrap"),E.append("g").attr("class","lines2Wrap"),E.append("g").attr("class","bars1Wrap"),E.append("g").attr("class","bars2Wrap"),E.append("g").attr("class","stack1Wrap"),E.append("g").attr("class","stack2Wrap"),E.append("g").attr("class","legendWrap");var Y=T.select("g");u&&(A.width(D/2),Y.select(".legendWrap").datum(n.map(function(t){return t.originalKey=void 0===t.originalKey?t.key:t.originalKey,t.key=t.originalKey+(1==t.yAxis?"":" (right axis)"),t})).call(A),o.top!=A.height()&&(o.top=A.height(),I=(s||parseInt(d.style("height"))||400)-(o.top||30)-(o.bottom||50)),Y.select(".legendWrap").attr("transform","translate("+D/2+","+-o.top+")")),g.width(D).height(I).interpolate("monotone").color(n.map(function(t,e){return t.color||i[e%i.length]}).filter(function(t,e){return!n[e].disabled&&1==n[e].yAxis&&"line"==n[e].type})),h.width(D).height(I).interpolate("monotone").color(n.map(function(t,e){return t.color||i[e%i.length]}).filter(function(t,e){return!n[e].disabled&&2==n[e].yAxis&&"line"==n[e].type})),m.width(D).height(I).color(n.map(function(t,e){return t.color||i[e%i.length]}).filter(function(t,e){return!n[e].disabled&&1==n[e].yAxis&&"bar"==n[e].type})),v.width(D).height(I).color(n.map(function(t,e){return t.color||i[e%i.length]}).filter(function(t,e){return!n[e].disabled&&2==n[e].yAxis&&"bar"==n[e].type})),y.width(D).height(I).color(n.map(function(t,e){return t.color||i[e%i.length]}).filter(function(t,e){return!n[e].disabled&&1==n[e].yAxis&&"stackedbar"==n[e].type})),x.width(D).height(I).color(n.map(function(t,e){return t.color||i[e%i.length]}).filter(function(t,e){return!n[e].disabled&&2==n[e].yAxis&&"stackedbar"==n[e].type})),Y.attr("transform","translate("+o.left+","+o.top+")");var R=Y.select(".lines1Wrap").datum(W.filter(function(t){return!t.disabled})),V=Y.select(".bars1Wrap").datum(z.filter(function(t){return!t.disabled})),_=Y.select(".stack1Wrap").datum(L.filter(function(t){return!t.disabled})),X=Y.select(".lines2Wrap").datum(N.filter(function(t){return!t.disabled})),Z=Y.select(".bars2Wrap").datum(F.filter(function(t){return!t.disabled})),G=Y.select(".stack2Wrap").datum(B.filter(function(t){return!t.disabled})),O=L.length?L.map(function(t){return t.values}).reduce(function(t,e){return t.map(function(t,n){return{x:t.x,y:t.y+e[n].y}})}).concat([{x:0,y:0}]):[],K=B.length?B.map(function(t){return t.values}).reduce(function(t,e){return t.map(function(t,n){return{x:t.x,y:t.y+e[n].y}})}).concat([{x:0,y:0}]):[];f.domain(r||d3.extent(d3.merge(P).concat(O),function(t){return t.y})).range([0,I]),p.domain(a||d3.extent(d3.merge(H).concat(K),function(t){return t.y})).range([0,I]),g.yDomain(f.domain()),m.yDomain(f.domain()),y.yDomain(f.domain()),h.yDomain(p.domain()),v.yDomain(p.domain()),x.yDomain(p.domain()),L.length&&d3.transition(_).call(y),B.length&&d3.transition(G).call(x),z.length&&d3.transition(V).call(m),F.length&&d3.transition(Z).call(v),W.length&&d3.transition(R).call(g),N.length&&d3.transition(X).call(h),b.ticks(D/100).tickSize(-I,0),Y.select(".x.axis").attr("transform","translate(0,"+I+")"),d3.transition(Y.select(".x.axis")).call(b),k.ticks(I/36).tickSize(-D,0),d3.transition(Y.select(".y1.axis")).call(k),w.ticks(I/36).tickSize(-D,0),d3.transition(Y.select(".y2.axis")).call(w),Y.select(".y2.axis").style("opacity",H.length?1:0).attr("transform","translate("+e.range()[1]+",0)"),A.dispatch.on("stateChange",function(){t.update()}),S.on("tooltipShow",function(t){c&&M(t,C.parentNode)})}),t}var e,r,a,o={top:30,right:20,bottom:50,left:60},i=d3.scale.category20().range(),l=null,s=null,u=!0,c=!0,d=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" at "+e+"</p>"},e=d3.scale.linear(),f=d3.scale.linear(),p=d3.scale.linear(),g=n.models.line().yScale(f),h=n.models.line().yScale(p),m=n.models.multiBar().stacked(!1).yScale(f),v=n.models.multiBar().stacked(!1).yScale(p),y=n.models.multiBar().stacked(!0).yScale(f),x=n.models.multiBar().stacked(!0).yScale(p),b=n.models.axis().scale(e).orient("bottom").tickPadding(5),k=n.models.axis().scale(f).orient("left"),w=n.models.axis().scale(p).orient("right"),A=n.models.legend().height(30),S=d3.dispatch("tooltipShow","tooltipHide"),M=function(e,r){var a=e.pos[0]+(r.offsetLeft||0),o=e.pos[1]+(r.offsetTop||0),i=b.tickFormat()(g.x()(e.point,e.pointIndex)),l=(2==e.series.yAxis?w:k).tickFormat()(g.y()(e.point,e.pointIndex)),s=d(e.series.key,i,l,e,t);n.tooltip.show([a,o],s,void 0,void 0,r.offsetParent)};return g.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),g.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),h.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),h.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),m.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),m.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),v.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),v.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),y.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),y.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),x.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),x.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),g.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),g.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),h.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+o.left,t.pos[1]+o.top],S.tooltipShow(t)}),h.dispatch.on("elementMouseout.tooltip",function(t){S.tooltipHide(t)}),S.on("tooltipHide",function(){c&&n.tooltip.cleanup()}),t.dispatch=S,t.lines1=g,t.lines2=h,t.bars1=m,t.bars2=v,t.stack1=y,t.stack2=x,t.xAxis=b,t.yAxis1=k,t.yAxis2=w,t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(getX=e,g.x(e),m.x(e),t):getX},t.y=function(e){return arguments.length?(getY=e,g.y(e),m.y(e),t):getY},t.yDomain1=function(e){return arguments.length?(r=e,t):r},t.yDomain2=function(e){return arguments.length?(a=e,t):a},t.margin=function(e){return arguments.length?(o=e,t):o},t.width=function(e){return arguments.length?(l=e,t):l},t.height=function(e){return arguments.length?(s=e,t):s},t.color=function(e){return arguments.length?(i=e,A.color(e),t):i},t.showLegend=function(e){return arguments.length?(u=e,t):u},t.tooltips=function(e){return arguments.length?(c=e,t):c},t.tooltipContent=function(e){return arguments.length?(d=e,t):d},t},n.models.ohlcBar=function(){"use strict";function t(n){return n.each(function(t){var n=l-i.left-i.right,w=s-i.top-i.bottom,S=d3.select(this);c.domain(e||d3.extent(t[0].values.map(f).concat(y))),c.range(b?a||[.5*n/t[0].values.length,n*(t[0].values.length-.5)/t[0].values.length]:a||[0,n]),d.domain(r||[d3.min(t[0].values.map(v).concat(x)),d3.max(t[0].values.map(m).concat(x))]).range(o||[w,0]),c.domain()[0]===c.domain()[1]&&c.domain(c.domain()[0]?[c.domain()[0]-.01*c.domain()[0],c.domain()[1]+.01*c.domain()[1]]:[-1,1]),d.domain()[0]===d.domain()[1]&&d.domain(d.domain()[0]?[d.domain()[0]+.01*d.domain()[0],d.domain()[1]-.01*d.domain()[1]]:[-1,1]);
-var M=d3.select(this).selectAll("g.nv-wrap.nv-ohlcBar").data([t[0].values]),C=M.enter().append("g").attr("class","nvd3 nv-wrap nv-ohlcBar"),D=C.append("defs"),I=C.append("g"),W=M.select("g");I.append("g").attr("class","nv-ticks"),M.attr("transform","translate("+i.left+","+i.top+")"),S.on("click",function(t,e){A.chartClick({data:t,index:e,pos:d3.event,id:u})}),D.append("clipPath").attr("id","nv-chart-clip-path-"+u).append("rect"),M.select("#nv-chart-clip-path-"+u+" rect").attr("width",n).attr("height",w),W.attr("clip-path",k?"url(#nv-chart-clip-path-"+u+")":"");var N=M.select(".nv-ticks").selectAll(".nv-tick").data(function(t){return t});N.exit().remove();N.enter().append("path").attr("class",function(t,e,n){return(g(t,e)>h(t,e)?"nv-tick negative":"nv-tick positive")+" nv-tick-"+n+"-"+e}).attr("d",function(e,r){var a=n/t[0].values.length*.9;return"m0,0l0,"+(d(g(e,r))-d(m(e,r)))+"l"+-a/2+",0l"+a/2+",0l0,"+(d(v(e,r))-d(g(e,r)))+"l0,"+(d(h(e,r))-d(v(e,r)))+"l"+a/2+",0l"+-a/2+",0z"}).attr("transform",function(t,e){return"translate("+c(f(t,e))+","+d(m(t,e))+")"}).on("mouseover",function(e,n){d3.select(this).classed("hover",!0),A.elementMouseover({point:e,series:t[0],pos:[c(f(e,n)),d(p(e,n))],pointIndex:n,seriesIndex:0,e:d3.event})}).on("mouseout",function(e,n){d3.select(this).classed("hover",!1),A.elementMouseout({point:e,series:t[0],pointIndex:n,seriesIndex:0,e:d3.event})}).on("click",function(t,e){A.elementClick({value:p(t,e),data:t,index:e,pos:[c(f(t,e)),d(p(t,e))],e:d3.event,id:u}),d3.event.stopPropagation()}).on("dblclick",function(t,e){A.elementDblClick({value:p(t,e),data:t,index:e,pos:[c(f(t,e)),d(p(t,e))],e:d3.event,id:u}),d3.event.stopPropagation()});N.attr("class",function(t,e,n){return(g(t,e)>h(t,e)?"nv-tick negative":"nv-tick positive")+" nv-tick-"+n+"-"+e}),d3.transition(N).attr("transform",function(t,e){return"translate("+c(f(t,e))+","+d(m(t,e))+")"}).attr("d",function(e,r){var a=n/t[0].values.length*.9;return"m0,0l0,"+(d(g(e,r))-d(m(e,r)))+"l"+-a/2+",0l"+a/2+",0l0,"+(d(v(e,r))-d(g(e,r)))+"l0,"+(d(h(e,r))-d(v(e,r)))+"l"+a/2+",0l"+-a/2+",0z"})}),t}var e,r,a,o,i={top:0,right:0,bottom:0,left:0},l=960,s=500,u=Math.floor(1e4*Math.random()),c=d3.scale.linear(),d=d3.scale.linear(),f=function(t){return t.x},p=function(t){return t.y},g=function(t){return t.open},h=function(t){return t.close},m=function(t){return t.high},v=function(t){return t.low},y=[],x=[],b=!1,k=!0,w=n.utils.defaultColor(),A=d3.dispatch("chartClick","elementClick","elementDblClick","elementMouseover","elementMouseout");return t.dispatch=A,t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(f=e,t):f},t.y=function(e){return arguments.length?(p=e,t):p},t.open=function(e){return arguments.length?(g=e,t):g},t.close=function(e){return arguments.length?(h=e,t):h},t.high=function(e){return arguments.length?(m=e,t):m},t.low=function(e){return arguments.length?(v=e,t):v},t.margin=function(e){return arguments.length?(i.top="undefined"!=typeof e.top?e.top:i.top,i.right="undefined"!=typeof e.right?e.right:i.right,i.bottom="undefined"!=typeof e.bottom?e.bottom:i.bottom,i.left="undefined"!=typeof e.left?e.left:i.left,t):i},t.width=function(e){return arguments.length?(l=e,t):l},t.height=function(e){return arguments.length?(s=e,t):s},t.xScale=function(e){return arguments.length?(c=e,t):c},t.yScale=function(e){return arguments.length?(d=e,t):d},t.xDomain=function(n){return arguments.length?(e=n,t):e},t.yDomain=function(e){return arguments.length?(r=e,t):r},t.xRange=function(e){return arguments.length?(a=e,t):a},t.yRange=function(e){return arguments.length?(o=e,t):o},t.forceX=function(e){return arguments.length?(y=e,t):y},t.forceY=function(e){return arguments.length?(x=e,t):x},t.padData=function(e){return arguments.length?(b=e,t):b},t.clipEdge=function(e){return arguments.length?(k=e,t):k},t.color=function(e){return arguments.length?(w=n.utils.getColor(e),t):w},t.id=function(e){return arguments.length?(u=e,t):u},t},n.models.pie=function(){"use strict";function t(n){return n.each(function(t){function n(t){t.endAngle=isNaN(t.endAngle)?0:t.endAngle,t.startAngle=isNaN(t.startAngle)?0:t.startAngle,v||(t.innerRadius=0);var e=d3.interpolate(this._current,t);return this._current=e(0),function(t){return N(e(t))}}var l=r-e.left-e.right,c=a-e.top-e.bottom,A=Math.min(l,c)/2,S=A-A/5,M=d3.select(this),C=M.selectAll(".nv-wrap.nv-pie").data(t),D=C.enter().append("g").attr("class","nvd3 nv-wrap nv-pie nv-chart-"+s),I=D.append("g"),W=C.select("g");I.append("g").attr("class","nv-pie"),I.append("g").attr("class","nv-pieLabels"),C.attr("transform","translate("+e.left+","+e.top+")"),W.select(".nv-pie").attr("transform","translate("+l/2+","+c/2+")"),W.select(".nv-pieLabels").attr("transform","translate("+l/2+","+c/2+")"),M.on("click",function(t,e){w.chartClick({data:t,index:e,pos:d3.event,id:s})});var N=d3.svg.arc().outerRadius(S);x&&N.startAngle(x),b&&N.endAngle(b),v&&N.innerRadius(A*k);var z=d3.layout.pie().sort(null).value(function(t){return t.disabled?0:i(t)}),F=C.select(".nv-pie").selectAll(".nv-slice").data(z),L=C.select(".nv-pieLabels").selectAll(".nv-label").data(z);F.exit().remove(),L.exit().remove();var B=F.enter().append("g").attr("class","nv-slice").on("mouseover",function(t,e){d3.select(this).classed("hover",!0),w.elementMouseover({label:o(t.data),value:i(t.data),point:t.data,pointIndex:e,pos:[d3.event.pageX,d3.event.pageY],id:s})}).on("mouseout",function(t,e){d3.select(this).classed("hover",!1),w.elementMouseout({label:o(t.data),value:i(t.data),point:t.data,index:e,id:s})}).on("click",function(t,e){w.elementClick({label:o(t.data),value:i(t.data),point:t.data,index:e,pos:d3.event,id:s}),d3.event.stopPropagation()}).on("dblclick",function(t,e){w.elementDblClick({label:o(t.data),value:i(t.data),point:t.data,index:e,pos:d3.event,id:s}),d3.event.stopPropagation()});F.attr("fill",function(t,e){return u(t,e)}).attr("stroke",function(t,e){return u(t,e)});B.append("path").each(function(t){this._current=t});if(F.select("path").transition().attr("d",N).attrTween("d",n),f){var P=d3.svg.arc().innerRadius(0);p&&(P=N),g&&(P=d3.svg.arc().outerRadius(N.outerRadius())),L.enter().append("g").classed("nv-label",!0).each(function(t){var e=d3.select(this);e.attr("transform",function(t){if(y){t.outerRadius=S+10,t.innerRadius=S+15;var e=(t.startAngle+t.endAngle)/2*(180/Math.PI);return(t.startAngle+t.endAngle)/2<Math.PI?e-=90:e+=90,"translate("+P.centroid(t)+") rotate("+e+")"}return t.outerRadius=A+10,t.innerRadius=A+15,"translate("+P.centroid(t)+")"}),e.append("rect").style("stroke","#fff").style("fill","#fff").attr("rx",3).attr("ry",3),e.append("text").style("text-anchor",y?(t.startAngle+t.endAngle)/2<Math.PI?"start":"end":"middle").style("fill","#000")});var H={},T=14,E=140,Y=function(t){return Math.floor(t[0]/E)*E+","+Math.floor(t[1]/T)*T};L.transition().attr("transform",function(t){if(y){t.outerRadius=S+10,t.innerRadius=S+15;var e=(t.startAngle+t.endAngle)/2*(180/Math.PI);return(t.startAngle+t.endAngle)/2<Math.PI?e-=90:e+=90,"translate("+P.centroid(t)+") rotate("+e+")"}t.outerRadius=A+10,t.innerRadius=A+15;var n=P.centroid(t),r=Y(n);return H[r]&&(n[1]-=T),H[Y(n)]=!0,"translate("+n+")"}),L.select(".nv-label text").style("text-anchor",y?(d.startAngle+d.endAngle)/2<Math.PI?"start":"end":"middle").text(function(t){var e=(t.endAngle-t.startAngle)/(2*Math.PI),n={key:o(t.data),value:i(t.data),percent:d3.format("%")(e)};return t.value&&e>m?n[h]:""})}}),t}var e={top:0,right:0,bottom:0,left:0},r=500,a=500,o=function(t){return t.x},i=function(t){return t.y},l=function(t){return t.description},s=Math.floor(1e4*Math.random()),u=n.utils.defaultColor(),c=d3.format(",.2f"),f=!0,p=!0,g=!1,h="key",m=.02,v=!1,y=!1,x=!1,b=!1,k=.5,w=d3.dispatch("chartClick","elementClick","elementDblClick","elementMouseover","elementMouseout");return t.dispatch=w,t.options=n.utils.optionsFunc.bind(t),t.margin=function(n){return arguments.length?(e.top="undefined"!=typeof n.top?n.top:e.top,e.right="undefined"!=typeof n.right?n.right:e.right,e.bottom="undefined"!=typeof n.bottom?n.bottom:e.bottom,e.left="undefined"!=typeof n.left?n.left:e.left,t):e},t.width=function(e){return arguments.length?(r=e,t):r},t.height=function(e){return arguments.length?(a=e,t):a},t.values=function(){return n.log("pie.values() is no longer supported."),t},t.x=function(e){return arguments.length?(o=e,t):o},t.y=function(e){return arguments.length?(i=d3.functor(e),t):i},t.description=function(e){return arguments.length?(l=e,t):l},t.showLabels=function(e){return arguments.length?(f=e,t):f},t.labelSunbeamLayout=function(e){return arguments.length?(y=e,t):y},t.donutLabelsOutside=function(e){return arguments.length?(g=e,t):g},t.pieLabelsOutside=function(e){return arguments.length?(p=e,t):p},t.labelType=function(e){return arguments.length?(h=e,h=h||"key",t):h},t.donut=function(e){return arguments.length?(v=e,t):v},t.donutRatio=function(e){return arguments.length?(k=e,t):k},t.startAngle=function(e){return arguments.length?(x=e,t):x},t.endAngle=function(e){return arguments.length?(b=e,t):b},t.id=function(e){return arguments.length?(s=e,t):s},t.color=function(e){return arguments.length?(u=n.utils.getColor(e),t):u},t.valueFormat=function(e){return arguments.length?(c=e,t):c},t.labelThreshold=function(e){return arguments.length?(m=e,t):m},t},n.models.pieChart=function(){"use strict";function t(n){return n.each(function(n){var s=d3.select(this),u=(o||parseInt(s.style("width"))||960)-a.left-a.right,c=(i||parseInt(s.style("height"))||400)-a.top-a.bottom;if(t.update=function(){s.transition().call(t)},t.container=this,d.disabled=n.map(function(t){return!!t.disabled}),!f){var h;f={};for(h in d)f[h]=d[h]instanceof Array?d[h].slice(0):d[h]}if(!n||!n.length){var m=s.selectAll(".nv-noData").data([p]);return m.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),m.attr("x",a.left+u/2).attr("y",a.top+c/2).text(function(t){return t}),t}s.selectAll(".nv-noData").remove();var v=s.selectAll("g.nv-wrap.nv-pieChart").data([n]),y=v.enter().append("g").attr("class","nvd3 nv-wrap nv-pieChart").append("g"),x=v.select("g");y.append("g").attr("class","nv-pieWrap"),y.append("g").attr("class","nv-legendWrap"),l&&(r.width(u).key(e.x()),v.select(".nv-legendWrap").datum(n).call(r),a.top!=r.height()&&(a.top=r.height(),c=(i||parseInt(s.style("height"))||400)-a.top-a.bottom),v.select(".nv-legendWrap").attr("transform","translate(0,"+-a.top+")")),v.attr("transform","translate("+a.left+","+a.top+")"),e.width(u).height(c);var b=x.select(".nv-pieWrap").datum([n]);d3.transition(b).call(e),r.dispatch.on("stateChange",function(e){d=e,g.stateChange(d),t.update()}),e.dispatch.on("elementMouseout.tooltip",function(t){g.tooltipHide(t)}),g.on("changeState",function(e){"undefined"!=typeof e.disabled&&(n.forEach(function(t,n){t.disabled=e.disabled[n]}),d.disabled=e.disabled),t.update()})}),t}var e=n.models.pie(),r=n.models.legend(),a={top:30,right:20,bottom:20,left:20},o=null,i=null,l=!0,s=n.utils.defaultColor(),u=!0,c=function(t,e){return"<h3>"+t+"</h3><p>"+e+"</p>"},d={},f=null,p="No Data Available.",g=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),h=function(r,a){var o=e.description()(r.point)||e.x()(r.point),i=r.pos[0]+(a&&a.offsetLeft||0),l=r.pos[1]+(a&&a.offsetTop||0),s=e.valueFormat()(e.y()(r.point)),u=c(o,s,r,t);n.tooltip.show([i,l],u,r.value<0?"n":"s",null,a)};return e.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+a.left,t.pos[1]+a.top],g.tooltipShow(t)}),g.on("tooltipShow",function(t){u&&h(t)}),g.on("tooltipHide",function(){u&&n.tooltip.cleanup()}),t.legend=r,t.dispatch=g,t.pie=e,d3.rebind(t,e,"valueFormat","values","x","y","description","id","showLabels","donutLabelsOutside","pieLabelsOutside","labelType","donut","donutRatio","labelThreshold"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(a.top="undefined"!=typeof e.top?e.top:a.top,a.right="undefined"!=typeof e.right?e.right:a.right,a.bottom="undefined"!=typeof e.bottom?e.bottom:a.bottom,a.left="undefined"!=typeof e.left?e.left:a.left,t):a},t.width=function(e){return arguments.length?(o=e,t):o},t.height=function(e){return arguments.length?(i=e,t):i},t.color=function(a){return arguments.length?(s=n.utils.getColor(a),r.color(s),e.color(s),t):s},t.showLegend=function(e){return arguments.length?(l=e,t):l},t.tooltips=function(e){return arguments.length?(u=e,t):u},t.tooltipContent=function(e){return arguments.length?(c=e,t):c},t.state=function(e){return arguments.length?(d=e,t):d},t.defaultState=function(e){return arguments.length?(f=e,t):f},t.noData=function(e){return arguments.length?(p=e,t):p},t},n.models.scatter=function(){"use strict";function t(V){return V.each(function(t){function V(){if(!w)return!1;var e=d3.merge(t.map(function(t,e){return t.values.map(function(t,n){var r=g(t,n),a=h(t,n),o="undefined"==typeof e?0:e;return[d(r)+Math.floor(100*Math.random()+1)/1e6,f(a)+o/100+Math.floor(10*Math.random()+1)/1e6,e,n,t]}).filter(function(t,e){return S(t[4],e)})}));if(E===!0){if(I){var n=O.select("defs").selectAll(".nv-point-clips").data([c]).enter();n.append("clipPath").attr("class","nv-point-clips").attr("id","nv-points-clip-"+c);var r=O.select("#nv-points-clip-"+c).selectAll("circle").data(e);r.enter().append("circle").attr("r",W),r.exit().remove(),r.attr("cx",function(t){return t[0]}).attr("cy",function(t){return t[1]}),O.select(".nv-point-paths").attr("clip-path","url(#nv-points-clip-"+c+")")}e.length&&(e.push([d.range()[0]-20,f.range()[0]-20,null,null]),e.push([d.range()[1]+20,f.range()[1]+20,null,null]),e.push([d.range()[0]-20,f.range()[0]+20,null,null]),e.push([d.range()[1]+20,f.range()[1]-20,null,null]));var a=d3.geom.polygon([[-10,-10],[-10,s+10],[l+10,s+10],[l+10,-10]]),o=d3.geom.voronoi(e).map(function(t,n){return{data:a.clip(t),series:e[n][2],point:e[n][3]}}),u=O.select(".nv-point-paths").selectAll("path").data(o);u.enter().append("path").attr("class",function(t,e){return"nv-path-"+e}),u.exit().remove(),u.attr("d",function(t){if("undefined"==typeof t||0===t.data.length||"undefined"==typeof t.data[0])return"M 0 0";var e=t.data;return 2==t.data[0].length&&(e=t.data.map(function(t){return[t[0]||0,t[1]||0]})),"M"+e.join("L")+"Z"});var p=function(e,n){if(R)return 0;var r=t[e.series];if("undefined"!=typeof r){var a=r.values[e.point];n({point:a,series:r,pos:[d(g(a,e.point))+i.left,f(h(a,e.point))+i.top],seriesIndex:e.series,pointIndex:e.point})}};u.on("click",function(t){p(t,T.elementClick)}).on("mouseover",function(t){p(t,T.elementMouseover)}).on("mouseout",function(t){p(t,T.elementMouseout)})}else O.select(".nv-groups").selectAll(".nv-group").selectAll(".nv-point").on("click",function(e,n){if(R||!t[e.series])return 0;var r=t[e.series],a=r.values[n];T.elementClick({point:a,series:r,pos:[d(g(a,n))+i.left,f(h(a,n))+i.top],seriesIndex:e.series,pointIndex:n})}).on("mouseover",function(e,n){if(R||!t[e.series])return 0;var r=t[e.series],a=r.values[n];T.elementMouseover({point:a,series:r,pos:[d(g(a,n))+i.left,f(h(a,n))+i.top],seriesIndex:e.series,pointIndex:n})}).on("mouseout",function(e,n){if(R||!t[e.series])return 0;var r=t[e.series],a=r.values[n];T.elementMouseout({point:a,series:r,seriesIndex:e.series,pointIndex:n})});R=!1}var _=l-i.left-i.right,X=s-i.top-i.bottom,Z=d3.select(this);t.forEach(function(t,e){t.values.forEach(function(t){t.series=e})});var G=N&&z&&B?[]:d3.merge(t.map(function(t){return t.values.map(function(t,e){return{x:g(t,e),y:h(t,e),size:m(t,e)}})}));d.domain(N||d3.extent(G.map(function(t){return t.x}).concat(x))),d.range(M&&t[0]?F||[(_*C+_)/(2*t[0].values.length),_-_*(1+C)/(2*t[0].values.length)]:F||[0,_]),f.domain(z||d3.extent(G.map(function(t){return t.y}).concat(b))).range(L||[X,0]),p.domain(B||d3.extent(G.map(function(t){return t.size}).concat(k))).range(P||[16,256]),(d.domain()[0]===d.domain()[1]||f.domain()[0]===f.domain()[1])&&(H=!0),d.domain()[0]===d.domain()[1]&&d.domain(d.domain()[0]?[d.domain()[0]-.01*d.domain()[0],d.domain()[1]+.01*d.domain()[1]]:[-1,1]),f.domain()[0]===f.domain()[1]&&f.domain(f.domain()[0]?[f.domain()[0]-.01*f.domain()[0],f.domain()[1]+.01*f.domain()[1]]:[-1,1]),isNaN(d.domain()[0])&&d.domain([-1,1]),isNaN(f.domain()[0])&&f.domain([-1,1]),e=e||d,r=r||f,a=a||p;var O=Z.selectAll("g.nv-wrap.nv-scatter").data([t]),K=O.enter().append("g").attr("class","nvd3 nv-wrap nv-scatter nv-chart-"+c+(H?" nv-single-point":"")),q=K.append("defs"),j=K.append("g"),U=O.select("g");j.append("g").attr("class","nv-groups"),j.append("g").attr("class","nv-point-paths"),O.attr("transform","translate("+i.left+","+i.top+")"),q.append("clipPath").attr("id","nv-edge-clip-"+c).append("rect"),O.select("#nv-edge-clip-"+c+" rect").attr("width",_).attr("height",X>0?X:0),U.attr("clip-path",D?"url(#nv-edge-clip-"+c+")":""),R=!0;var $=O.select(".nv-groups").selectAll(".nv-group").data(function(t){return t},function(t){return t.key});if($.enter().append("g").style("stroke-opacity",1e-6).style("fill-opacity",1e-6),$.exit().remove(),$.attr("class",function(t,e){return"nv-group nv-series-"+e}).classed("hover",function(t){return t.hover}),$.transition().style("fill",function(t,e){return u(t,e)}).style("stroke",function(t,e){return u(t,e)}).style("stroke-opacity",1).style("fill-opacity",.5),y){var J=$.selectAll("circle.nv-point").data(function(t){return t.values},A);if(Y){var Q=$.selectAll("text").data(function(t){return t.values},A);Q.enter().append("text").style("fill",function(t){return t.color}).style("stroke-opacity",0).style("fill-opacity",1).attr("x",function(t,r){return n.utils.NaNtoZero(e(g(t,r)))+Math.sqrt(p(m(t,r))/Math.PI)}).attr("y",function(t,e){return n.utils.NaNtoZero(r(h(t,e)))}).text(function(t){return t.tooltip}),Q.exit().remove(),$.exit().selectAll("text.nv-point").transition().attr("x",function(t,e){return n.utils.NaNtoZero(d(g(t,e)))}).attr("y",function(t,e){return n.utils.NaNtoZero(f(h(t,e)))}).remove(),Q.each(function(t,e){d3.select(this).classed("nv-point",!0).classed("nv-point-"+e,!1).classed("hover",!1)}),Q.transition().attr("x",function(t,e){return n.utils.NaNtoZero(d(g(t,e)))+Math.sqrt(p(m(t,e))/Math.PI)}).attr("y",function(t,e){return n.utils.NaNtoZero(f(h(t,e)))})}J.enter().append("circle").style("fill",function(t){return t.color}).style("stroke",function(t){return t.color}).attr("cx",function(t,r){return n.utils.NaNtoZero(e(g(t,r)))}).attr("cy",function(t,e){return n.utils.NaNtoZero(r(h(t,e)))}).attr("r",function(t,e){return Math.sqrt(p(m(t,e))/Math.PI)}),J.exit().remove(),$.exit().selectAll("path.nv-point").transition().attr("cx",function(t,e){return n.utils.NaNtoZero(d(g(t,e)))}).attr("cy",function(t,e){return n.utils.NaNtoZero(f(h(t,e)))}).remove(),J.each(function(t,e){d3.select(this).classed("nv-point",!0).classed("nv-point-"+e,!0).classed("hover",!1)}),J.transition().attr("cx",function(t,e){return n.utils.NaNtoZero(d(g(t,e)))}).attr("cy",function(t,e){return n.utils.NaNtoZero(f(h(t,e)))}).attr("r",function(t,e){return Math.sqrt(p(m(t,e))/Math.PI)})}else{var J=$.selectAll("path.nv-point").data(function(t){return t.values});J.enter().append("path").style("fill",function(t){return t.color}).style("stroke",function(t){return t.color}).attr("transform",function(t,n){return"translate("+e(g(t,n))+","+r(h(t,n))+")"}).attr("d",d3.svg.symbol().type(v).size(function(t,e){return p(m(t,e))})),J.exit().remove(),$.exit().selectAll("path.nv-point").transition().attr("transform",function(t,e){return"translate("+d(g(t,e))+","+f(h(t,e))+")"}).remove(),J.each(function(t,e){d3.select(this).classed("nv-point",!0).classed("nv-point-"+e,!0).classed("hover",!1)}),J.transition().attr("transform",function(t,e){return"translate("+d(g(t,e))+","+f(h(t,e))+")"}).attr("d",d3.svg.symbol().type(v).size(function(t,e){return p(m(t,e))}))}clearTimeout(o),o=setTimeout(V,300),e=d.copy(),r=f.copy(),a=p.copy()}),t}var e,r,a,o,i={top:0,right:0,bottom:0,left:0},l=960,s=500,u=n.utils.defaultColor(),c=Math.floor(1e5*Math.random()),d=d3.scale.linear(),f=d3.scale.linear(),p=d3.scale.linear(),g=function(t){return t.x},h=function(t){return t.y},m=function(t){return t.size||1},v=function(t){return t.shape||"circle"},y=!0,x=[],b=[],k=[],w=!0,A=null,S=function(t){return!t.notActive},M=!1,C=.1,D=!1,I=!0,W=function(){return 25},N=null,z=null,F=null,L=null,B=null,P=null,H=!1,T=d3.dispatch("elementClick","elementMouseover","elementMouseout"),E=!0,Y=!1,R=!1;return t.clearHighlights=function(){d3.selectAll(".nv-chart-"+c+" .nv-point.hover").classed("hover",!1)},t.highlightPoint=function(t,e,n){d3.select(".nv-chart-"+c+" .nv-series-"+t+" .nv-point-"+e).classed("hover",n)},T.on("elementMouseover.point",function(e){w&&t.highlightPoint(e.seriesIndex,e.pointIndex,!0)}),T.on("elementMouseout.point",function(e){w&&t.highlightPoint(e.seriesIndex,e.pointIndex,!1)}),t.dispatch=T,t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(g=d3.functor(e),t):g},t.y=function(e){return arguments.length?(h=d3.functor(e),t):h},t.size=function(e){return arguments.length?(m=d3.functor(e),t):m},t.margin=function(e){return arguments.length?(i.top="undefined"!=typeof e.top?e.top:i.top,i.right="undefined"!=typeof e.right?e.right:i.right,i.bottom="undefined"!=typeof e.bottom?e.bottom:i.bottom,i.left="undefined"!=typeof e.left?e.left:i.left,t):i},t.width=function(e){return arguments.length?(l=e,t):l},t.height=function(e){return arguments.length?(s=e,t):s},t.xScale=function(e){return arguments.length?(d=e,t):d},t.yScale=function(e){return arguments.length?(f=e,t):f},t.zScale=function(e){return arguments.length?(p=e,t):p},t.xDomain=function(e){return arguments.length?(N=e,t):N},t.yDomain=function(e){return arguments.length?(z=e,t):z},t.sizeDomain=function(e){return arguments.length?(B=e,t):B},t.xRange=function(e){return arguments.length?(F=e,t):F},t.yRange=function(e){return arguments.length?(L=e,t):L},t.sizeRange=function(e){return arguments.length?(P=e,t):P},t.forceX=function(e){return arguments.length?(x=e,t):x},t.forceY=function(e){return arguments.length?(b=e,t):b},t.forceSize=function(e){return arguments.length?(k=e,t):k},t.interactive=function(e){return arguments.length?(w=e,t):w},t.pointKey=function(e){return arguments.length?(A=e,t):A},t.pointActive=function(e){return arguments.length?(S=e,t):S},t.padData=function(e){return arguments.length?(M=e,t):M},t.padDataOuter=function(e){return arguments.length?(C=e,t):C},t.clipEdge=function(e){return arguments.length?(D=e,t):D},t.clipVoronoi=function(e){return arguments.length?(I=e,t):I},t.useVoronoi=function(e){return arguments.length?(E=e,E===!1&&(I=!1),t):E},t.clipRadius=function(e){return arguments.length?(W=e,t):W},t.color=function(e){return arguments.length?(u=n.utils.getColor(e),t):u},t.shape=function(e){return arguments.length?(v=e,t):v},t.onlyCircles=function(e){return arguments.length?(y=e,t):y},t.id=function(e){return arguments.length?(c=e,t):c},t.singlePoint=function(e){return arguments.length?(H=e,t):H},t.showLabel=function(e){return arguments.length?(Y=e,t):Y},t},n.models.scatterChart=function(){"use strict";function t(n){return n.each(function(n){function D(){if(M)return K.select(".nv-point-paths").style("pointer-events","all"),!1;K.select(".nv-point-paths").style("pointer-events","none");var t=d3.mouse(this);p.distortion(S).focus(t[0]),g.distortion(S).focus(t[1]),K.select(".nv-scatterWrap").call(e),b&&K.select(".nv-x.nv-axis").call(r),k&&K.select(".nv-y.nv-axis").call(a),K.select(".nv-distributionX").datum(n.filter(function(t){return!t.disabled})).call(l),K.select(".nv-distributionY").datum(n.filter(function(t){return!t.disabled})).call(s)}var I=d3.select(this),W=this,R=(c||parseInt(I.style("width"))||960)-u.left-u.right,V=(d||parseInt(I.style("height"))||400)-u.top-u.bottom;if(t.update=function(){I.transition().duration(B).call(t)},t.container=this,N.disabled=n.map(function(t){return!!t.disabled}),!z){var _;z={};for(_ in N)z[_]=N[_]instanceof Array?N[_].slice(0):N[_]}if(!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var X=I.selectAll(".nv-noData").data([L]);return X.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),X.attr("x",u.left+R/2).attr("y",u.top+V/2).text(function(t){return t}),t}I.selectAll(".nv-noData").remove(),H=H||p,T=T||g;var Z=I.selectAll("g.nv-wrap.nv-scatterChart").data([n]),G=Z.enter().append("g").attr("class","nvd3 nv-wrap nv-scatterChart nv-chart-"+e.id()),O=G.append("g"),K=Z.select("g");if(O.append("rect").attr("class","nvd3 nv-background"),O.append("g").attr("class","nv-x nv-axis"),O.append("g").attr("class","nv-y nv-axis"),O.append("g").attr("class","nv-scatterWrap"),O.append("g").attr("class","nv-distWrap"),O.append("g").attr("class","nv-legendWrap"),O.append("g").attr("class","nv-controlsWrap"),x){var q=A?R-180:R;o.width(q),Z.select(".nv-legendWrap").datum(n).call(o),u.top!=o.height()&&(u.top=o.height(),V=(d||parseInt(I.style("height"))||400)-u.top-u.bottom),Z.select(".nv-legendWrap").attr("transform","translate("+(R-q)+","+-u.top+")")}if(A&&(i.width(180).color(["#444"]),K.select(".nv-controlsWrap").datum(Y).attr("transform","translate(0,"+-u.top+")").call(i)),Z.attr("transform","translate("+u.left+","+u.top+")"),w&&K.select(".nv-y.nv-axis").attr("transform","translate("+R+",0)"),e.width(R).height(V).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled})),P&&e.showLabel(!0),0!==h&&e.xDomain(null),0!==m&&e.yDomain(null),Z.select(".nv-scatterWrap").datum(n.filter(function(t){return!t.disabled})).call(e),0!==h){var j=p.domain()[1]-p.domain()[0];e.xDomain([p.domain()[0]-h*j,p.domain()[1]+h*j])}if(0!==m){var U=g.domain()[1]-g.domain()[0];e.yDomain([g.domain()[0]-m*U,g.domain()[1]+m*U])}(0!==m||0!==h)&&Z.select(".nv-scatterWrap").datum(n.filter(function(t){return!t.disabled})).call(e),b&&(r.scale(p).ticks(r.ticks()&&r.ticks().length?r.ticks():R/100).tickSize(-V,0),K.select(".nv-x.nv-axis").attr("transform","translate(0,"+g.range()[0]+")").call(r)),k&&(a.scale(g).ticks(a.ticks()&&a.ticks().length?a.ticks():V/36).tickSize(-R,0),K.select(".nv-y.nv-axis").call(a)),v&&(l.getData(e.x()).scale(p).width(R).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled})),O.select(".nv-distWrap").append("g").attr("class","nv-distributionX"),K.select(".nv-distributionX").attr("transform","translate(0,"+g.range()[0]+")").datum(n.filter(function(t){return!t.disabled})).call(l)),y&&(s.getData(e.y()).scale(g).width(V).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled})),O.select(".nv-distWrap").append("g").attr("class","nv-distributionY"),K.select(".nv-distributionY").attr("transform","translate("+(w?R:-s.size())+",0)").datum(n.filter(function(t){return!t.disabled})).call(s)),d3.fisheye&&(K.select(".nv-background").attr("width",R).attr("height",V),K.select(".nv-background").on("mousemove",D),K.select(".nv-background").on("click",function(){M=!M}),e.dispatch.on("elementClick.freezeFisheye",function(){M=!M})),i.dispatch.on("legendClick",function(n){n.disabled=!n.disabled,S=n.disabled?0:2.5,K.select(".nv-background").style("pointer-events",n.disabled?"none":"all"),K.select(".nv-point-paths").style("pointer-events",n.disabled?"all":"none"),n.disabled?(p.distortion(S).focus(0),g.distortion(S).focus(0),K.select(".nv-scatterWrap").call(e),K.select(".nv-x.nv-axis").call(r),K.select(".nv-y.nv-axis").call(a)):M=!1,t.update()}),o.dispatch.on("stateChange",function(e){N.disabled=e.disabled,F.stateChange(N),t.update()}),e.dispatch.on("elementMouseover.tooltip",function(t){d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-distx-"+t.pointIndex).attr("y1",function(){return t.pos[1]-V}),d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-disty-"+t.pointIndex).attr("x2",t.pos[0]+l.size()),t.pos=[t.pos[0]+u.left,t.pos[1]+u.top],F.tooltipShow(t)}),F.on("tooltipShow",function(t){C&&E(t,W.parentNode)}),F.on("changeState",function(e){"undefined"!=typeof e.disabled&&(n.forEach(function(t,n){t.disabled=e.disabled[n]}),N.disabled=e.disabled),t.update()}),H=p.copy(),T=g.copy()}),t}var e=n.models.scatter(),r=n.models.axis(),a=n.models.axis(),o=n.models.legend(),i=n.models.legend(),l=n.models.distribution(),s=n.models.distribution(),u={top:30,right:20,bottom:50,left:75},c=null,d=null,f=n.utils.defaultColor(),p=d3.fisheye?d3.fisheye.scale(d3.scale.linear).distortion(0):e.xScale(),g=d3.fisheye?d3.fisheye.scale(d3.scale.linear).distortion(0):e.yScale(),h=0,m=0,v=!1,y=!1,x=!0,b=!0,k=!0,w=!1,A=!!d3.fisheye,S=0,M=!1,C=!0,D=function(t,e){return"<strong>"+e+"</strong>"},I=function(t,e,n){return"<strong>"+n+"</strong>"},W=null,N={},z=null,F=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),L="No Data Available.",B=250,P=!1;e.xScale(p).yScale(g),r.orient("bottom").tickPadding(10),a.orient(w?"right":"left").tickPadding(10),l.axis("x"),s.axis("y"),i.updateState(!1);var H,T,E=function(o,i){var l=o.pos[0]+(i.offsetLeft||0),s=o.pos[1]+(i.offsetTop||0),c=o.pos[0]+(i.offsetLeft||0),d=g.range()[0]+u.top+(i.offsetTop||0),f=p.range()[0]+u.left+(i.offsetLeft||0),h=o.pos[1]+(i.offsetTop||0),m=r.tickFormat()(e.x()(o.point,o.pointIndex)),v=a.tickFormat()(e.y()(o.point,o.pointIndex));null!=D&&n.tooltip.show([c,d],D(o.series.key,m,v,o,t),"n",1,i,"x-nvtooltip"),null!=I&&n.tooltip.show([f,h],I(o.series.key,m,v,o,t),"e",1,i,"y-nvtooltip"),null!=W&&n.tooltip.show([l,s],W(o.series.key,m,v,o,t),o.value<0?"n":"s",null,i)},Y=[{key:"Magnify",disabled:!0}];return e.dispatch.on("elementMouseout.tooltip",function(t){F.tooltipHide(t),d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-distx-"+t.pointIndex).attr("y1",0),d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-disty-"+t.pointIndex).attr("x2",s.size())}),F.on("tooltipHide",function(){C&&n.tooltip.cleanup()}),t.dispatch=F,t.scatter=e,t.legend=o,t.controls=i,t.xAxis=r,t.yAxis=a,t.distX=l,t.distY=s,d3.rebind(t,e,"id","interactive","pointActive","x","y","shape","size","xScale","yScale","zScale","xDomain","yDomain","xRange","yRange","sizeDomain","sizeRange","forceX","forceY","forceSize","clipVoronoi","clipRadius","useVoronoi"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(u.top="undefined"!=typeof e.top?e.top:u.top,u.right="undefined"!=typeof e.right?e.right:u.right,u.bottom="undefined"!=typeof e.bottom?e.bottom:u.bottom,u.left="undefined"!=typeof e.left?e.left:u.left,t):u},t.width=function(e){return arguments.length?(c=e,t):c},t.height=function(e){return arguments.length?(d=e,t):d},t.color=function(e){return arguments.length?(f=n.utils.getColor(e),o.color(f),l.color(f),s.color(f),t):f},t.showDistX=function(e){return arguments.length?(v=e,t):v},t.showDistY=function(e){return arguments.length?(y=e,t):y},t.showControls=function(e){return arguments.length?(A=e,t):A},t.showLegend=function(e){return arguments.length?(x=e,t):x},t.showXAxis=function(e){return arguments.length?(b=e,t):b},t.showYAxis=function(e){return arguments.length?(k=e,t):k},t.rightAlignYAxis=function(e){return arguments.length?(w=e,a.orient(e?"right":"left"),t):w},t.fisheye=function(e){return arguments.length?(S=e,t):S},t.xPadding=function(e){return arguments.length?(h=e,t):h},t.yPadding=function(e){return arguments.length?(m=e,t):m},t.tooltips=function(e){return arguments.length?(C=e,t):C},t.tooltipContent=function(e){return arguments.length?(W=e,t):W},t.tooltipXContent=function(e){return arguments.length?(D=e,t):D},t.tooltipYContent=function(e){return arguments.length?(I=e,t):I},t.state=function(e){return arguments.length?(N=e,t):N},t.defaultState=function(e){return arguments.length?(z=e,t):z},t.noData=function(e){return arguments.length?(L=e,t):L},t.transitionDuration=function(e){return arguments.length?(B=e,t):B},t.showLabel=function(e){return arguments.length?(P=e,t):P},t},n.models.scatterPlusLineChart=function(){"use strict";function t(n){return n.each(function(n){function M(){if(A)return G.select(".nv-point-paths").style("pointer-events","all"),!1;G.select(".nv-point-paths").style("pointer-events","none");
-var t=d3.mouse(this);p.distortion(w).focus(t[0]),g.distortion(w).focus(t[1]),G.select(".nv-scatterWrap").datum(n.filter(function(t){return!t.disabled})).call(e),y&&G.select(".nv-x.nv-axis").call(r),x&&G.select(".nv-y.nv-axis").call(a),G.select(".nv-distributionX").datum(n.filter(function(t){return!t.disabled})).call(l),G.select(".nv-distributionY").datum(n.filter(function(t){return!t.disabled})).call(s)}var C=d3.select(this),D=this,E=(c||parseInt(C.style("width"))||960)-u.left-u.right,Y=(d||parseInt(C.style("height"))||400)-u.top-u.bottom;if(t.update=function(){C.transition().duration(F).call(t)},t.container=this,I.disabled=n.map(function(t){return!!t.disabled}),!W){var R;W={};for(R in I)W[R]=I[R]instanceof Array?I[R].slice(0):I[R]}if(!(n&&n.length&&n.filter(function(t){return t.values.length}).length)){var V=C.selectAll(".nv-noData").data([z]);return V.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),V.attr("x",u.left+E/2).attr("y",u.top+Y/2).text(function(t){return t}),t}C.selectAll(".nv-noData").remove(),p=e.xScale(),g=e.yScale(),B=B||p,P=P||g;var _=C.selectAll("g.nv-wrap.nv-scatterChart").data([n]),X=_.enter().append("g").attr("class","nvd3 nv-wrap nv-scatterChart nv-chart-"+e.id()),Z=X.append("g"),G=_.select("g");Z.append("rect").attr("class","nvd3 nv-background").style("pointer-events","none"),Z.append("g").attr("class","nv-x nv-axis"),Z.append("g").attr("class","nv-y nv-axis"),Z.append("g").attr("class","nv-scatterWrap"),Z.append("g").attr("class","nv-regressionLinesWrap"),Z.append("g").attr("class","nv-distWrap"),Z.append("g").attr("class","nv-legendWrap"),Z.append("g").attr("class","nv-controlsWrap"),_.attr("transform","translate("+u.left+","+u.top+")"),b&&G.select(".nv-y.nv-axis").attr("transform","translate("+E+",0)"),v&&(o.width(E-180),_.select(".nv-legendWrap").datum(n).call(o),u.top!=o.height()&&(u.top=o.height(),Y=(d||parseInt(C.style("height"))||400)-u.top-u.bottom),_.select(".nv-legendWrap").attr("transform","translate(180,"+-u.top+")")),k&&(i.width(180).color(["#444"]),G.select(".nv-controlsWrap").datum(T).attr("transform","translate(0,"+-u.top+")").call(i)),e.width(E).height(Y).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled})),L&&e.showLabel(L),_.select(".nv-scatterWrap").datum(n.filter(function(t){return!t.disabled})).call(e),_.select(".nv-regressionLinesWrap").attr("clip-path","url(#nv-edge-clip-"+e.id()+")");var O=_.select(".nv-regressionLinesWrap").selectAll(".nv-regLines").data(function(t){return t});O.enter().append("g").attr("class","nv-regLines");{var K=O.selectAll(".nv-regLine").data(function(t){return[t]});K.enter().append("line").attr("class","nv-regLine").style("stroke-opacity",0)}K.transition().attr("x1",function(t){return"undefined"!=typeof t.slope?p.range()[0]:p(t.intercept)}).attr("x2",function(t){return"undefined"!=typeof t.slope?p.range()[1]:p(t.intercept)}).attr("y1",function(t){return"undefined"!=typeof t.slope?g(p.domain()[0]*t.slope+t.intercept):g.range()[0]}).attr("y2",function(t){return"undefined"!=typeof t.slope?g(p.domain()[1]*t.slope+t.intercept):g.range()[1]}).style("stroke",function(t,e,n){return f(t,n)}).style("stroke-opacity",function(t){return t.disabled||"undefined"==typeof t.slope&&"undefined"==typeof t.intercept?0:1}),y&&(r.scale(p).ticks(r.ticks()?r.ticks():E/100).tickSize(-Y,0),G.select(".nv-x.nv-axis").attr("transform","translate(0,"+g.range()[0]+")").call(r)),x&&(a.scale(g).ticks(a.ticks()?a.ticks():Y/36).tickSize(-E,0),G.select(".nv-y.nv-axis").call(a)),h&&(l.getData(e.x()).scale(p).width(E).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled})),Z.select(".nv-distWrap").append("g").attr("class","nv-distributionX"),G.select(".nv-distributionX").attr("transform","translate(0,"+g.range()[0]+")").datum(n.filter(function(t){return!t.disabled})).call(l)),m&&(s.getData(e.y()).scale(g).width(Y).color(n.map(function(t,e){return t.color||f(t,e)}).filter(function(t,e){return!n[e].disabled})),Z.select(".nv-distWrap").append("g").attr("class","nv-distributionY"),G.select(".nv-distributionY").attr("transform","translate("+(b?E:-s.size())+",0)").datum(n.filter(function(t){return!t.disabled})).call(s)),d3.fisheye&&(G.select(".nv-background").attr("width",E).attr("height",Y),G.select(".nv-background").on("mousemove",M),G.select(".nv-background").on("click",function(){A=!A}),e.dispatch.on("elementClick.freezeFisheye",function(){A=!A})),i.dispatch.on("legendClick",function(n){n.disabled=!n.disabled,w=n.disabled?0:2.5,G.select(".nv-background").style("pointer-events",n.disabled?"none":"all"),G.select(".nv-point-paths").style("pointer-events",n.disabled?"all":"none"),n.disabled?(p.distortion(w).focus(0),g.distortion(w).focus(0),G.select(".nv-scatterWrap").call(e),G.select(".nv-x.nv-axis").call(r),G.select(".nv-y.nv-axis").call(a)):A=!1,t.update()}),o.dispatch.on("stateChange",function(e){I=e,N.stateChange(I),t.update()}),e.dispatch.on("elementMouseover.tooltip",function(t){d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-distx-"+t.pointIndex).attr("y1",t.pos[1]-Y),d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-disty-"+t.pointIndex).attr("x2",t.pos[0]+l.size()),t.pos=[t.pos[0]+u.left,t.pos[1]+u.top],N.tooltipShow(t)}),N.on("tooltipShow",function(t){S&&H(t,D.parentNode)}),N.on("changeState",function(e){"undefined"!=typeof e.disabled&&(n.forEach(function(t,n){t.disabled=e.disabled[n]}),I.disabled=e.disabled),t.update()}),B=p.copy(),P=g.copy()}),t}var e=n.models.scatter(),r=n.models.axis(),a=n.models.axis(),o=n.models.legend(),i=n.models.legend(),l=n.models.distribution(),s=n.models.distribution();d3.fisheye=!1;var u={top:30,right:20,bottom:50,left:75},c=null,d=null,f=n.utils.defaultColor(),p=d3.fisheye?d3.fisheye.scale(d3.scale.linear).distortion(0):e.xScale(),g=d3.fisheye?d3.fisheye.scale(d3.scale.linear).distortion(0):e.yScale(),h=!1,m=!1,v=!0,y=!0,x=!0,b=!1,k=!!d3.fisheye,w=0,A=!1,S=!0,M=function(t,e){return"<strong>"+e+"</strong>"},C=function(t,e,n){return"<strong>"+n+"</strong>"},D=function(t,e,n,r){return"<h3>"+t+"</h3><p>"+r+"</p>"},I={},W=null,N=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),z="No Data Available.",F=250,L=!1;e.xScale(p).yScale(g),r.orient("bottom").tickPadding(10),a.orient(b?"right":"left").tickPadding(10),l.axis("x"),s.axis("y"),i.updateState(!1);var B,P,H=function(o,i){var l=o.pos[0]+(i.offsetLeft||0),s=o.pos[1]+(i.offsetTop||0),c=o.pos[0]+(i.offsetLeft||0),d=g.range()[0]+u.top+(i.offsetTop||0),f=p.range()[0]+u.left+(i.offsetLeft||0),h=o.pos[1]+(i.offsetTop||0),m=r.tickFormat()(e.x()(o.point,o.pointIndex)),v=a.tickFormat()(e.y()(o.point,o.pointIndex));null!=M&&n.tooltip.show([c,d],M(o.series.key,m,v,o,t),"n",1,i,"x-nvtooltip"),null!=C&&n.tooltip.show([f,h],C(o.series.key,m,v,o,t),"e",1,i,"y-nvtooltip"),null!=D&&n.tooltip.show([l,s],D(o.series.key,m,v,o.point.tooltip,o,t),o.value<0?"n":"s",null,i)},T=[{key:"Magnify",disabled:!0}];return e.dispatch.on("elementMouseout.tooltip",function(t){N.tooltipHide(t),d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-distx-"+t.pointIndex).attr("y1",0),d3.select(".nv-chart-"+e.id()+" .nv-series-"+t.seriesIndex+" .nv-disty-"+t.pointIndex).attr("x2",s.size())}),N.on("tooltipHide",function(){S&&n.tooltip.cleanup()}),t.dispatch=N,t.scatter=e,t.legend=o,t.controls=i,t.xAxis=r,t.yAxis=a,t.distX=l,t.distY=s,d3.rebind(t,e,"id","interactive","pointActive","x","y","shape","size","xScale","yScale","zScale","xDomain","yDomain","xRange","yRange","sizeDomain","sizeRange","forceX","forceY","forceSize","clipVoronoi","clipRadius","useVoronoi"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(u.top="undefined"!=typeof e.top?e.top:u.top,u.right="undefined"!=typeof e.right?e.right:u.right,u.bottom="undefined"!=typeof e.bottom?e.bottom:u.bottom,u.left="undefined"!=typeof e.left?e.left:u.left,t):u},t.width=function(e){return arguments.length?(c=e,t):c},t.height=function(e){return arguments.length?(d=e,t):d},t.color=function(e){return arguments.length?(f=n.utils.getColor(e),o.color(f),l.color(f),s.color(f),t):f},t.showDistX=function(e){return arguments.length?(h=e,t):h},t.showDistY=function(e){return arguments.length?(m=e,t):m},t.showControls=function(e){return arguments.length?(k=e,t):k},t.showLegend=function(e){return arguments.length?(v=e,t):v},t.showXAxis=function(e){return arguments.length?(y=e,t):y},t.showYAxis=function(e){return arguments.length?(x=e,t):x},t.rightAlignYAxis=function(e){return arguments.length?(b=e,a.orient(e?"right":"left"),t):b},t.fisheye=function(e){return arguments.length?(w=e,t):w},t.tooltips=function(e){return arguments.length?(S=e,t):S},t.tooltipContent=function(e){return arguments.length?(D=e,t):D},t.tooltipXContent=function(e){return arguments.length?(M=e,t):M},t.tooltipYContent=function(e){return arguments.length?(C=e,t):C},t.state=function(e){return arguments.length?(I=e,t):I},t.defaultState=function(e){return arguments.length?(W=e,t):W},t.noData=function(e){return arguments.length?(z=e,t):z},t.transitionDuration=function(e){return arguments.length?(F=e,t):F},t.showLabel=function(e){return arguments.length?(L=e,t):L},t},n.models.sparkline=function(){"use strict";function t(n){return n.each(function(t){var n=l-i.left-i.right,u=s-i.top-i.bottom,h=d3.select(this);c.domain(e||d3.extent(t,f)).range(a||[0,n]),d.domain(r||d3.extent(t,p)).range(o||[u,0]);{var m=h.selectAll("g.nv-wrap.nv-sparkline").data([t]),v=m.enter().append("g").attr("class","nvd3 nv-wrap nv-sparkline");v.append("g"),m.select("g")}m.attr("transform","translate("+i.left+","+i.top+")");var y=m.selectAll("path").data(function(t){return[t]});y.enter().append("path"),y.exit().remove(),y.style("stroke",function(t,e){return t.color||g(t,e)}).attr("d",d3.svg.line().x(function(t,e){return c(f(t,e))}).y(function(t,e){return d(p(t,e))}));var x=m.selectAll("circle.nv-point").data(function(t){function e(e){if(-1!=e){var n=t[e];return n.pointIndex=e,n}return null}var n=t.map(function(t,e){return p(t,e)}),r=e(n.lastIndexOf(d.domain()[1])),a=e(n.indexOf(d.domain()[0])),o=e(n.length-1);return[a,r,o].filter(function(t){return null!=t})});x.enter().append("circle"),x.exit().remove(),x.attr("cx",function(t){return c(f(t,t.pointIndex))}).attr("cy",function(t){return d(p(t,t.pointIndex))}).attr("r",2).attr("class",function(t){return f(t,t.pointIndex)==c.domain()[1]?"nv-point nv-currentValue":p(t,t.pointIndex)==d.domain()[0]?"nv-point nv-minValue":"nv-point nv-maxValue"})}),t}var e,r,a,o,i={top:2,right:0,bottom:2,left:0},l=400,s=32,u=!0,c=d3.scale.linear(),d=d3.scale.linear(),f=function(t){return t.x},p=function(t){return t.y},g=n.utils.getColor(["#000"]);return t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(i.top="undefined"!=typeof e.top?e.top:i.top,i.right="undefined"!=typeof e.right?e.right:i.right,i.bottom="undefined"!=typeof e.bottom?e.bottom:i.bottom,i.left="undefined"!=typeof e.left?e.left:i.left,t):i},t.width=function(e){return arguments.length?(l=e,t):l},t.height=function(e){return arguments.length?(s=e,t):s},t.x=function(e){return arguments.length?(f=d3.functor(e),t):f},t.y=function(e){return arguments.length?(p=d3.functor(e),t):p},t.xScale=function(e){return arguments.length?(c=e,t):c},t.yScale=function(e){return arguments.length?(d=e,t):d},t.xDomain=function(n){return arguments.length?(e=n,t):e},t.yDomain=function(e){return arguments.length?(r=e,t):r},t.xRange=function(e){return arguments.length?(a=e,t):a},t.yRange=function(e){return arguments.length?(o=e,t):o},t.animate=function(e){return arguments.length?(u=e,t):u},t.color=function(e){return arguments.length?(g=n.utils.getColor(e),t):g},t},n.models.sparklinePlus=function(){"use strict";function t(n){return n.each(function(f){function m(){if(!u){var t=C.selectAll(".nv-hoverValue").data(s),n=t.enter().append("g").attr("class","nv-hoverValue").style("stroke-opacity",0).style("fill-opacity",0);t.exit().transition().duration(250).style("stroke-opacity",0).style("fill-opacity",0).remove(),t.attr("transform",function(t){return"translate("+e(a.x()(f[t],t))+",0)"}).transition().duration(250).style("stroke-opacity",1).style("fill-opacity",1),s.length&&(n.append("line").attr("x1",0).attr("y1",-o.top).attr("x2",0).attr("y2",b),n.append("text").attr("class","nv-xValue").attr("x",-6).attr("y",-o.top).attr("text-anchor","end").attr("dy",".9em"),C.select(".nv-hoverValue .nv-xValue").text(c(a.x()(f[s[0]],s[0]))),n.append("text").attr("class","nv-yValue").attr("x",6).attr("y",-o.top).attr("text-anchor","start").attr("dy",".9em"),C.select(".nv-hoverValue .nv-yValue").text(d(a.y()(f[s[0]],s[0]))))}}function v(){function t(t,e){for(var n=Math.abs(a.x()(t[0],0)-e),r=0,o=0;o<t.length;o++)Math.abs(a.x()(t[o],o)-e)<n&&(n=Math.abs(a.x()(t[o],o)-e),r=o);return r}if(!u){var n=d3.mouse(this)[0]-o.left;s=[t(f,Math.round(e.invert(n)))],m()}}var y=d3.select(this),x=(i||parseInt(y.style("width"))||960)-o.left-o.right,b=(l||parseInt(y.style("height"))||400)-o.top-o.bottom;if(t.update=function(){t(n)},t.container=this,!f||!f.length){var k=y.selectAll(".nv-noData").data([h]);return k.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),k.attr("x",o.left+x/2).attr("y",o.top+b/2).text(function(t){return t}),t}y.selectAll(".nv-noData").remove();var w=a.y()(f[f.length-1],f.length-1);e=a.xScale(),r=a.yScale();var A=y.selectAll("g.nv-wrap.nv-sparklineplus").data([f]),S=A.enter().append("g").attr("class","nvd3 nv-wrap nv-sparklineplus"),M=S.append("g"),C=A.select("g");M.append("g").attr("class","nv-sparklineWrap"),M.append("g").attr("class","nv-valueWrap"),M.append("g").attr("class","nv-hoverArea"),A.attr("transform","translate("+o.left+","+o.top+")");var D=C.select(".nv-sparklineWrap");a.width(x).height(b),D.call(a);var I=C.select(".nv-valueWrap"),W=I.selectAll(".nv-currentValue").data([w]);W.enter().append("text").attr("class","nv-currentValue").attr("dx",g?-8:8).attr("dy",".9em").style("text-anchor",g?"end":"start"),W.attr("x",x+(g?o.right:0)).attr("y",p?function(t){return r(t)}:0).style("fill",a.color()(f[f.length-1],f.length-1)).text(d(w)),M.select(".nv-hoverArea").append("rect").on("mousemove",v).on("click",function(){u=!u}).on("mouseout",function(){s=[],m()}),C.select(".nv-hoverArea rect").attr("transform",function(){return"translate("+-o.left+","+-o.top+")"}).attr("width",x+o.left+o.right).attr("height",b+o.top)}),t}var e,r,a=n.models.sparkline(),o={top:15,right:100,bottom:10,left:50},i=null,l=null,s=[],u=!1,c=d3.format(",r"),d=d3.format(",.2f"),f=!0,p=!0,g=!1,h="No Data Available.";return t.sparkline=a,d3.rebind(t,a,"x","y","xScale","yScale","color"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(o.top="undefined"!=typeof e.top?e.top:o.top,o.right="undefined"!=typeof e.right?e.right:o.right,o.bottom="undefined"!=typeof e.bottom?e.bottom:o.bottom,o.left="undefined"!=typeof e.left?e.left:o.left,t):o},t.width=function(e){return arguments.length?(i=e,t):i},t.height=function(e){return arguments.length?(l=e,t):l},t.xTickFormat=function(e){return arguments.length?(c=e,t):c},t.yTickFormat=function(e){return arguments.length?(d=e,t):d},t.showValue=function(e){return arguments.length?(f=e,t):f},t.alignValue=function(e){return arguments.length?(p=e,t):p},t.rightAlignValue=function(e){return arguments.length?(g=e,t):g},t.noData=function(e){return arguments.length?(h=e,t):h},t},n.models.stackedArea=function(){"use strict";function t(n){return n.each(function(n){var d=o-a.left-a.right,y=i-a.top-a.bottom,x=d3.select(this);e=m.xScale(),r=m.yScale();var b=n;n.forEach(function(t,e){t.seriesIndex=e,t.values=t.values.map(function(t,n){return t.index=n,t.seriesIndex=e,t})});var k=n.filter(function(t){return!t.disabled});n=d3.layout.stack().order(p).offset(f).values(function(t){return t.values}).x(u).y(c).out(function(t,e,n){var r=0===c(t)?0:n;t.display={y:r,y0:e}})(k);var w=x.selectAll("g.nv-wrap.nv-stackedarea").data([n]),A=w.enter().append("g").attr("class","nvd3 nv-wrap nv-stackedarea"),S=A.append("defs"),M=A.append("g"),C=w.select("g");M.append("g").attr("class","nv-areaWrap"),M.append("g").attr("class","nv-scatterWrap"),w.attr("transform","translate("+a.left+","+a.top+")"),m.width(d).height(y).x(u).y(function(t){return t.display.y+t.display.y0}).forceY([0]).color(n.map(function(t){return t.color||l(t,t.seriesIndex)}));var D=C.select(".nv-scatterWrap").datum(n);D.call(m),S.append("clipPath").attr("id","nv-edge-clip-"+s).append("rect"),w.select("#nv-edge-clip-"+s+" rect").attr("width",d).attr("height",y),C.attr("clip-path",h?"url(#nv-edge-clip-"+s+")":"");var I=d3.svg.area().x(function(t,n){return e(u(t,n))}).y0(function(t){return r(t.display.y0)}).y1(function(t){return r(t.display.y+t.display.y0)}).interpolate(g),W=d3.svg.area().x(function(t,n){return e(u(t,n))}).y0(function(t){return r(t.display.y0)}).y1(function(t){return r(t.display.y0)}),N=C.select(".nv-areaWrap").selectAll("path.nv-area").data(function(t){return t});N.enter().append("path").attr("class",function(t,e){return"nv-area nv-area-"+e}).attr("d",function(t){return W(t.values,t.seriesIndex)}).on("mouseover",function(t){d3.select(this).classed("hover",!0),v.areaMouseover({point:t,series:t.key,pos:[d3.event.pageX,d3.event.pageY],seriesIndex:t.seriesIndex})}).on("mouseout",function(t){d3.select(this).classed("hover",!1),v.areaMouseout({point:t,series:t.key,pos:[d3.event.pageX,d3.event.pageY],seriesIndex:t.seriesIndex})}).on("click",function(t){d3.select(this).classed("hover",!1),v.areaClick({point:t,series:t.key,pos:[d3.event.pageX,d3.event.pageY],seriesIndex:t.seriesIndex})}),N.exit().remove(),N.style("fill",function(t){return t.color||l(t,t.seriesIndex)}).style("stroke",function(t){return t.color||l(t,t.seriesIndex)}),N.transition().attr("d",function(t,e){return I(t.values,e)}),m.dispatch.on("elementMouseover.area",function(t){C.select(".nv-chart-"+s+" .nv-area-"+t.seriesIndex).classed("hover",!0)}),m.dispatch.on("elementMouseout.area",function(t){C.select(".nv-chart-"+s+" .nv-area-"+t.seriesIndex).classed("hover",!1)}),t.d3_stackedOffset_stackPercent=function(t){var e,n,r,a=t.length,o=t[0].length,i=1/a,l=[];for(n=0;o>n;++n){for(e=0,r=0;e<b.length;e++)r+=c(b[e].values[n]);if(r)for(e=0;a>e;e++)t[e][n][1]/=r;else for(e=0;a>e;e++)t[e][n][1]=i}for(n=0;o>n;++n)l[n]=0;return l}}),t}var e,r,a={top:0,right:0,bottom:0,left:0},o=960,i=500,l=n.utils.defaultColor(),s=Math.floor(1e5*Math.random()),u=function(t){return t.x},c=function(t){return t.y},d="stack",f="zero",p="default",g="linear",h=!1,m=n.models.scatter(),v=d3.dispatch("tooltipShow","tooltipHide","areaClick","areaMouseover","areaMouseout");return m.size(2.2).sizeDomain([2.2,2.2]),m.dispatch.on("elementClick.area",function(t){v.areaClick(t)}),m.dispatch.on("elementMouseover.tooltip",function(t){t.pos=[t.pos[0]+a.left,t.pos[1]+a.top],v.tooltipShow(t)}),m.dispatch.on("elementMouseout.tooltip",function(t){v.tooltipHide(t)}),t.dispatch=v,t.scatter=m,d3.rebind(t,m,"interactive","size","xScale","yScale","zScale","xDomain","yDomain","xRange","yRange","sizeDomain","forceX","forceY","forceSize","clipVoronoi","useVoronoi","clipRadius","highlightPoint","clearHighlights"),t.options=n.utils.optionsFunc.bind(t),t.x=function(e){return arguments.length?(u=d3.functor(e),t):u},t.y=function(e){return arguments.length?(c=d3.functor(e),t):c},t.margin=function(e){return arguments.length?(a.top="undefined"!=typeof e.top?e.top:a.top,a.right="undefined"!=typeof e.right?e.right:a.right,a.bottom="undefined"!=typeof e.bottom?e.bottom:a.bottom,a.left="undefined"!=typeof e.left?e.left:a.left,t):a},t.width=function(e){return arguments.length?(o=e,t):o},t.height=function(e){return arguments.length?(i=e,t):i},t.clipEdge=function(e){return arguments.length?(h=e,t):h},t.color=function(e){return arguments.length?(l=n.utils.getColor(e),t):l},t.offset=function(e){return arguments.length?(f=e,t):f},t.order=function(e){return arguments.length?(p=e,t):p},t.style=function(e){if(!arguments.length)return d;switch(d=e){case"stack":t.offset("zero"),t.order("default");break;case"stream":t.offset("wiggle"),t.order("inside-out");break;case"stream-center":t.offset("silhouette"),t.order("inside-out");break;case"expand":t.offset("expand"),t.order("default");break;case"stack_percent":t.offset(t.d3_stackedOffset_stackPercent),t.order("default")}return t},t.interpolate=function(e){return arguments.length?(g=e,t):g},t},n.models.stackedAreaChart=function(){"use strict";function t(k){return k.each(function(k){var F=d3.select(this),L=this,B=(d||parseInt(F.style("width"))||960)-c.left-c.right,P=(f||parseInt(F.style("height"))||400)-c.top-c.bottom;if(t.update=function(){F.transition().duration(N).call(t)},t.container=this,A.disabled=k.map(function(t){return!!t.disabled}),!S){var H;S={};for(H in A)S[H]=A[H]instanceof Array?A[H].slice(0):A[H]}if(!(k&&k.length&&k.filter(function(t){return t.values.length}).length)){var T=F.selectAll(".nv-noData").data([M]);return T.enter().append("text").attr("class","nvd3 nv-noData").attr("dy","-.7em").style("text-anchor","middle"),T.attr("x",c.left+B/2).attr("y",c.top+P/2).text(function(t){return t}),t}F.selectAll(".nv-noData").remove(),e=a.xScale(),r=a.yScale();var E=F.selectAll("g.nv-wrap.nv-stackedAreaChart").data([k]),Y=E.enter().append("g").attr("class","nvd3 nv-wrap nv-stackedAreaChart").append("g"),R=E.select("g");if(Y.append("rect").style("opacity",0),Y.append("g").attr("class","nv-x nv-axis"),Y.append("g").attr("class","nv-y nv-axis"),Y.append("g").attr("class","nv-stackedWrap"),Y.append("g").attr("class","nv-legendWrap"),Y.append("g").attr("class","nv-controlsWrap"),Y.append("g").attr("class","nv-interactive"),R.select("rect").attr("width",B).attr("height",P),h){var V=g?B-D:B;l.width(V),R.select(".nv-legendWrap").datum(k).call(l),c.top!=l.height()&&(c.top=l.height(),P=(f||parseInt(F.style("height"))||400)-c.top-c.bottom),R.select(".nv-legendWrap").attr("transform","translate("+(B-V)+","+-c.top+")")}if(g){var _=[{key:W.stacked||"Stacked",metaKey:"Stacked",disabled:"stack"!=a.style(),style:"stack"},{key:W.stream||"Stream",metaKey:"Stream",disabled:"stream"!=a.style(),style:"stream"},{key:W.expanded||"Expanded",metaKey:"Expanded",disabled:"expand"!=a.style(),style:"expand"},{key:W.stack_percent||"Stack %",metaKey:"Stack_Percent",disabled:"stack_percent"!=a.style(),style:"stack_percent"}];D=I.length/3*260,_=_.filter(function(t){return-1!==I.indexOf(t.metaKey)}),s.width(D).color(["#444","#444","#444"]),R.select(".nv-controlsWrap").datum(_).call(s),c.top!=Math.max(s.height(),l.height())&&(c.top=Math.max(s.height(),l.height()),P=(f||parseInt(F.style("height"))||400)-c.top-c.bottom),R.select(".nv-controlsWrap").attr("transform","translate(0,"+-c.top+")")}E.attr("transform","translate("+c.left+","+c.top+")"),y&&R.select(".nv-y.nv-axis").attr("transform","translate("+B+",0)"),x&&(u.width(B).height(P).margin({left:c.left,top:c.top}).svgContainer(F).xScale(e),E.select(".nv-interactive").call(u)),a.width(B).height(P);var X=R.select(".nv-stackedWrap").datum(k);X.transition().call(a),m&&(o.scale(e).ticks(B/100).tickSize(-P,0),R.select(".nv-x.nv-axis").attr("transform","translate(0,"+P+")"),R.select(".nv-x.nv-axis").transition().duration(0).call(o)),v&&(i.scale(r).ticks("wiggle"==a.offset()?0:P/36).tickSize(-B,0).setTickFormat("expand"==a.style()||"stack_percent"==a.style()?d3.format("%"):w),R.select(".nv-y.nv-axis").transition().duration(0).call(i)),a.dispatch.on("areaClick.toggle",function(e){k.forEach(1===k.filter(function(t){return!t.disabled}).length?function(t){t.disabled=!1}:function(t,n){t.disabled=n!=e.seriesIndex}),A.disabled=k.map(function(t){return!!t.disabled}),C.stateChange(A),t.update()}),l.dispatch.on("stateChange",function(e){A.disabled=e.disabled,C.stateChange(A),t.update()}),s.dispatch.on("legendClick",function(e){e.disabled&&(_=_.map(function(t){return t.disabled=!0,t}),e.disabled=!1,a.style(e.style),A.style=a.style(),C.stateChange(A),t.update())}),u.dispatch.on("elementMousemove",function(e){a.clearHighlights();var r,l,s,d=[];if(k.filter(function(t,e){return t.seriesIndex=e,!t.disabled}).forEach(function(o,i){l=n.interactiveBisect(o.values,e.pointXValue,t.x()),a.highlightPoint(i,l,!0);var u=o.values[l];if("undefined"!=typeof u){"undefined"==typeof r&&(r=u),"undefined"==typeof s&&(s=t.xScale()(t.x()(u,l)));var c="expand"==a.style()?u.display.y:t.y()(u,l);d.push({key:o.key,value:c,color:p(o,o.seriesIndex),stackedValue:u.display})}}),d.reverse(),d.length>2){var f=t.yScale().invert(e.mouseY),g=null;d.forEach(function(t,e){f=Math.abs(f);var n=Math.abs(t.stackedValue.y0),r=Math.abs(t.stackedValue.y);return f>=n&&r+n>=f?void(g=e):void 0}),null!=g&&(d[g].highlight=!0)}var h=o.tickFormat()(t.x()(r,l)),m="expand"==a.style()?function(t){return d3.format(".1%")(t)}:function(t){return i.tickFormat()(t)};u.tooltip.position({left:s+c.left,top:e.mouseY+c.top}).chartContainer(L.parentNode).enabled(b).valueFormatter(m).data({value:h,series:d})(),u.renderGuideLine(s)}),u.dispatch.on("elementMouseout",function(){C.tooltipHide(),a.clearHighlights()}),C.on("tooltipShow",function(t){b&&z(t,L.parentNode)}),C.on("changeState",function(e){"undefined"!=typeof e.disabled&&k.length===e.disabled.length&&(k.forEach(function(t,n){t.disabled=e.disabled[n]}),A.disabled=e.disabled),"undefined"!=typeof e.style&&a.style(e.style),t.update()})}),t}var e,r,a=n.models.stackedArea(),o=n.models.axis(),i=n.models.axis(),l=n.models.legend(),s=n.models.legend(),u=n.interactiveGuideline(),c={top:30,right:25,bottom:50,left:60},d=null,f=null,p=n.utils.defaultColor(),g=!0,h=!0,m=!0,v=!0,y=!1,x=!1,b=!0,k=function(t,e,n){return"<h3>"+t+"</h3><p>"+n+" on "+e+"</p>"},w=d3.format(",.2f"),A={style:a.style()},S=null,M="No Data Available.",C=d3.dispatch("tooltipShow","tooltipHide","stateChange","changeState"),D=250,I=["Stacked","Stream","Expanded"],W={},N=250;o.orient("bottom").tickPadding(7),i.orient(y?"right":"left"),s.updateState(!1);var z=function(e,r){var l=e.pos[0]+(r.offsetLeft||0),s=e.pos[1]+(r.offsetTop||0),u=o.tickFormat()(a.x()(e.point,e.pointIndex)),c=i.tickFormat()(a.y()(e.point,e.pointIndex)),d=k(e.series.key,u,c,e,t);n.tooltip.show([l,s],d,e.value<0?"n":"s",null,r)};return a.dispatch.on("tooltipShow",function(t){t.pos=[t.pos[0]+c.left,t.pos[1]+c.top],C.tooltipShow(t)}),a.dispatch.on("tooltipHide",function(t){C.tooltipHide(t)}),C.on("tooltipHide",function(){b&&n.tooltip.cleanup()}),t.dispatch=C,t.stacked=a,t.legend=l,t.controls=s,t.xAxis=o,t.yAxis=i,t.interactiveLayer=u,d3.rebind(t,a,"x","y","size","xScale","yScale","xDomain","yDomain","xRange","yRange","sizeDomain","interactive","useVoronoi","offset","order","style","clipEdge","forceX","forceY","forceSize","interpolate"),t.options=n.utils.optionsFunc.bind(t),t.margin=function(e){return arguments.length?(c.top="undefined"!=typeof e.top?e.top:c.top,c.right="undefined"!=typeof e.right?e.right:c.right,c.bottom="undefined"!=typeof e.bottom?e.bottom:c.bottom,c.left="undefined"!=typeof e.left?e.left:c.left,t):c},t.width=function(e){return arguments.length?(d=e,t):d},t.height=function(e){return arguments.length?(f=e,t):f},t.color=function(e){return arguments.length?(p=n.utils.getColor(e),l.color(p),a.color(p),t):p},t.showControls=function(e){return arguments.length?(g=e,t):g},t.showLegend=function(e){return arguments.length?(h=e,t):h},t.showXAxis=function(e){return arguments.length?(m=e,t):m},t.showYAxis=function(e){return arguments.length?(v=e,t):v},t.rightAlignYAxis=function(e){return arguments.length?(y=e,i.orient(e?"right":"left"),t):y},t.useInteractiveGuideline=function(e){return arguments.length?(x=e,e===!0&&(t.interactive(!1),t.useVoronoi(!1)),t):x},t.tooltip=function(e){return arguments.length?(k=e,t):k},t.tooltips=function(e){return arguments.length?(b=e,t):b},t.tooltipContent=function(e){return arguments.length?(k=e,t):k},t.state=function(e){return arguments.length?(A=e,t):A},t.defaultState=function(e){return arguments.length?(S=e,t):S},t.noData=function(e){return arguments.length?(M=e,t):M},t.transitionDuration=function(e){return arguments.length?(N=e,t):N},t.controlsData=function(e){return arguments.length?(I=e,t):I},t.controlLabels=function(e){return arguments.length?"object"!=typeof e?W:(W=e,t):W},i.setTickFormat=i.tickFormat,i.tickFormat=function(t){return arguments.length?(w=t,i):w},t}}();
+  });
 }
 
 // ********************************************
@@ -139,257 +124,7 @@ d3.time.monthEnds = d3_time_range(d3.time.monthEnd, function(date) {
   }
 );
 
-/* Utility class to handle creation of an interactive layer.
-This places a rectangle on top of the chart. When you mouse move over it, it sends a dispatch
-containing the X-coordinate. It can also render a vertical line where the mouse is located.
-
-dispatch.elementMousemove is the important event to latch onto.  It is fired whenever the mouse moves over
-the rectangle. The dispatch is given one object which contains the mouseX/Y location.
-It also has 'pointXValue', which is the conversion of mouseX to the x-axis scale.
-*/
-nv.interactiveGuideline = function() {
-  "use strict";
-  var tooltip = nv.models.tooltip();
-  //Public settings
-  var width = null
-  , height = null
-    //Please pass in the bounding chart's top and left margins
-    //This is important for calculating the correct mouseX/Y positions.
-  , margin = {left: 0, top: 0}
-  , xScale = d3.scale.linear()
-  , yScale = d3.scale.linear()
-  , dispatch = d3.dispatch('elementMousemove', 'elementMouseout','elementDblclick')
-  , showGuideLine = true
-  , svgContainer = null  
-    //Must pass in the bounding chart's <svg> container.
-    //The mousemove event is attached to this container.
-  ;
-
-  //Private variables
-  var isMSIE = navigator.userAgent.indexOf("MSIE") !== -1  //Check user-agent for Microsoft Internet Explorer.
-  ;
-
-
-  function layer(selection) {
-    selection.each(function(data) {
-        var container = d3.select(this);
-        
-        var availableWidth = (width || 960), availableHeight = (height || 400);
-
-        var wrap = container.selectAll("g.nv-wrap.nv-interactiveLineLayer").data([data]);
-        var wrapEnter = wrap.enter()
-                .append("g").attr("class", " nv-wrap nv-interactiveLineLayer");
-                
-        
-        wrapEnter.append("g").attr("class","nv-interactiveGuideLine");
-        
-        if (!svgContainer) {
-          return;
-        }
-
-                function mouseHandler() {
-                      var d3mouse = d3.mouse(this);
-                      var mouseX = d3mouse[0];
-                      var mouseY = d3mouse[1];
-                      var subtractMargin = true;
-                      var mouseOutAnyReason = false;
-                      if (isMSIE) {
-                         /*
-                            D3.js (or maybe SVG.getScreenCTM) has a nasty bug in Internet Explorer 10.
-                            d3.mouse() returns incorrect X,Y mouse coordinates when mouse moving
-                            over a rect in IE 10.
-                            However, d3.event.offsetX/Y also returns the mouse coordinates
-                            relative to the triggering <rect>. So we use offsetX/Y on IE.  
-                         */
-                         mouseX = d3.event.offsetX;
-                         mouseY = d3.event.offsetY;
-
-                         /*
-                            On IE, if you attach a mouse event listener to the <svg> container,
-                            it will actually trigger it for all the child elements (like <path>, <circle>, etc).
-                            When this happens on IE, the offsetX/Y is set to where ever the child element
-                            is located.
-                            As a result, we do NOT need to subtract margins to figure out the mouse X/Y
-                            position under this scenario. Removing the line below *will* cause 
-                            the interactive layer to not work right on IE.
-                         */
-                         if(d3.event.target.tagName !== "svg")
-                            subtractMargin = false;
-
-                         if (d3.event.target.className.baseVal.match("nv-legend"))
-                          mouseOutAnyReason = true;
-                          
-                      }
-
-                      if(subtractMargin) {
-                         mouseX -= margin.left;
-                         mouseY -= margin.top;
-                      }
-
-                      /* If mouseX/Y is outside of the chart's bounds,
-                      trigger a mouseOut event.
-                      */
-                      if (mouseX < 0 || mouseY < 0 
-                        || mouseX > availableWidth || mouseY > availableHeight
-                        || (d3.event.relatedTarget && d3.event.relatedTarget.ownerSVGElement === undefined)
-                        || mouseOutAnyReason
-                        ) 
-                      {
-                          if (isMSIE) {
-                            if (d3.event.relatedTarget 
-                              && d3.event.relatedTarget.ownerSVGElement === undefined
-                              && d3.event.relatedTarget.className.match(tooltip.nvPointerEventsClass)) {
-                              return;
-                            }
-                          }
-                            dispatch.elementMouseout({
-                               mouseX: mouseX,
-                               mouseY: mouseY
-                            });
-                            layer.renderGuideLine(null); //hide the guideline
-                            return;
-                      }
-                      
-                      var pointXValue = xScale.invert(mouseX);
-                      dispatch.elementMousemove({
-                            mouseX: mouseX,
-                            mouseY: mouseY,
-                            pointXValue: pointXValue
-                      });
-
-                      //If user double clicks the layer, fire a elementDblclick dispatch.
-                      if (d3.event.type === "dblclick") {
-                        dispatch.elementDblclick({
-                            mouseX: mouseX,
-                            mouseY: mouseY,
-                            pointXValue: pointXValue
-                        });
-                      }
-                }
-
-        svgContainer
-              .on("mousemove",mouseHandler, true)
-              .on("mouseout" ,mouseHandler,true)
-                      .on("dblclick" ,mouseHandler)
-              ;
-
-         //Draws a vertical guideline at the given X postion.
-        layer.renderGuideLine = function(x) {
-          if (!showGuideLine) return;
-          var line = wrap.select(".nv-interactiveGuideLine")
-                .selectAll("line")
-                .data((x != null) ? [nv.utils.NaNtoZero(x)] : [], String);
-
-          line.enter()
-            .append("line")
-            .attr("class", "nv-guideline")
-            .attr("x1", function(d) { return d;})
-            .attr("x2", function(d) { return d;})
-            .attr("y1", availableHeight)
-            .attr("y2",0)
-            ;
-          line.exit().remove();
-
-        }
-    });
-  }
-
-  layer.dispatch = dispatch;
-  layer.tooltip = tooltip;
-
-  layer.margin = function(_) {
-      if (!arguments.length) return margin;
-      margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
-      margin.left   = typeof _.left   != 'undefined' ? _.left   : margin.left;
-      return layer;
-    };
-
-  layer.width = function(_) {
-    if (!arguments.length) return width;
-    width = _;
-    return layer;
-  };
-
-  layer.height = function(_) {
-    if (!arguments.length) return height;
-    height = _;
-    return layer;
-  };
-
-  layer.xScale = function(_) {
-    if (!arguments.length) return xScale;
-    xScale = _;
-    return layer;
-  };
-
-  layer.showGuideLine = function(_) {
-    if (!arguments.length) return showGuideLine;
-    showGuideLine = _;
-    return layer;
-  };
-
-  layer.svgContainer = function(_) {
-    if (!arguments.length) return svgContainer;
-    svgContainer = _;
-    return layer;
-  };
-
-
-  return layer;
-};
-
-/* Utility class that uses d3.bisect to find the index in a given array, where a search value can be inserted.
-This is different from normal bisectLeft; this function finds the nearest index to insert the search value.
-
-For instance, lets say your array is [1,2,3,5,10,30], and you search for 28. 
-Normal d3.bisectLeft will return 4, because 28 is inserted after the number 10.  But interactiveBisect will return 5
-because 28 is closer to 30 than 10.
-
-Unit tests can be found in: interactiveBisectTest.html
-
-Has the following known issues:
-   * Will not work if the data points move backwards (ie, 10,9,8,7, etc) or if the data points are in random order.
-   * Won't work if there are duplicate x coordinate values.
-*/
-nv.interactiveBisect = function (values, searchVal, xAccessor) {
-    "use strict";
-      if (! values instanceof Array) return null;
-      if (typeof xAccessor !== 'function') xAccessor = function(d,i) { return d.x;}
-
-      var bisect = d3.bisector(xAccessor).left;
-      var index = d3.max([0, bisect(values,searchVal) - 1]);
-      var currentValue = xAccessor(values[index], index);
-      if (typeof currentValue === 'undefined') currentValue = index;
-
-      if (currentValue === searchVal) return index;  //found exact match
-
-      var nextIndex = d3.min([index+1, values.length - 1]);
-      var nextValue = xAccessor(values[nextIndex], nextIndex);
-      if (typeof nextValue === 'undefined') nextValue = nextIndex;
-
-      if (Math.abs(nextValue - searchVal) >= Math.abs(currentValue - searchVal))
-          return index;
-      else
-          return nextIndex
-};
-
-/*
-Returns the index in the array "values" that is closest to searchVal.
-Only returns an index if searchVal is within some "threshold".
-Otherwise, returns null.
-*/
-nv.nearestValueIndex = function (values, searchVal, threshold) {
-      "use strict";
-      var yDistMax = Infinity, indexToHighlight = null;
-      values.forEach(function(d,i) {
-         var delta = Math.abs(searchVal - d);
-         if ( delta <= yDistMax && delta < threshold) {
-            yDistMax = delta;
-            indexToHighlight = i;
-         }
-      });
-      return indexToHighlight;
-};/* Tooltip rendering model for nvd3 charts.
+/* Tooltip rendering model for nvd3 charts.
 window.nv.models.tooltip is the updated,new way to render tooltips.
 
 window.nv.tooltip.show is the old tooltip code.
@@ -879,159 +614,7 @@ window.nv.tooltip.* also has various helper methods.
     };
 
 })();
-
-nv.utils.windowSize = function() {
-    // Sane defaults
-    var size = {width: 640, height: 480};
-
-    // Earlier IE uses Doc.body
-    if (document.body && document.body.offsetWidth) {
-        size.width = document.body.offsetWidth;
-        size.height = document.body.offsetHeight;
-    }
-
-    // IE can use depending on mode it is in
-    if (document.compatMode=='CSS1Compat' &&
-        document.documentElement &&
-        document.documentElement.offsetWidth ) {
-        size.width = document.documentElement.offsetWidth;
-        size.height = document.documentElement.offsetHeight;
-    }
-
-    // Most recent browsers use
-    if (window.innerWidth && window.innerHeight) {
-        size.width = window.innerWidth;
-        size.height = window.innerHeight;
-    }
-    return (size);
-};
-
-
-
-// Easy way to bind multiple functions to window.onresize
-// TODO: give a way to remove a function after its bound, other than removing all of them
-nv.utils.windowResize = function(fun){
-  if (fun === undefined) return;
-  var oldresize = window.onresize;
-
-  window.onresize = function(e) {
-    if (typeof oldresize == 'function') oldresize(e);
-    fun(e);
-  }
-}
-
-// Backwards compatible way to implement more d3-like coloring of graphs.
-// If passed an array, wrap it in a function which implements the old default
-// behavior
-nv.utils.getColor = function(color) {
-    if (!arguments.length) return nv.utils.defaultColor(); //if you pass in nothing, get default colors back
-
-    if( Object.prototype.toString.call( color ) === '[object Array]' )
-        return function(d, i) { return d.color || color[i % color.length]; };
-    else
-        return color;
-        //can't really help it if someone passes rubbish as color
-}
-
-// Default color chooser uses the index of an object as before.
-nv.utils.defaultColor = function() {
-    var colors = d3.scale.category20().range();
-    return function(d, i) { return d.color || colors[i % colors.length] };
-}
-
-
-// Returns a color function that takes the result of 'getKey' for each series and
-// looks for a corresponding color from the dictionary,
-nv.utils.customTheme = function(dictionary, getKey, defaultColors) {
-  getKey = getKey || function(series) { return series.key }; // use default series.key if getKey is undefined
-  defaultColors = defaultColors || d3.scale.category20().range(); //default color function
-
-  var defIndex = defaultColors.length; //current default color (going in reverse)
-
-  return function(series, index) {
-    var key = getKey(series);
-
-    if (!defIndex) defIndex = defaultColors.length; //used all the default colors, start over
-
-    if (typeof dictionary[key] !== "undefined")
-      return (typeof dictionary[key] === "function") ? dictionary[key]() : dictionary[key];
-    else
-      return defaultColors[--defIndex]; // no match in dictionary, use default color
-  }
-}
-
-
-
-// From the PJAX example on d3js.org, while this is not really directly needed
-// it's a very cool method for doing pjax, I may expand upon it a little bit,
-// open to suggestions on anything that may be useful
-nv.utils.pjax = function(links, content) {
-  d3.selectAll(links).on("click", function() {
-    history.pushState(this.href, this.textContent, this.href);
-    load(this.href);
-    d3.event.preventDefault();
-  });
-
-  function load(href) {
-    d3.html(href, function(fragment) {
-      var target = d3.select(content).node();
-      target.parentNode.replaceChild(d3.select(fragment).select(content).node(), target);
-      nv.utils.pjax(links, content);
-    });
-  }
-
-  d3.select(window).on("popstate", function() {
-    if (d3.event.state) load(d3.event.state);
-  });
-}
-
-/* For situations where we want to approximate the width in pixels for an SVG:text element.
-Most common instance is when the element is in a display:none; container.
-Forumla is : text.length * font-size * constant_factor
-*/
-nv.utils.calcApproxTextWidth = function (svgTextElem) {
-    if (typeof svgTextElem.style === 'function'
-        && typeof svgTextElem.text === 'function') {
-        var fontSize = parseInt(svgTextElem.style("font-size").replace("px",""));
-        var textLength = svgTextElem.text().length;
-
-        return textLength * fontSize * 0.5;
-    }
-    return 0;
-};
-
-/* Numbers that are undefined, null or NaN, convert them to zeros.
-*/
-nv.utils.NaNtoZero = function(n) {
-    if (typeof n !== 'number'
-        || isNaN(n)
-        || n === null
-        || n === Infinity) return 0;
-
-    return n;
-};
-
-/*
-Snippet of code you can insert into each nv.models.* to give you the ability to
-do things like:
-chart.options({
-  showXAxis: true,
-  tooltips: true
-});
-
-To enable in the chart:
-chart.options = nv.utils.optionsFunc.bind(chart);
-*/
-nv.utils.optionsFunc = function(args) {
-    if (args) {
-      d3.map(args).forEach((function(key,value) {
-        if (typeof this[key] === "function") {
-           this[key](value);
-        }
-      }).bind(this));
-    }
-    return this;
-};nv.models.axis = function() {
+nv.models.axis = function() {
   "use strict";
   //============================================================
   // Public Variables with Default Settings
@@ -1436,33 +1019,28 @@ nv.utils.optionsFunc = function(args) {
 
   return chart;
 }
-//TODO: consider deprecating and using multibar with single series for this
-nv.models.historicalBar = function() {
+
+nv.models.chartName = function() {
   "use strict";
   //============================================================
   // Public Variables with Default Settings
   //------------------------------------------------------------
 
-  var margin = {top: 0, right: 0, bottom: 0, left: 0}
+
+  var margin = {top: 30, right: 10, bottom: 10, left: 10}
     , width = 960
     , height = 500
-    , id = Math.floor(Math.random() * 10000) //Create semi-unique ID in case user doesn't select one
-    , x = d3.scale.linear()
-    , y = d3.scale.linear()
-    , getX = function(d) { return d.x }
-    , getY = function(d) { return d.y }
-    , forceX = []
-    , forceY = [0]
-    , padData = false
-    , clipEdge = true
-    , color = nv.utils.defaultColor()
-    , xDomain
-    , yDomain
-    , xRange
-    , yRange
-    , dispatch = d3.dispatch('chartClick', 'elementClick', 'elementDblClick', 'elementMouseover', 'elementMouseout')
-    , interactive = true
+    , color = nv.utils.getColor(d3.scale.category20c().range())
+    , dispatch = d3.dispatch('stateChange', 'changeState')
     ;
+
+  //============================================================
+
+
+  //============================================================
+  // Private Variables
+  //------------------------------------------------------------
+
 
   //============================================================
 
@@ -1477,27 +1055,6 @@ nv.models.historicalBar = function() {
       //------------------------------------------------------------
       // Setup Scales
 
-      x   .domain(xDomain || d3.extent(data[0].values.map(getX).concat(forceX) ))
-
-      if (padData)
-        x.range(xRange || [availableWidth * .5 / data[0].values.length, availableWidth * (data[0].values.length - .5)  / data[0].values.length ]);
-      else
-        x.range(xRange || [0, availableWidth]);
-
-      y   .domain(yDomain || d3.extent(data[0].values.map(getY).concat(forceY) ))
-          .range(yRange || [availableHeight, 0]);
-
-      // If scale's domain don't have a range, slightly adjust to make one... so a chart can show a single data point
-
-      if (x.domain()[0] === x.domain()[1])
-        x.domain()[0] ?
-            x.domain([x.domain()[0] - x.domain()[0] * 0.01, x.domain()[1] + x.domain()[1] * 0.01])
-          : x.domain([-1,1]);
-
-      if (y.domain()[0] === y.domain()[1])
-        y.domain()[0] ?
-            y.domain([y.domain()[0] + y.domain()[0] * 0.01, y.domain()[1] - y.domain()[1] * 0.01])
-          : y.domain([-1,1]);
 
       //------------------------------------------------------------
 
@@ -1505,164 +1062,35 @@ nv.models.historicalBar = function() {
       //------------------------------------------------------------
       // Setup containers and skeleton of chart
 
-      var wrap = container.selectAll('g.nv-wrap.nv-historicalBar-' + id).data([data[0].values]);
-      var wrapEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-historicalBar-' + id);
-      var defsEnter = wrapEnter.append('defs');
+      var wrap = container.selectAll('g.nv-wrap.nv-chartName').data([data]);
+      var wrapEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-chartName');
       var gEnter = wrapEnter.append('g');
-      var g = wrap.select('g');
+      var g = wrap.select('g')
 
-      gEnter.append('g').attr('class', 'nv-bars');
+      gEnter.append('g').attr('class', 'nv-mainWrap');
 
       wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
       //------------------------------------------------------------
 
 
-      container
-          .on('click', function(d,i) {
-            dispatch.chartClick({
-                data: d,
-                index: i,
-                pos: d3.event,
-                id: id
-            });
-          });
 
-
-      defsEnter.append('clipPath')
-          .attr('id', 'nv-chart-clip-path-' + id)
-        .append('rect');
-
-      wrap.select('#nv-chart-clip-path-' + id + ' rect')
-          .attr('width', availableWidth)
-          .attr('height', availableHeight);
-
-      g   .attr('clip-path', clipEdge ? 'url(#nv-chart-clip-path-' + id + ')' : '');
-
-
-
-      var bars = wrap.select('.nv-bars').selectAll('.nv-bar')
-          .data(function(d) { return d }, function(d,i) {return getX(d,i)});
-
-      bars.exit().remove();
-
-
-      var barsEnter = bars.enter().append('rect')
-          //.attr('class', function(d,i,j) { return (getY(d,i) < 0 ? 'nv-bar negative' : 'nv-bar positive') + ' nv-bar-' + j + '-' + i })
-          .attr('x', 0 )
-          .attr('y', function(d,i) {  return nv.utils.NaNtoZero(y(Math.max(0, getY(d,i)))) })
-          .attr('height', function(d,i) { return nv.utils.NaNtoZero(Math.abs(y(getY(d,i)) - y(0))) })
-          .attr('transform', function(d,i) { return 'translate(' + (x(getX(d,i)) - availableWidth / data[0].values.length * .45) + ',0)'; }) 
-          .on('mouseover', function(d,i) {
-            if (!interactive) return;
-            d3.select(this).classed('hover', true);
-            dispatch.elementMouseover({
-                point: d,
-                series: data[0],
-                pos: [x(getX(d,i)), y(getY(d,i))],  // TODO: Figure out why the value appears to be shifted
-                pointIndex: i,
-                seriesIndex: 0,
-                e: d3.event
-            });
-
-          })
-          .on('mouseout', function(d,i) {
-                if (!interactive) return;
-                d3.select(this).classed('hover', false);
-                dispatch.elementMouseout({
-                    point: d,
-                    series: data[0],
-                    pointIndex: i,
-                    seriesIndex: 0,
-                    e: d3.event
-                });
-          })
-          .on('click', function(d,i) {
-                if (!interactive) return;
-                dispatch.elementClick({
-                    //label: d[label],
-                    value: getY(d,i),
-                    data: d,
-                    index: i,
-                    pos: [x(getX(d,i)), y(getY(d,i))],
-                    e: d3.event,
-                    id: id
-                });
-              d3.event.stopPropagation();
-          })
-          .on('dblclick', function(d,i) {
-              if (!interactive) return;
-              dispatch.elementDblClick({
-                  //label: d[label],
-                  value: getY(d,i),
-                  data: d,
-                  index: i,
-                  pos: [x(getX(d,i)), y(getY(d,i))],
-                  e: d3.event,
-                  id: id
-              });
-              d3.event.stopPropagation();
-          });
-
-      bars
-          .attr('fill', function(d,i) { return color(d, i); })
-          .attr('class', function(d,i,j) { return (getY(d,i) < 0 ? 'nv-bar negative' : 'nv-bar positive') + ' nv-bar-' + j + '-' + i })
-          .transition()
-          .attr('transform', function(d,i) { return 'translate(' + (x(getX(d,i)) - availableWidth / data[0].values.length * .45) + ',0)'; }) 
-           //TODO: better width calculations that don't assume always uniform data spacing;w
-          .attr('width', (availableWidth / data[0].values.length) * .9 );
-
-
-      bars.transition()
-          .attr('y', function(d,i) {
-            var rval = getY(d,i) < 0 ?
-                    y(0) :
-                    y(0) - y(getY(d,i)) < 1 ?
-                      y(0) - 1 :
-                      y(getY(d,i));
-            return nv.utils.NaNtoZero(rval);
-          })
-          .attr('height', function(d,i) { return nv.utils.NaNtoZero(Math.max(Math.abs(y(getY(d,i)) - y(0)),1)) });
 
     });
 
     return chart;
   }
 
-  //Create methods to allow outside functions to highlight a specific bar.
-  chart.highlightPoint = function(pointIndex, isHoverOver) {
-      d3.select(".nv-historicalBar-" + id)
-        .select(".nv-bars .nv-bar-0-" + pointIndex)
-              .classed("hover", isHoverOver)
-               ;
-  };
 
-  chart.clearHighlights = function() {
-      d3.select(".nv-historicalBar-" + id)
-        .select(".nv-bars .nv-bar.hover")
-              .classed("hover", false)
-               ;
-  };
   //============================================================
   // Expose Public Variables
   //------------------------------------------------------------
+
 
   chart.dispatch = dispatch;
 
   chart.options = nv.utils.optionsFunc.bind(chart);
   
-  chart.x = function(_) {
-    if (!arguments.length) return getX;
-    getX = _;
-    return chart;
-  };
-
-  chart.y = function(_) {
-    if (!arguments.length) return getY;
-    getY = _;
-    return chart;
-  };
-
   chart.margin = function(_) {
     if (!arguments.length) return margin;
     margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
@@ -1684,81 +1112,9 @@ nv.models.historicalBar = function() {
     return chart;
   };
 
-  chart.xScale = function(_) {
-    if (!arguments.length) return x;
-    x = _;
-    return chart;
-  };
-
-  chart.yScale = function(_) {
-    if (!arguments.length) return y;
-    y = _;
-    return chart;
-  };
-
-  chart.xDomain = function(_) {
-    if (!arguments.length) return xDomain;
-    xDomain = _;
-    return chart;
-  };
-
-  chart.yDomain = function(_) {
-    if (!arguments.length) return yDomain;
-    yDomain = _;
-    return chart;
-  };
-
-  chart.xRange = function(_) {
-    if (!arguments.length) return xRange;
-    xRange = _;
-    return chart;
-  };
-
-  chart.yRange = function(_) {
-    if (!arguments.length) return yRange;
-    yRange = _;
-    return chart;
-  };
-
-  chart.forceX = function(_) {
-    if (!arguments.length) return forceX;
-    forceX = _;
-    return chart;
-  };
-
-  chart.forceY = function(_) {
-    if (!arguments.length) return forceY;
-    forceY = _;
-    return chart;
-  };
-
-  chart.padData = function(_) {
-    if (!arguments.length) return padData;
-    padData = _;
-    return chart;
-  };
-
-  chart.clipEdge = function(_) {
-    if (!arguments.length) return clipEdge;
-    clipEdge = _;
-    return chart;
-  };
-
   chart.color = function(_) {
     if (!arguments.length) return color;
-    color = nv.utils.getColor(_);
-    return chart;
-  };
-
-  chart.id = function(_) {
-    if (!arguments.length) return id;
-    id = _;
-    return chart;
-  };
-
-  chart.interactive = function(_) {
-    if(!arguments.length) return interactive;
-    interactive = false;
+    color = nv.utils.getColor(_)
     return chart;
   };
 
@@ -4108,6 +3464,337 @@ nv.models.distribution = function() {
 
   return chart;
 }
+//TODO: consider deprecating and using multibar with single series for this
+nv.models.historicalBar = function() {
+  "use strict";
+  //============================================================
+  // Public Variables with Default Settings
+  //------------------------------------------------------------
+
+  var margin = {top: 0, right: 0, bottom: 0, left: 0}
+    , width = 960
+    , height = 500
+    , id = Math.floor(Math.random() * 10000) //Create semi-unique ID in case user doesn't select one
+    , x = d3.scale.linear()
+    , y = d3.scale.linear()
+    , getX = function(d) { return d.x }
+    , getY = function(d) { return d.y }
+    , forceX = []
+    , forceY = [0]
+    , padData = false
+    , clipEdge = true
+    , color = nv.utils.defaultColor()
+    , xDomain
+    , yDomain
+    , xRange
+    , yRange
+    , dispatch = d3.dispatch('chartClick', 'elementClick', 'elementDblClick', 'elementMouseover', 'elementMouseout')
+    , interactive = true
+    ;
+
+  //============================================================
+
+
+  function chart(selection) {
+    selection.each(function(data) {
+      var availableWidth = width - margin.left - margin.right,
+          availableHeight = height - margin.top - margin.bottom,
+          container = d3.select(this);
+
+
+      //------------------------------------------------------------
+      // Setup Scales
+
+      x   .domain(xDomain || d3.extent(data[0].values.map(getX).concat(forceX) ))
+
+      if (padData)
+        x.range(xRange || [availableWidth * .5 / data[0].values.length, availableWidth * (data[0].values.length - .5)  / data[0].values.length ]);
+      else
+        x.range(xRange || [0, availableWidth]);
+
+      y   .domain(yDomain || d3.extent(data[0].values.map(getY).concat(forceY) ))
+          .range(yRange || [availableHeight, 0]);
+
+      // If scale's domain don't have a range, slightly adjust to make one... so a chart can show a single data point
+
+      if (x.domain()[0] === x.domain()[1])
+        x.domain()[0] ?
+            x.domain([x.domain()[0] - x.domain()[0] * 0.01, x.domain()[1] + x.domain()[1] * 0.01])
+          : x.domain([-1,1]);
+
+      if (y.domain()[0] === y.domain()[1])
+        y.domain()[0] ?
+            y.domain([y.domain()[0] + y.domain()[0] * 0.01, y.domain()[1] - y.domain()[1] * 0.01])
+          : y.domain([-1,1]);
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup containers and skeleton of chart
+
+      var wrap = container.selectAll('g.nv-wrap.nv-historicalBar-' + id).data([data[0].values]);
+      var wrapEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-historicalBar-' + id);
+      var defsEnter = wrapEnter.append('defs');
+      var gEnter = wrapEnter.append('g');
+      var g = wrap.select('g');
+
+      gEnter.append('g').attr('class', 'nv-bars');
+
+      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      //------------------------------------------------------------
+
+
+      container
+          .on('click', function(d,i) {
+            dispatch.chartClick({
+                data: d,
+                index: i,
+                pos: d3.event,
+                id: id
+            });
+          });
+
+
+      defsEnter.append('clipPath')
+          .attr('id', 'nv-chart-clip-path-' + id)
+        .append('rect');
+
+      wrap.select('#nv-chart-clip-path-' + id + ' rect')
+          .attr('width', availableWidth)
+          .attr('height', availableHeight);
+
+      g   .attr('clip-path', clipEdge ? 'url(#nv-chart-clip-path-' + id + ')' : '');
+
+
+
+      var bars = wrap.select('.nv-bars').selectAll('.nv-bar')
+          .data(function(d) { return d }, function(d,i) {return getX(d,i)});
+
+      bars.exit().remove();
+
+
+      var barsEnter = bars.enter().append('rect')
+          //.attr('class', function(d,i,j) { return (getY(d,i) < 0 ? 'nv-bar negative' : 'nv-bar positive') + ' nv-bar-' + j + '-' + i })
+          .attr('x', 0 )
+          .attr('y', function(d,i) {  return nv.utils.NaNtoZero(y(Math.max(0, getY(d,i)))) })
+          .attr('height', function(d,i) { return nv.utils.NaNtoZero(Math.abs(y(getY(d,i)) - y(0))) })
+          .attr('transform', function(d,i) { return 'translate(' + (x(getX(d,i)) - availableWidth / data[0].values.length * .45) + ',0)'; }) 
+          .on('mouseover', function(d,i) {
+            if (!interactive) return;
+            d3.select(this).classed('hover', true);
+            dispatch.elementMouseover({
+                point: d,
+                series: data[0],
+                pos: [x(getX(d,i)), y(getY(d,i))],  // TODO: Figure out why the value appears to be shifted
+                pointIndex: i,
+                seriesIndex: 0,
+                e: d3.event
+            });
+
+          })
+          .on('mouseout', function(d,i) {
+                if (!interactive) return;
+                d3.select(this).classed('hover', false);
+                dispatch.elementMouseout({
+                    point: d,
+                    series: data[0],
+                    pointIndex: i,
+                    seriesIndex: 0,
+                    e: d3.event
+                });
+          })
+          .on('click', function(d,i) {
+                if (!interactive) return;
+                dispatch.elementClick({
+                    //label: d[label],
+                    value: getY(d,i),
+                    data: d,
+                    index: i,
+                    pos: [x(getX(d,i)), y(getY(d,i))],
+                    e: d3.event,
+                    id: id
+                });
+              d3.event.stopPropagation();
+          })
+          .on('dblclick', function(d,i) {
+              if (!interactive) return;
+              dispatch.elementDblClick({
+                  //label: d[label],
+                  value: getY(d,i),
+                  data: d,
+                  index: i,
+                  pos: [x(getX(d,i)), y(getY(d,i))],
+                  e: d3.event,
+                  id: id
+              });
+              d3.event.stopPropagation();
+          });
+
+      bars
+          .attr('fill', function(d,i) { return color(d, i); })
+          .attr('class', function(d,i,j) { return (getY(d,i) < 0 ? 'nv-bar negative' : 'nv-bar positive') + ' nv-bar-' + j + '-' + i })
+          .transition()
+          .attr('transform', function(d,i) { return 'translate(' + (x(getX(d,i)) - availableWidth / data[0].values.length * .45) + ',0)'; }) 
+           //TODO: better width calculations that don't assume always uniform data spacing;w
+          .attr('width', (availableWidth / data[0].values.length) * .9 );
+
+
+      bars.transition()
+          .attr('y', function(d,i) {
+            var rval = getY(d,i) < 0 ?
+                    y(0) :
+                    y(0) - y(getY(d,i)) < 1 ?
+                      y(0) - 1 :
+                      y(getY(d,i));
+            return nv.utils.NaNtoZero(rval);
+          })
+          .attr('height', function(d,i) { return nv.utils.NaNtoZero(Math.max(Math.abs(y(getY(d,i)) - y(0)),1)) });
+
+    });
+
+    return chart;
+  }
+
+  //Create methods to allow outside functions to highlight a specific bar.
+  chart.highlightPoint = function(pointIndex, isHoverOver) {
+      d3.select(".nv-historicalBar-" + id)
+        .select(".nv-bars .nv-bar-0-" + pointIndex)
+              .classed("hover", isHoverOver)
+               ;
+  };
+
+  chart.clearHighlights = function() {
+      d3.select(".nv-historicalBar-" + id)
+        .select(".nv-bars .nv-bar.hover")
+              .classed("hover", false)
+               ;
+  };
+  //============================================================
+  // Expose Public Variables
+  //------------------------------------------------------------
+
+  chart.dispatch = dispatch;
+
+  chart.options = nv.utils.optionsFunc.bind(chart);
+  
+  chart.x = function(_) {
+    if (!arguments.length) return getX;
+    getX = _;
+    return chart;
+  };
+
+  chart.y = function(_) {
+    if (!arguments.length) return getY;
+    getY = _;
+    return chart;
+  };
+
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
+    margin.right  = typeof _.right  != 'undefined' ? _.right  : margin.right;
+    margin.bottom = typeof _.bottom != 'undefined' ? _.bottom : margin.bottom;
+    margin.left   = typeof _.left   != 'undefined' ? _.left   : margin.left;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.xScale = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+
+  chart.yScale = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+
+  chart.xDomain = function(_) {
+    if (!arguments.length) return xDomain;
+    xDomain = _;
+    return chart;
+  };
+
+  chart.yDomain = function(_) {
+    if (!arguments.length) return yDomain;
+    yDomain = _;
+    return chart;
+  };
+
+  chart.xRange = function(_) {
+    if (!arguments.length) return xRange;
+    xRange = _;
+    return chart;
+  };
+
+  chart.yRange = function(_) {
+    if (!arguments.length) return yRange;
+    yRange = _;
+    return chart;
+  };
+
+  chart.forceX = function(_) {
+    if (!arguments.length) return forceX;
+    forceX = _;
+    return chart;
+  };
+
+  chart.forceY = function(_) {
+    if (!arguments.length) return forceY;
+    forceY = _;
+    return chart;
+  };
+
+  chart.padData = function(_) {
+    if (!arguments.length) return padData;
+    padData = _;
+    return chart;
+  };
+
+  chart.clipEdge = function(_) {
+    if (!arguments.length) return clipEdge;
+    clipEdge = _;
+    return chart;
+  };
+
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = nv.utils.getColor(_);
+    return chart;
+  };
+
+  chart.id = function(_) {
+    if (!arguments.length) return id;
+    id = _;
+    return chart;
+  };
+
+  chart.interactive = function(_) {
+    if(!arguments.length) return interactive;
+    interactive = false;
+    return chart;
+  };
+
+  //============================================================
+
+
+  return chart;
+}
 
 nv.models.historicalBarChart = function() {
   "use strict";
@@ -4665,7 +4352,8 @@ nv.models.indentedTree = function() {
 
             d3.select(this).select('span')
               .attr('class', d3.functor(column.classes) )
-              .text(function(d) { return column.format ? (d[column.key] ? column.format(d[column.key]) : '-') :  (d[column.key] || '-'); });
+              .text(function(d) { return column.format ? column.format(d) :
+                                        (d[column.key] || '-') });
           });
 
         if  (column.showCount) {
@@ -6308,580 +5996,6 @@ nv.models.linePlusBarChart = function() {
 
   return chart;
 }
-nv.models.lineWithFocusChart = function() {
-  "use strict";
-  //============================================================
-  // Public Variables with Default Settings
-  //------------------------------------------------------------
-
-  var lines = nv.models.line()
-    , lines2 = nv.models.line()
-    , xAxis = nv.models.axis()
-    , yAxis = nv.models.axis()
-    , x2Axis = nv.models.axis()
-    , y2Axis = nv.models.axis()
-    , legend = nv.models.legend()
-    , brush = d3.svg.brush()
-    ;
-
-  var margin = {top: 30, right: 30, bottom: 30, left: 60}
-    , margin2 = {top: 0, right: 30, bottom: 20, left: 60}
-    , color = nv.utils.defaultColor()
-    , width = null
-    , height = null
-    , height2 = 100
-    , x
-    , y
-    , x2
-    , y2
-    , showLegend = true
-    , brushExtent = null
-    , tooltips = true
-    , tooltip = function(key, x, y, e, graph) {
-        return '<h3>' + key + '</h3>' +
-               '<p>' +  y + ' at ' + x + '</p>'
-      }
-    , noData = "No Data Available."
-    , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'brush')
-    , transitionDuration = 250
-    ;
-
-  lines
-    .clipEdge(true)
-    ;
-  lines2
-    .interactive(false)
-    ;
-  xAxis
-    .orient('bottom')
-    .tickPadding(5)
-    ;
-  yAxis
-    .orient('left')
-    ;
-  x2Axis
-    .orient('bottom')
-    .tickPadding(5)
-    ;
-  y2Axis
-    .orient('left')
-    ;
-  //============================================================
-
-
-  //============================================================
-  // Private Variables
-  //------------------------------------------------------------
-
-  var showTooltip = function(e, offsetElement) {
-    var left = e.pos[0] + ( offsetElement.offsetLeft || 0 ),
-        top = e.pos[1] + ( offsetElement.offsetTop || 0),
-        x = xAxis.tickFormat()(lines.x()(e.point, e.pointIndex)),
-        y = yAxis.tickFormat()(lines.y()(e.point, e.pointIndex)),
-        content = tooltip(e.series.key, x, y, e, chart);
-
-    nv.tooltip.show([left, top], content, null, null, offsetElement);
-  };
-
-  //============================================================
-
-
-  function chart(selection) {
-    selection.each(function(data) {
-      var container = d3.select(this),
-          that = this;
-
-      var availableWidth = (width  || parseInt(container.style('width')) || 960)
-                             - margin.left - margin.right,
-          availableHeight1 = (height || parseInt(container.style('height')) || 400)
-                             - margin.top - margin.bottom - height2,
-          availableHeight2 = height2 - margin2.top - margin2.bottom;
-
-      chart.update = function() { container.transition().duration(transitionDuration).call(chart) };
-      chart.container = this;
-
-
-      //------------------------------------------------------------
-      // Display No Data message if there's nothing to show.
-
-      if (!data || !data.length || !data.filter(function(d) { return d.values.length }).length) {
-        var noDataText = container.selectAll('.nv-noData').data([noData]);
-
-        noDataText.enter().append('text')
-          .attr('class', 'nvd3 nv-noData')
-          .attr('dy', '-.7em')
-          .style('text-anchor', 'middle');
-
-        noDataText
-          .attr('x', margin.left + availableWidth / 2)
-          .attr('y', margin.top + availableHeight1 / 2)
-          .text(function(d) { return d });
-
-        return chart;
-      } else {
-        container.selectAll('.nv-noData').remove();
-      }
-
-      //------------------------------------------------------------
-
-
-      //------------------------------------------------------------
-      // Setup Scales
-
-      x = lines.xScale();
-      y = lines.yScale();
-      x2 = lines2.xScale();
-      y2 = lines2.yScale();
-
-      //------------------------------------------------------------
-
-
-      //------------------------------------------------------------
-      // Setup containers and skeleton of chart
-
-      var wrap = container.selectAll('g.nv-wrap.nv-lineWithFocusChart').data([data]);
-      var gEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-lineWithFocusChart').append('g');
-      var g = wrap.select('g');
-
-      gEnter.append('g').attr('class', 'nv-legendWrap');
-
-      var focusEnter = gEnter.append('g').attr('class', 'nv-focus');
-      focusEnter.append('g').attr('class', 'nv-x nv-axis');
-      focusEnter.append('g').attr('class', 'nv-y nv-axis');
-      focusEnter.append('g').attr('class', 'nv-linesWrap');
-
-      var contextEnter = gEnter.append('g').attr('class', 'nv-context');
-      contextEnter.append('g').attr('class', 'nv-x nv-axis');
-      contextEnter.append('g').attr('class', 'nv-y nv-axis');
-      contextEnter.append('g').attr('class', 'nv-linesWrap');
-      contextEnter.append('g').attr('class', 'nv-brushBackground');
-      contextEnter.append('g').attr('class', 'nv-x nv-brush');
-
-      //------------------------------------------------------------
-
-
-      //------------------------------------------------------------
-      // Legend
-
-      if (showLegend) {
-        legend.width(availableWidth);
-
-        g.select('.nv-legendWrap')
-            .datum(data)
-            .call(legend);
-
-        if ( margin.top != legend.height()) {
-          margin.top = legend.height();
-          availableHeight1 = (height || parseInt(container.style('height')) || 400)
-                             - margin.top - margin.bottom - height2;
-        }
-
-        g.select('.nv-legendWrap')
-            .attr('transform', 'translate(0,' + (-margin.top) +')')
-      }
-
-      //------------------------------------------------------------
-
-
-      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-
-      //------------------------------------------------------------
-      // Main Chart Component(s)
-
-      lines
-        .width(availableWidth)
-        .height(availableHeight1)
-        .color(
-          data
-            .map(function(d,i) {
-              return d.color || color(d, i);
-            })
-            .filter(function(d,i) {
-              return !data[i].disabled;
-          })
-        );
-
-      lines2
-        .defined(lines.defined())
-        .width(availableWidth)
-        .height(availableHeight2)
-        .color(
-          data
-            .map(function(d,i) {
-              return d.color || color(d, i);
-            })
-            .filter(function(d,i) {
-              return !data[i].disabled;
-          })
-        );
-
-      g.select('.nv-context')
-          .attr('transform', 'translate(0,' + ( availableHeight1 + margin.bottom + margin2.top) + ')')
-
-      var contextLinesWrap = g.select('.nv-context .nv-linesWrap')
-          .datum(data.filter(function(d) { return !d.disabled }))
-
-      d3.transition(contextLinesWrap).call(lines2);
-
-      //------------------------------------------------------------
-
-
-      /*
-      var focusLinesWrap = g.select('.nv-focus .nv-linesWrap')
-          .datum(data.filter(function(d) { return !d.disabled }))
-
-      d3.transition(focusLinesWrap).call(lines);
-     */
-
-
-      //------------------------------------------------------------
-      // Setup Main (Focus) Axes
-
-      xAxis
-        .scale(x)
-        .ticks( availableWidth / 100 )
-        .tickSize(-availableHeight1, 0);
-
-      yAxis
-        .scale(y)
-        .ticks( availableHeight1 / 36 )
-        .tickSize( -availableWidth, 0);
-
-      g.select('.nv-focus .nv-x.nv-axis')
-          .attr('transform', 'translate(0,' + availableHeight1 + ')');
-
-      //------------------------------------------------------------
-
-
-      //------------------------------------------------------------
-      // Setup Brush
-
-      brush
-        .x(x2)
-        .on('brush', function() {
-            //When brushing, turn off transitions because chart needs to change immediately.
-            var oldTransition = chart.transitionDuration();
-            chart.transitionDuration(0); 
-            onBrush();
-            chart.transitionDuration(oldTransition);
-        });
-
-      if (brushExtent) brush.extent(brushExtent);
-
-      var brushBG = g.select('.nv-brushBackground').selectAll('g')
-          .data([brushExtent || brush.extent()])
-
-      var brushBGenter = brushBG.enter()
-          .append('g');
-
-      brushBGenter.append('rect')
-          .attr('class', 'left')
-          .attr('x', 0)
-          .attr('y', 0)
-          .attr('height', availableHeight2);
-
-      brushBGenter.append('rect')
-          .attr('class', 'right')
-          .attr('x', 0)
-          .attr('y', 0)
-          .attr('height', availableHeight2);
-
-      var gBrush = g.select('.nv-x.nv-brush')
-          .call(brush);
-      gBrush.selectAll('rect')
-          //.attr('y', -5)
-          .attr('height', availableHeight2);
-      gBrush.selectAll('.resize').append('path').attr('d', resizePath);
-
-      onBrush();
-
-      //------------------------------------------------------------
-
-
-      //------------------------------------------------------------
-      // Setup Secondary (Context) Axes
-
-      x2Axis
-        .scale(x2)
-        .ticks( availableWidth / 100 )
-        .tickSize(-availableHeight2, 0);
-
-      g.select('.nv-context .nv-x.nv-axis')
-          .attr('transform', 'translate(0,' + y2.range()[0] + ')');
-      d3.transition(g.select('.nv-context .nv-x.nv-axis'))
-          .call(x2Axis);
-
-
-      y2Axis
-        .scale(y2)
-        .ticks( availableHeight2 / 36 )
-        .tickSize( -availableWidth, 0);
-
-      d3.transition(g.select('.nv-context .nv-y.nv-axis'))
-          .call(y2Axis);
-
-      g.select('.nv-context .nv-x.nv-axis')
-          .attr('transform', 'translate(0,' + y2.range()[0] + ')');
-
-      //------------------------------------------------------------
-
-
-      //============================================================
-      // Event Handling/Dispatching (in chart's scope)
-      //------------------------------------------------------------
-
-      legend.dispatch.on('stateChange', function(newState) { 
-        chart.update();
-      });
-
-      dispatch.on('tooltipShow', function(e) {
-        if (tooltips) showTooltip(e, that.parentNode);
-      });
-
-      //============================================================
-
-
-      //============================================================
-      // Functions
-      //------------------------------------------------------------
-
-      // Taken from crossfilter (http://square.github.com/crossfilter/)
-      function resizePath(d) {
-        var e = +(d == 'e'),
-            x = e ? 1 : -1,
-            y = availableHeight2 / 3;
-        return 'M' + (.5 * x) + ',' + y
-            + 'A6,6 0 0 ' + e + ' ' + (6.5 * x) + ',' + (y + 6)
-            + 'V' + (2 * y - 6)
-            + 'A6,6 0 0 ' + e + ' ' + (.5 * x) + ',' + (2 * y)
-            + 'Z'
-            + 'M' + (2.5 * x) + ',' + (y + 8)
-            + 'V' + (2 * y - 8)
-            + 'M' + (4.5 * x) + ',' + (y + 8)
-            + 'V' + (2 * y - 8);
-      }
-
-
-      function updateBrushBG() {
-        if (!brush.empty()) brush.extent(brushExtent);
-        brushBG
-            .data([brush.empty() ? x2.domain() : brushExtent])
-            .each(function(d,i) {
-              var leftWidth = x2(d[0]) - x.range()[0],
-                  rightWidth = x.range()[1] - x2(d[1]);
-              d3.select(this).select('.left')
-                .attr('width',  leftWidth < 0 ? 0 : leftWidth);
-
-              d3.select(this).select('.right')
-                .attr('x', x2(d[1]))
-                .attr('width', rightWidth < 0 ? 0 : rightWidth);
-            });
-      }
-
-
-      function onBrush() {
-        brushExtent = brush.empty() ? null : brush.extent();
-        var extent = brush.empty() ? x2.domain() : brush.extent();
-
-        //The brush extent cannot be less than one.  If it is, don't update the line chart.
-        if (Math.abs(extent[0] - extent[1]) <= 1) {
-          return;
-        }
-
-        dispatch.brush({extent: extent, brush: brush});
-
-
-        updateBrushBG();
-
-        // Update Main (Focus)
-        var focusLinesWrap = g.select('.nv-focus .nv-linesWrap')
-            .datum(
-              data
-                .filter(function(d) { return !d.disabled })
-                .map(function(d,i) {
-                  return {
-                    key: d.key,
-                    values: d.values.filter(function(d,i) {
-                      return lines.x()(d,i) >= extent[0] && lines.x()(d,i) <= extent[1];
-                    })
-                  }
-                })
-            );
-        focusLinesWrap.transition().duration(transitionDuration).call(lines);
-
-
-        // Update Main (Focus) Axes
-        g.select('.nv-focus .nv-x.nv-axis').transition().duration(transitionDuration)
-            .call(xAxis);
-        g.select('.nv-focus .nv-y.nv-axis').transition().duration(transitionDuration)
-            .call(yAxis);
-      }
-
-      //============================================================
-
-
-    });
-
-    return chart;
-  }
-
-
-  //============================================================
-  // Event Handling/Dispatching (out of chart's scope)
-  //------------------------------------------------------------
-
-  lines.dispatch.on('elementMouseover.tooltip', function(e) {
-    e.pos = [e.pos[0] +  margin.left, e.pos[1] + margin.top];
-    dispatch.tooltipShow(e);
-  });
-
-  lines.dispatch.on('elementMouseout.tooltip', function(e) {
-    dispatch.tooltipHide(e);
-  });
-
-  dispatch.on('tooltipHide', function() {
-    if (tooltips) nv.tooltip.cleanup();
-  });
-
-  //============================================================
-
-
-  //============================================================
-  // Expose Public Variables
-  //------------------------------------------------------------
-
-  // expose chart's sub-components
-  chart.dispatch = dispatch;
-  chart.legend = legend;
-  chart.lines = lines;
-  chart.lines2 = lines2;
-  chart.xAxis = xAxis;
-  chart.yAxis = yAxis;
-  chart.x2Axis = x2Axis;
-  chart.y2Axis = y2Axis;
-
-  d3.rebind(chart, lines, 'defined', 'isArea', 'size', 'xDomain', 'yDomain', 'xRange', 'yRange', 'forceX', 'forceY', 'interactive', 'clipEdge', 'clipVoronoi', 'id');
-
-  chart.options = nv.utils.optionsFunc.bind(chart);
-  
-  chart.x = function(_) {
-    if (!arguments.length) return lines.x;
-    lines.x(_);
-    lines2.x(_);
-    return chart;
-  };
-
-  chart.y = function(_) {
-    if (!arguments.length) return lines.y;
-    lines.y(_);
-    lines2.y(_);
-    return chart;
-  };
-
-  chart.margin = function(_) {
-    if (!arguments.length) return margin;
-    margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
-    margin.right  = typeof _.right  != 'undefined' ? _.right  : margin.right;
-    margin.bottom = typeof _.bottom != 'undefined' ? _.bottom : margin.bottom;
-    margin.left   = typeof _.left   != 'undefined' ? _.left   : margin.left;
-    return chart;
-  };
-
-  chart.margin2 = function(_) {
-    if (!arguments.length) return margin2;
-    margin2 = _;
-    return chart;
-  };
-
-  chart.width = function(_) {
-    if (!arguments.length) return width;
-    width = _;
-    return chart;
-  };
-
-  chart.height = function(_) {
-    if (!arguments.length) return height;
-    height = _;
-    return chart;
-  };
-
-  chart.height2 = function(_) {
-    if (!arguments.length) return height2;
-    height2 = _;
-    return chart;
-  };
-
-  chart.color = function(_) {
-    if (!arguments.length) return color;
-    color =nv.utils.getColor(_);
-    legend.color(color);
-    return chart;
-  };
-
-  chart.showLegend = function(_) {
-    if (!arguments.length) return showLegend;
-    showLegend = _;
-    return chart;
-  };
-
-  chart.tooltips = function(_) {
-    if (!arguments.length) return tooltips;
-    tooltips = _;
-    return chart;
-  };
-
-  chart.tooltipContent = function(_) {
-    if (!arguments.length) return tooltip;
-    tooltip = _;
-    return chart;
-  };
-
-  chart.interpolate = function(_) {
-    if (!arguments.length) return lines.interpolate();
-    lines.interpolate(_);
-    lines2.interpolate(_);
-    return chart;
-  };
-
-  chart.noData = function(_) {
-    if (!arguments.length) return noData;
-    noData = _;
-    return chart;
-  };
-
-  // Chart has multiple similar Axes, to prevent code duplication, probably need to link all axis functions manually like below
-  chart.xTickFormat = function(_) {
-    if (!arguments.length) return xAxis.tickFormat();
-    xAxis.tickFormat(_);
-    x2Axis.tickFormat(_);
-    return chart;
-  };
-
-  chart.yTickFormat = function(_) {
-    if (!arguments.length) return yAxis.tickFormat();
-    yAxis.tickFormat(_);
-    y2Axis.tickFormat(_);
-    return chart;
-  };
-  
-  chart.brushExtent = function(_) {
-    if (!arguments.length) return brushExtent;
-    brushExtent = _;
-    return chart;
-  };
-
-  chart.transitionDuration = function(_) {
-    if (!arguments.length) return transitionDuration;
-    transitionDuration = _;
-    return chart;
-  };
-
-  //============================================================
-
-
-  return chart;
-}
 
 nv.models.linePlusBarWithFocusChart = function() {
   "use strict";
@@ -7541,6 +6655,1077 @@ nv.models.linePlusBarWithFocusChart = function() {
   return chart;
 }
 
+nv.models.line = function() {
+  "use strict";
+  //Default Settings
+  var margin = {top: 0, right: 0, bottom: 0, left: 0},
+      width = 960,
+      height = 500,
+      color = nv.utils.defaultColor(), // function that returns colors
+      id = Math.floor(Math.random() * 10000), //Create semi-unique ID incase user doesn't select one
+      getX = function(d) { return d.x }, // accessor to get the x value from a data point
+      getY = function(d) { return d.y }, // accessor to get the y value from a data point
+      clipEdge = false, // if true, masks lines within x and y scale
+      interpolate = "linear"; // controls the line interpolation
+
+
+  var scatter = nv.models.scatter()
+                  .id(id)
+                  .size(16) // default size
+                  .sizeDomain([16,256]), //set to speed up calculation, needs to be unset if there is a custom size accessor
+      //x = scatter.xScale(),
+      //y = scatter.yScale(),
+      x, y,
+      x0, y0, timeoutID;
+
+
+  function chart(selection) {
+    selection.each(function(data) {
+      var availableWidth = width - margin.left - margin.right,
+          availableHeight = height - margin.top - margin.bottom;
+
+      //get the scales inscase scatter scale was set manually
+      x = x || scatter.xScale();
+      y = y || scatter.yScale();
+
+      //store old scales if they exist
+      x0 = x0 || x;
+      y0 = y0 || y;
+
+
+      var wrap = d3.select(this).selectAll('g.nv-wrap.nv-line').data([data]);
+      var wrapEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-line');
+      var defsEnter = wrapEnter.append('defs');
+      var gEnter = wrapEnter.append('g');
+      var g = wrap.select('g')
+
+      wrapEnter.append('g').attr('class', 'nv-scatterWrap');
+      var scatterWrap = wrap.select('.nv-scatterWrap').datum(data);
+
+      gEnter.append('g').attr('class', 'nv-groups');
+
+
+      scatter
+        .width(availableWidth)
+        .height(availableHeight)
+
+      d3.transition(scatterWrap).call(scatter);
+
+
+      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+
+      defsEnter.append('clipPath')
+          .attr('id', 'nv-edge-clip-' + id)
+        .append('rect');
+
+      wrap.select('#nv-edge-clip-' + id + ' rect')
+          .attr('width', availableWidth)
+          .attr('height', availableHeight);
+
+      g   .attr('clip-path', clipEdge ? 'url(#nv-edge-clip-' + id + ')' : '');
+      scatterWrap
+          .attr('clip-path', clipEdge ? 'url(#nv-edge-clip-' + id + ')' : '');
+
+
+
+
+      var groups = wrap.select('.nv-groups').selectAll('.nv-group')
+          .data(function(d) { return d }, function(d) { return d.key });
+      groups.enter().append('g')
+          .style('stroke-opacity', 1e-6)
+          .style('fill-opacity', 1e-6);
+      d3.transition(groups.exit())
+          .style('stroke-opacity', 1e-6)
+          .style('fill-opacity', 1e-6)
+          .remove();
+      groups
+          .attr('class', function(d,i) { return 'nv-group nv-series-' + i })
+          .classed('hover', function(d) { return d.hover })
+          .style('fill', function(d,i){ return color(d, i) })
+          .style('stroke', function(d,i){ return color(d, i) })
+      d3.transition(groups)
+          .style('stroke-opacity', 1)
+          .style('fill-opacity', .5)
+
+
+      var paths = groups.selectAll('path')
+          .data(function(d, i) { return [d.values] });
+      paths.enter().append('path')
+          .attr('class', 'nv-line')
+          .attr('d', d3.svg.line()
+            .interpolate(interpolate)
+            .x(function(d,i) { return x0(getX(d,i)) })
+            .y(function(d,i) { return y0(getY(d,i)) })
+          );
+      d3.transition(groups.exit().selectAll('path'))
+          .attr('d', d3.svg.line()
+            .interpolate(interpolate)
+            .x(function(d,i) { return x(getX(d,i)) })
+            .y(function(d,i) { return y(getY(d,i)) })
+          )
+          .remove(); // redundant? line is already being removed
+      d3.transition(paths)
+          .attr('d', d3.svg.line()
+            .interpolate(interpolate)
+            .x(function(d,i) { return x(getX(d,i)) })
+            .y(function(d,i) { return y(getY(d,i)) })
+          );
+
+
+      //store old scales for use in transitions on update, to animate from old to new positions
+      x0 = x.copy();
+      y0 = y.copy();
+
+    });
+
+    return chart;
+  }
+
+
+  chart.dispatch = scatter.dispatch;
+
+  d3.rebind(chart, scatter, 'interactive', 'size', 'xScale', 'yScale', 'zScale', 'xDomain', 'yDomain', 'xRange', 'yRange', 'sizeDomain', 'forceX', 'forceY', 'forceSize', 'clipVoronoi', 'clipRadius');
+
+  chart.options = nv.utils.optionsFunc.bind(chart);
+  
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin = _;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.x = function(_) {
+    if (!arguments.length) return getX;
+    getX = _;
+    scatter.x(_);
+    return chart;
+  };
+
+  chart.y = function(_) {
+    if (!arguments.length) return getY;
+    getY = _;
+    scatter.y(_);
+    return chart;
+  };
+
+  chart.clipEdge = function(_) {
+    if (!arguments.length) return clipEdge;
+    clipEdge = _;
+    return chart;
+  };
+
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = nv.utils.getColor(_);
+    scatter.color(color);
+    return chart;
+  };
+
+  chart.id = function(_) {
+    if (!arguments.length) return id;
+    id = _;
+    return chart;
+  };
+
+  chart.interpolate = function(_) {
+    if (!arguments.length) return interpolate;
+    interpolate = _;
+    return chart;
+  };
+
+  chart.defined = function(_) {
+    if (!arguments.length) return defined;
+    defined = _;
+    return chart;
+  };
+
+  return chart;
+}
+
+nv.models.lineChart = function() {
+  "use strict";
+  var margin = {top: 30, right: 20, bottom: 50, left: 60},
+      color = nv.utils.defaultColor(),
+      width = null, 
+      height = null,
+      showLegend = true,
+      showControls = true,
+      fisheye = 0,
+      pauseFisheye = false,
+      tooltips = true,
+      tooltip = function(key, x, y, e, graph) { 
+        return '<h3>' + key + '</h3>' +
+               '<p>' +  y + ' at ' + x + '</p>'
+      },
+      noData = "No Data Available."
+      ;
+
+
+  var x = d3.fisheye.scale(d3.scale.linear).distortion(0);
+
+  var lines = nv.models.line().xScale(x),
+      //x = lines.xScale(),
+      y = lines.yScale(),
+      xAxis = nv.models.axis().scale(x).orient('bottom').tickPadding(5),
+      yAxis = nv.models.axis().scale(y).orient('left'),
+      legend = nv.models.legend().height(30),
+      controls = nv.models.legend().height(30).updateState(false),
+      dispatch = d3.dispatch('tooltipShow', 'tooltipHide');
+
+
+  var showTooltip = function(e, offsetElement) {
+    var left = e.pos[0] + ( offsetElement.offsetLeft || 0 ),
+        top = e.pos[1] + ( offsetElement.offsetTop || 0),
+        x = xAxis.tickFormat()(lines.x()(e.point, e.pointIndex)),
+        y = yAxis.tickFormat()(lines.y()(e.point, e.pointIndex)),
+        content = tooltip(e.series.key, x, y, e, chart);
+
+    nv.tooltip.show([left, top], content, null, null, offsetElement);
+  };
+
+
+  var controlsData = [
+    { key: 'Magnify', disabled: true }
+  ];
+
+
+  function chart(selection) {
+    selection.each(function(data) {
+      var container = d3.select(this),
+          that = this;
+
+      var availableWidth = (width  || parseInt(container.style('width')) || 960)
+                             - margin.left - margin.right,
+          availableHeight = (height || parseInt(container.style('height')) || 400)
+                             - margin.top - margin.bottom;
+
+    chart.update = function() { container.transition().call(chart) };
+    chart.container = this; // I need a reference to the container in order to have outside code check if the chart is visible or not
+      //------------------------------------------------------------
+      // Display No Data message if there's nothing to show.
+
+      if (!data || !data.length || !data.filter(function(d) { return d.values.length }).length) {
+        container.append('text')
+          .attr('class', 'nvd3 nv-noData')
+          .attr('x', availableWidth / 2)
+          .attr('y', availableHeight / 2)
+          .attr('dy', '-.7em')
+          .style('text-anchor', 'middle')
+          .text(noData);
+          return chart;
+      } else {
+        container.select('.nv-noData').remove();
+      }
+
+      //------------------------------------------------------------
+
+
+
+      var wrap = container.selectAll('g.nv-wrap.nv-lineChart').data([data]);
+      var gEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-lineChart').append('g');
+
+
+      gEnter.append('rect')
+          .attr('class', 'nvd3 nv-background')
+          .attr('width', availableWidth)
+          .attr('height', availableHeight);
+
+
+      gEnter.append('g').attr('class', 'nv-x nv-axis');
+      gEnter.append('g').attr('class', 'nv-y nv-axis');
+      gEnter.append('g').attr('class', 'nv-linesWrap');
+      gEnter.append('g').attr('class', 'nv-legendWrap');
+      gEnter.append('g').attr('class', 'nv-controlsWrap');
+      gEnter.append('g').attr('class', 'nv-controlsWrap');
+
+
+      var g = wrap.select('g');
+
+
+
+
+      if (showLegend) {
+        legend.width(availableWidth);
+
+        g.select('.nv-legendWrap')
+            .datum(data)
+            .call(legend);
+
+        if ( margin.top != legend.height()) {
+          margin.top = legend.height();
+          availableHeight = (height || parseInt(container.style('height')) || 400)
+                             - margin.top - margin.bottom;
+        }
+
+        g.select('.nv-legendWrap')
+            .attr('transform', 'translate(0,' + (-margin.top) +')')
+      }
+
+      if (showControls) {
+        controls.width(180).color(['#444']);
+        g.select('.nv-controlsWrap')
+            .datum(controlsData)
+            .attr('transform', 'translate(0,' + (-margin.top) +')')
+            .call(controls);
+      }
+
+
+
+      lines
+        .width(availableWidth)
+        .height(availableHeight)
+        .color(data.map(function(d,i) {
+          return d.color || color(d, i);
+        }).filter(function(d,i) { return !data[i].disabled }));
+
+
+
+      g.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+
+      var linesWrap = g.select('.nv-linesWrap')
+          .datum(data.filter(function(d) { return !d.disabled }))
+
+      d3.transition(linesWrap).call(lines);
+
+
+
+      xAxis
+        //.scale(x)
+        .ticks( availableWidth / 100 )
+        .tickSize(-availableHeight, 0);
+
+      g.select('.nv-x.nv-axis')
+          .attr('transform', 'translate(0,' + y.range()[0] + ')');
+      d3.transition(g.select('.nv-x.nv-axis'))
+          .call(xAxis);
+
+
+      yAxis
+        //.scale(y)
+        .ticks( availableHeight / 36 )
+        .tickSize( -availableWidth, 0);
+
+      d3.transition(g.select('.nv-y.nv-axis'))
+          .call(yAxis);
+
+
+
+      g.select('.nv-background').on('mousemove', updateFisheye);
+      g.select('.nv-background').on('click', function() { pauseFisheye = !pauseFisheye; });
+      //g.select('.point-paths').on('mousemove', updateFisheye);
+
+
+      function updateFisheye() {
+        if (pauseFisheye) {
+          //g.select('.background') .style('pointer-events', 'none');
+          g.select('.nv-point-paths').style('pointer-events', 'all');
+          return false;
+        }
+
+        g.select('.nv-background') .style('pointer-events', 'all');
+        g.select('.nv-point-paths').style('pointer-events', 'none' );
+
+        var mouse = d3.mouse(this);
+        linesWrap.call(lines);
+        g.select('.nv-x.nv-axis').call(xAxis);
+        x.distortion(fisheye).focus(mouse[0]);
+      }
+
+
+      controls.dispatch.on('legendClick', function(d,i) { 
+        d.disabled = !d.disabled;
+
+        fisheye = d.disabled ? 0 : 5;
+        g.select('.nv-background') .style('pointer-events', d.disabled ? 'none' : 'all');
+        g.select('.nv-point-paths').style('pointer-events', d.disabled ? 'all' : 'none' );
+
+        //scatter.interactive(d.disabled);
+        //tooltips = d.disabled;
+
+        if (d.disabled) {
+          x.distortion(fisheye).focus(0);
+
+          linesWrap.call(lines);
+          g.select('.nv-x.nv-axis').call(xAxis);
+        } else {
+          pauseFisheye = false;
+        }
+
+        chart.update();
+      });
+
+
+      legend.dispatch.on('stateChange', function(newState) { 
+        chart.update();
+      });
+
+      lines.dispatch.on('elementMouseover.tooltip', function(e) {
+        e.pos = [e.pos[0] +  margin.left, e.pos[1] + margin.top];
+        dispatch.tooltipShow(e);
+      });
+      if (tooltips) dispatch.on('tooltipShow', function(e) { showTooltip(e, that.parentNode) } ); // TODO: maybe merge with above?
+
+      lines.dispatch.on('elementMouseout.tooltip', function(e) {
+        dispatch.tooltipHide(e);
+      });
+      if (tooltips) dispatch.on('tooltipHide', nv.tooltip.cleanup);
+
+    });
+
+    return chart;
+  }
+
+
+  chart.dispatch = dispatch;
+  chart.legend = legend;
+  chart.xAxis = xAxis;
+  chart.yAxis = yAxis;
+
+  d3.rebind(chart, lines, 'defined', 'x', 'y', 'size', 'xDomain', 'yDomain', 'xRange', 'yRange', 'forceX', 'forceY', 'interactive', 'clipEdge', 'clipVoronoi', 'id', 'interpolate');
+
+  chart.options = nv.utils.optionsFunc.bind(chart);
+  
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin = _;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = nv.utils.getColor(_);
+    legend.color(color);
+    return chart;
+  };
+
+  chart.showLegend = function(_) {
+    if (!arguments.length) return showLegend;
+    showLegend = _;
+    return chart;
+  };
+
+  chart.tooltips = function(_) {
+    if (!arguments.length) return tooltips;
+    tooltips = _;
+    return chart;
+  };
+
+  chart.tooltipContent = function(_) {
+    if (!arguments.length) return tooltip;
+    tooltip = _;
+    return chart;
+  };
+
+  chart.noData = function(_) {
+    if (!arguments.length) return noData;
+    noData = _;
+    return chart;
+  };
+
+
+  return chart;
+}
+nv.models.lineWithFocusChart = function() {
+  "use strict";
+  //============================================================
+  // Public Variables with Default Settings
+  //------------------------------------------------------------
+
+  var lines = nv.models.line()
+    , lines2 = nv.models.line()
+    , xAxis = nv.models.axis()
+    , yAxis = nv.models.axis()
+    , x2Axis = nv.models.axis()
+    , y2Axis = nv.models.axis()
+    , legend = nv.models.legend()
+    , brush = d3.svg.brush()
+    ;
+
+  var margin = {top: 30, right: 30, bottom: 30, left: 60}
+    , margin2 = {top: 0, right: 30, bottom: 20, left: 60}
+    , color = nv.utils.defaultColor()
+    , width = null
+    , height = null
+    , height2 = 100
+    , x
+    , y
+    , x2
+    , y2
+    , showLegend = true
+    , brushExtent = null
+    , tooltips = true
+    , tooltip = function(key, x, y, e, graph) {
+        return '<h3>' + key + '</h3>' +
+               '<p>' +  y + ' at ' + x + '</p>'
+      }
+    , noData = "No Data Available."
+    , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'brush')
+    , transitionDuration = 250
+    ;
+
+  lines
+    .clipEdge(true)
+    ;
+  lines2
+    .interactive(false)
+    ;
+  xAxis
+    .orient('bottom')
+    .tickPadding(5)
+    ;
+  yAxis
+    .orient('left')
+    ;
+  x2Axis
+    .orient('bottom')
+    .tickPadding(5)
+    ;
+  y2Axis
+    .orient('left')
+    ;
+  //============================================================
+
+
+  //============================================================
+  // Private Variables
+  //------------------------------------------------------------
+
+  var showTooltip = function(e, offsetElement) {
+    var left = e.pos[0] + ( offsetElement.offsetLeft || 0 ),
+        top = e.pos[1] + ( offsetElement.offsetTop || 0),
+        x = xAxis.tickFormat()(lines.x()(e.point, e.pointIndex)),
+        y = yAxis.tickFormat()(lines.y()(e.point, e.pointIndex)),
+        content = tooltip(e.series.key, x, y, e, chart);
+
+    nv.tooltip.show([left, top], content, null, null, offsetElement);
+  };
+
+  //============================================================
+
+
+  function chart(selection) {
+    selection.each(function(data) {
+      var container = d3.select(this),
+          that = this;
+
+      var availableWidth = (width  || parseInt(container.style('width')) || 960)
+                             - margin.left - margin.right,
+          availableHeight1 = (height || parseInt(container.style('height')) || 400)
+                             - margin.top - margin.bottom - height2,
+          availableHeight2 = height2 - margin2.top - margin2.bottom;
+
+      chart.update = function() { container.transition().duration(transitionDuration).call(chart) };
+      chart.container = this;
+
+
+      //------------------------------------------------------------
+      // Display No Data message if there's nothing to show.
+
+      if (!data || !data.length || !data.filter(function(d) { return d.values.length }).length) {
+        var noDataText = container.selectAll('.nv-noData').data([noData]);
+
+        noDataText.enter().append('text')
+          .attr('class', 'nvd3 nv-noData')
+          .attr('dy', '-.7em')
+          .style('text-anchor', 'middle');
+
+        noDataText
+          .attr('x', margin.left + availableWidth / 2)
+          .attr('y', margin.top + availableHeight1 / 2)
+          .text(function(d) { return d });
+
+        return chart;
+      } else {
+        container.selectAll('.nv-noData').remove();
+      }
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup Scales
+
+      x = lines.xScale();
+      y = lines.yScale();
+      x2 = lines2.xScale();
+      y2 = lines2.yScale();
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup containers and skeleton of chart
+
+      var wrap = container.selectAll('g.nv-wrap.nv-lineWithFocusChart').data([data]);
+      var gEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-lineWithFocusChart').append('g');
+      var g = wrap.select('g');
+
+      gEnter.append('g').attr('class', 'nv-legendWrap');
+
+      var focusEnter = gEnter.append('g').attr('class', 'nv-focus');
+      focusEnter.append('g').attr('class', 'nv-x nv-axis');
+      focusEnter.append('g').attr('class', 'nv-y nv-axis');
+      focusEnter.append('g').attr('class', 'nv-linesWrap');
+
+      var contextEnter = gEnter.append('g').attr('class', 'nv-context');
+      contextEnter.append('g').attr('class', 'nv-x nv-axis');
+      contextEnter.append('g').attr('class', 'nv-y nv-axis');
+      contextEnter.append('g').attr('class', 'nv-linesWrap');
+      contextEnter.append('g').attr('class', 'nv-brushBackground');
+      contextEnter.append('g').attr('class', 'nv-x nv-brush');
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Legend
+
+      if (showLegend) {
+        legend.width(availableWidth);
+
+        g.select('.nv-legendWrap')
+            .datum(data)
+            .call(legend);
+
+        if ( margin.top != legend.height()) {
+          margin.top = legend.height();
+          availableHeight1 = (height || parseInt(container.style('height')) || 400)
+                             - margin.top - margin.bottom - height2;
+        }
+
+        g.select('.nv-legendWrap')
+            .attr('transform', 'translate(0,' + (-margin.top) +')')
+      }
+
+      //------------------------------------------------------------
+
+
+      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+
+      //------------------------------------------------------------
+      // Main Chart Component(s)
+
+      lines
+        .width(availableWidth)
+        .height(availableHeight1)
+        .color(
+          data
+            .map(function(d,i) {
+              return d.color || color(d, i);
+            })
+            .filter(function(d,i) {
+              return !data[i].disabled;
+          })
+        );
+
+      lines2
+        .defined(lines.defined())
+        .width(availableWidth)
+        .height(availableHeight2)
+        .color(
+          data
+            .map(function(d,i) {
+              return d.color || color(d, i);
+            })
+            .filter(function(d,i) {
+              return !data[i].disabled;
+          })
+        );
+
+      g.select('.nv-context')
+          .attr('transform', 'translate(0,' + ( availableHeight1 + margin.bottom + margin2.top) + ')')
+
+      var contextLinesWrap = g.select('.nv-context .nv-linesWrap')
+          .datum(data.filter(function(d) { return !d.disabled }))
+
+      d3.transition(contextLinesWrap).call(lines2);
+
+      //------------------------------------------------------------
+
+
+      /*
+      var focusLinesWrap = g.select('.nv-focus .nv-linesWrap')
+          .datum(data.filter(function(d) { return !d.disabled }))
+
+      d3.transition(focusLinesWrap).call(lines);
+     */
+
+
+      //------------------------------------------------------------
+      // Setup Main (Focus) Axes
+
+      xAxis
+        .scale(x)
+        .ticks( availableWidth / 100 )
+        .tickSize(-availableHeight1, 0);
+
+      yAxis
+        .scale(y)
+        .ticks( availableHeight1 / 36 )
+        .tickSize( -availableWidth, 0);
+
+      g.select('.nv-focus .nv-x.nv-axis')
+          .attr('transform', 'translate(0,' + availableHeight1 + ')');
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup Brush
+
+      brush
+        .x(x2)
+        .on('brush', function() {
+            //When brushing, turn off transitions because chart needs to change immediately.
+            var oldTransition = chart.transitionDuration();
+            chart.transitionDuration(0); 
+            onBrush();
+            chart.transitionDuration(oldTransition);
+        });
+
+      if (brushExtent) brush.extent(brushExtent);
+
+      var brushBG = g.select('.nv-brushBackground').selectAll('g')
+          .data([brushExtent || brush.extent()])
+
+      var brushBGenter = brushBG.enter()
+          .append('g');
+
+      brushBGenter.append('rect')
+          .attr('class', 'left')
+          .attr('x', 0)
+          .attr('y', 0)
+          .attr('height', availableHeight2);
+
+      brushBGenter.append('rect')
+          .attr('class', 'right')
+          .attr('x', 0)
+          .attr('y', 0)
+          .attr('height', availableHeight2);
+
+      var gBrush = g.select('.nv-x.nv-brush')
+          .call(brush);
+      gBrush.selectAll('rect')
+          //.attr('y', -5)
+          .attr('height', availableHeight2);
+      gBrush.selectAll('.resize').append('path').attr('d', resizePath);
+
+      onBrush();
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup Secondary (Context) Axes
+
+      x2Axis
+        .scale(x2)
+        .ticks( availableWidth / 100 )
+        .tickSize(-availableHeight2, 0);
+
+      g.select('.nv-context .nv-x.nv-axis')
+          .attr('transform', 'translate(0,' + y2.range()[0] + ')');
+      d3.transition(g.select('.nv-context .nv-x.nv-axis'))
+          .call(x2Axis);
+
+
+      y2Axis
+        .scale(y2)
+        .ticks( availableHeight2 / 36 )
+        .tickSize( -availableWidth, 0);
+
+      d3.transition(g.select('.nv-context .nv-y.nv-axis'))
+          .call(y2Axis);
+
+      g.select('.nv-context .nv-x.nv-axis')
+          .attr('transform', 'translate(0,' + y2.range()[0] + ')');
+
+      //------------------------------------------------------------
+
+
+      //============================================================
+      // Event Handling/Dispatching (in chart's scope)
+      //------------------------------------------------------------
+
+      legend.dispatch.on('stateChange', function(newState) { 
+        chart.update();
+      });
+
+      dispatch.on('tooltipShow', function(e) {
+        if (tooltips) showTooltip(e, that.parentNode);
+      });
+
+      //============================================================
+
+
+      //============================================================
+      // Functions
+      //------------------------------------------------------------
+
+      // Taken from crossfilter (http://square.github.com/crossfilter/)
+      function resizePath(d) {
+        var e = +(d == 'e'),
+            x = e ? 1 : -1,
+            y = availableHeight2 / 3;
+        return 'M' + (.5 * x) + ',' + y
+            + 'A6,6 0 0 ' + e + ' ' + (6.5 * x) + ',' + (y + 6)
+            + 'V' + (2 * y - 6)
+            + 'A6,6 0 0 ' + e + ' ' + (.5 * x) + ',' + (2 * y)
+            + 'Z'
+            + 'M' + (2.5 * x) + ',' + (y + 8)
+            + 'V' + (2 * y - 8)
+            + 'M' + (4.5 * x) + ',' + (y + 8)
+            + 'V' + (2 * y - 8);
+      }
+
+
+      function updateBrushBG() {
+        if (!brush.empty()) brush.extent(brushExtent);
+        brushBG
+            .data([brush.empty() ? x2.domain() : brushExtent])
+            .each(function(d,i) {
+              var leftWidth = x2(d[0]) - x.range()[0],
+                  rightWidth = x.range()[1] - x2(d[1]);
+              d3.select(this).select('.left')
+                .attr('width',  leftWidth < 0 ? 0 : leftWidth);
+
+              d3.select(this).select('.right')
+                .attr('x', x2(d[1]))
+                .attr('width', rightWidth < 0 ? 0 : rightWidth);
+            });
+      }
+
+
+      function onBrush() {
+        brushExtent = brush.empty() ? null : brush.extent();
+        var extent = brush.empty() ? x2.domain() : brush.extent();
+
+        //The brush extent cannot be less than one.  If it is, don't update the line chart.
+        if (Math.abs(extent[0] - extent[1]) <= 1) {
+          return;
+        }
+
+        dispatch.brush({extent: extent, brush: brush});
+
+
+        updateBrushBG();
+
+        // Update Main (Focus)
+        var focusLinesWrap = g.select('.nv-focus .nv-linesWrap')
+            .datum(
+              data
+                .filter(function(d) { return !d.disabled })
+                .map(function(d,i) {
+                  return {
+                    key: d.key,
+                    values: d.values.filter(function(d,i) {
+                      return lines.x()(d,i) >= extent[0] && lines.x()(d,i) <= extent[1];
+                    })
+                  }
+                })
+            );
+        focusLinesWrap.transition().duration(transitionDuration).call(lines);
+
+
+        // Update Main (Focus) Axes
+        g.select('.nv-focus .nv-x.nv-axis').transition().duration(transitionDuration)
+            .call(xAxis);
+        g.select('.nv-focus .nv-y.nv-axis').transition().duration(transitionDuration)
+            .call(yAxis);
+      }
+
+      //============================================================
+
+
+    });
+
+    return chart;
+  }
+
+
+  //============================================================
+  // Event Handling/Dispatching (out of chart's scope)
+  //------------------------------------------------------------
+
+  lines.dispatch.on('elementMouseover.tooltip', function(e) {
+    e.pos = [e.pos[0] +  margin.left, e.pos[1] + margin.top];
+    dispatch.tooltipShow(e);
+  });
+
+  lines.dispatch.on('elementMouseout.tooltip', function(e) {
+    dispatch.tooltipHide(e);
+  });
+
+  dispatch.on('tooltipHide', function() {
+    if (tooltips) nv.tooltip.cleanup();
+  });
+
+  //============================================================
+
+
+  //============================================================
+  // Expose Public Variables
+  //------------------------------------------------------------
+
+  // expose chart's sub-components
+  chart.dispatch = dispatch;
+  chart.legend = legend;
+  chart.lines = lines;
+  chart.lines2 = lines2;
+  chart.xAxis = xAxis;
+  chart.yAxis = yAxis;
+  chart.x2Axis = x2Axis;
+  chart.y2Axis = y2Axis;
+
+  d3.rebind(chart, lines, 'defined', 'isArea', 'size', 'xDomain', 'yDomain', 'xRange', 'yRange', 'forceX', 'forceY', 'interactive', 'clipEdge', 'clipVoronoi', 'id');
+
+  chart.options = nv.utils.optionsFunc.bind(chart);
+  
+  chart.x = function(_) {
+    if (!arguments.length) return lines.x;
+    lines.x(_);
+    lines2.x(_);
+    return chart;
+  };
+
+  chart.y = function(_) {
+    if (!arguments.length) return lines.y;
+    lines.y(_);
+    lines2.y(_);
+    return chart;
+  };
+
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
+    margin.right  = typeof _.right  != 'undefined' ? _.right  : margin.right;
+    margin.bottom = typeof _.bottom != 'undefined' ? _.bottom : margin.bottom;
+    margin.left   = typeof _.left   != 'undefined' ? _.left   : margin.left;
+    return chart;
+  };
+
+  chart.margin2 = function(_) {
+    if (!arguments.length) return margin2;
+    margin2 = _;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.height2 = function(_) {
+    if (!arguments.length) return height2;
+    height2 = _;
+    return chart;
+  };
+
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color =nv.utils.getColor(_);
+    legend.color(color);
+    return chart;
+  };
+
+  chart.showLegend = function(_) {
+    if (!arguments.length) return showLegend;
+    showLegend = _;
+    return chart;
+  };
+
+  chart.tooltips = function(_) {
+    if (!arguments.length) return tooltips;
+    tooltips = _;
+    return chart;
+  };
+
+  chart.tooltipContent = function(_) {
+    if (!arguments.length) return tooltip;
+    tooltip = _;
+    return chart;
+  };
+
+  chart.interpolate = function(_) {
+    if (!arguments.length) return lines.interpolate();
+    lines.interpolate(_);
+    lines2.interpolate(_);
+    return chart;
+  };
+
+  chart.noData = function(_) {
+    if (!arguments.length) return noData;
+    noData = _;
+    return chart;
+  };
+
+  // Chart has multiple similar Axes, to prevent code duplication, probably need to link all axis functions manually like below
+  chart.xTickFormat = function(_) {
+    if (!arguments.length) return xAxis.tickFormat();
+    xAxis.tickFormat(_);
+    x2Axis.tickFormat(_);
+    return chart;
+  };
+
+  chart.yTickFormat = function(_) {
+    if (!arguments.length) return yAxis.tickFormat();
+    yAxis.tickFormat(_);
+    y2Axis.tickFormat(_);
+    return chart;
+  };
+  
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+
+  chart.transitionDuration = function(_) {
+    if (!arguments.length) return transitionDuration;
+    transitionDuration = _;
+    return chart;
+  };
+
+  //============================================================
+
+
+  return chart;
+}
+
 nv.models.multiBar = function() {
   "use strict";
   //============================================================
@@ -7619,7 +7804,7 @@ nv.models.multiBar = function() {
 
       //------------------------------------------------------------
       // HACK for negative value stacking
-      if (stacked && data[0]) //@zl
+      if (stacked)
         data[0].values.map(function(d,i) {
           var posBase = 0, negBase = 0;
           data.map(function(d) {
@@ -7709,7 +7894,7 @@ nv.models.multiBar = function() {
         .transition()
         .selectAll('rect.nv-bar')
         .delay(function(d,i) {
-             return (data[0])? i * delay/ data[0].values.length : i;
+             return i * delay/ data[0].values.length;
         })
           .attr('y', function(d) { return stacked ? y0(d.y0) : y0(0) })
           .attr('height', 0)
@@ -9429,8 +9614,799 @@ nv.models.multiBarHorizontalChart = function() {
     return chart;
   };
   //============================================================
+
+
   return chart;
 }
+nv.models.multiBarTimeSeries = function() {
+  "use strict";
+  //============================================================
+  // Public Variables with Default Settings
+  //------------------------------------------------------------
+
+  var margin = {top: 0, right: 0, bottom: 0, left: 0}
+    , width = 960
+    , height = 500
+    , x = d3.time.scale()
+    , y = d3.scale.linear()
+    , id = Math.floor(Math.random() * 10000) //Create semi-unique ID in case user doesn't select one
+    , getX = function(d) { return d.x }
+    , getY = function(d) { return d.y }
+    , forceY = [0] // 0 is forced by default.. this makes sense for the majority of bar graphs... user can always do chart.forceY([]) to remove
+    , clipEdge = true
+    , stacked = false
+    , color = nv.utils.defaultColor()
+    , delay = 1200
+    , xDomain
+    , yDomain
+    , xRange
+    , yRange
+    , dispatch = d3.dispatch('chartClick', 'elementClick', 'elementDblClick', 'elementMouseover', 'elementMouseout')
+    ;
+
+  //============================================================
+
+
+  //============================================================
+  // Private Variables
+  //------------------------------------------------------------
+
+  var x0, y0 //used to store previous scales
+      ;
+
+  //============================================================
+
+
+  function chart(selection) {
+    selection.each(function(data) {
+      var availableWidth = width - margin.left - margin.right,
+          availableHeight = height - margin.top - margin.bottom,
+          container = d3.select(this);
+
+      if (stacked)
+        data = d3.layout.stack()
+                 .offset('zero')
+                 .values(function(d){ return d.values })
+                 .y(getY)
+                 (data);
+
+
+      //add series index to each data point for reference
+      data.forEach(function(series, i) {
+        series.values.forEach(function(point) {
+          point.series = i;
+        });
+      });
+
+      //------------------------------------------------------------
+      // Setup Scales
+
+      // remap and flatten the data for use in calculating the scales' domains
+      var seriesData = (xDomain && yDomain) ? [] : // if we know xDomain and yDomain, no need to calculate
+            data.map(function(d) {
+              return d.values.map(function(d,i) {
+                return { x: getX(d,i), y: getY(d,i), y0: d.y0 }
+              })
+            });
+
+      x   .domain(xDomain || d3.extent(d3.merge(seriesData).map(function(d) { return d.x })))
+          .range(xRange || [0, availableWidth]);
+
+      y   .domain(yDomain || d3.extent(d3.merge(seriesData).map(function(d) { return d.y + (stacked ? d.y0 : 0) }).concat(forceY)))
+          .range(yRange || [availableHeight, 0]);
+
+
+      // If scale's domain don't have a range, slightly adjust to make one... so a chart can show a single data point
+      if (x.domain()[0] === x.domain()[1])
+        x.domain()[0] ?
+            x.domain([x.domain()[0] - x.domain()[0] * 0.01, x.domain()[1] + x.domain()[1] * 0.01])
+          : x.domain([-1,1]);
+
+      if (y.domain()[0] === y.domain()[1])
+        y.domain()[0] ?
+            y.domain([y.domain()[0] + y.domain()[0] * 0.01, y.domain()[1] - y.domain()[1] * 0.01])
+          : y.domain([-1,1]);
+
+
+      x0 = x0 || x;
+      y0 = y0 || y;
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup containers and skeleton of chart
+
+      var wrap = container.selectAll('g.nv-wrap.nv-multibar').data([data]);
+      var wrapEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-multibar');
+      var defsEnter = wrapEnter.append('defs');
+      var gEnter = wrapEnter.append('g');
+      var g = wrap.select('g')
+
+      gEnter.append('g').attr('class', 'nv-groups');
+
+      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      //------------------------------------------------------------
+
+
+
+      defsEnter.append('clipPath')
+          .attr('id', 'nv-edge-clip-' + id)
+        .append('rect');
+      wrap.select('#nv-edge-clip-' + id + ' rect')
+          .attr('width', availableWidth)
+          .attr('height', availableHeight);
+
+      g   .attr('clip-path', clipEdge ? 'url(#nv-edge-clip-' + id + ')' : '');
+
+
+
+      var groups = wrap.select('.nv-groups').selectAll('.nv-group')
+          .data(function(d) { return d }, function(d) { return d.key });
+      groups.enter().append('g')
+          .style('stroke-opacity', 1e-6)
+          .style('fill-opacity', 1e-6);
+      d3.transition(groups.exit())
+          //.style('stroke-opacity', 1e-6)
+          //.style('fill-opacity', 1e-6)
+        .selectAll('rect.nv-bar')
+        .delay(function(d,i) { return i * delay/ data[0].values.length })
+          .attr('y', function(d) { return stacked ? y0(d.y0) : y0(0) })
+          .attr('height', 0)
+          .remove();
+      groups
+          .attr('class', function(d,i) { return 'nv-group nv-series-' + i })
+          .classed('hover', function(d) { return d.hover })
+          .style('fill', function(d,i){ return color(d, i) })
+          .style('stroke', function(d,i){ return color(d, i) });
+      d3.transition(groups)
+          .style('stroke-opacity', 1)
+          .style('fill-opacity', .75);
+
+
+      var bars = groups.selectAll('rect.nv-bar')
+          .data(function(d) { return d.values });
+
+      bars.exit().remove();
+
+      var maxElements = 0;
+      for(var ei=0; ei<seriesData.length; ei+=1) {
+          maxElements = Math.max(seriesData[ei].length, maxElements);
+      }
+
+      var bandWidth = (availableWidth / maxElements)-0.1;
+      var barWidth = bandWidth / data.length;
+
+      var barsEnter = bars.enter().append('rect')
+          .attr('class', function(d,i) { return getY(d,i) < 0 ? 'nv-bar negative' : 'nv-bar positive'})
+          .attr('x', function(d,i,j) {
+              return stacked ? 0 : (i * bandWidth) + ( j * barWidth )
+          })
+          .attr('y', function(d) { return y0(stacked ? d.y0 : 0) })
+          .attr('height', 0)
+          .attr('width', stacked ? bandWidth : barWidth );
+      bars
+          .on('mouseover', function(d,i) { //TODO: figure out why j works above, but not here
+            d3.select(this).classed('hover', true);
+            dispatch.elementMouseover({
+              value: getY(d,i),
+              point: d,
+              series: data[d.series],
+              pos: [x(getX(d,i)) + (barWidth * (stacked ? data.length / 2 : d.series + .5) / data.length), y(getY(d,i) + (stacked ? d.y0 : 0))],  // TODO: Figure out why the value appears to be shifted
+              pointIndex: i,
+              seriesIndex: d.series,
+              e: d3.event
+            });
+          })
+          .on('mouseout', function(d,i) {
+            d3.select(this).classed('hover', false);
+            dispatch.elementMouseout({
+              value: getY(d,i),
+              point: d,
+              series: data[d.series],
+              pointIndex: i,
+              seriesIndex: d.series,
+              e: d3.event
+            });
+          })
+          .on('click', function(d,i) {
+            dispatch.elementClick({
+              value: getY(d,i),
+              point: d,
+              series: data[d.series],
+              pos: [x(getX(d,i)) + (barWidth * (stacked ? data.length / 2 : d.series + .5) / data.length), y(getY(d,i) + (stacked ? d.y0 : 0))],  // TODO: Figure out why the value appears to be shifted
+              pointIndex: i,
+              seriesIndex: d.series,
+              e: d3.event
+            });
+            d3.event.stopPropagation();
+          })
+          .on('dblclick', function(d,i) {
+            dispatch.elementDblClick({
+              value: getY(d,i),
+              point: d,
+              series: data[d.series],
+              pos: [x(getX(d,i)) + (barWidth * (stacked ? data.length / 2 : d.series + .5) / data.length), y(getY(d,i) + (stacked ? d.y0 : 0))],  // TODO: Figure out why the value appears to be shifted
+              pointIndex: i,
+              seriesIndex: d.series,
+              e: d3.event
+            });
+            d3.event.stopPropagation();
+          });
+      bars
+          .attr('class', function(d,i) { return getY(d,i) < 0 ? 'nv-bar negative' : 'nv-bar positive'})
+          .attr('transform', function(d,i) { return 'translate(' + x(getX(d,i)) + ',0)'; })
+      if (stacked)
+        d3.transition(bars)
+            .delay(function(d,i) { return i * delay / data[0].values.length })
+            .attr('y', function(d,i) {
+              return y(getY(d,i) + (stacked ? d.y0 : 0));
+            })
+            .attr('height', function(d,i) {
+              return Math.abs(y(d.y + (stacked ? d.y0 : 0)) - y((stacked ? d.y0 : 0)))
+            })
+            .each('end', function() {
+              d3.transition(d3.select(this))
+                .attr('x', function(d,i) {
+                  return stacked ? 0 : (i * bandWidth) + ( j * barWidth )
+                })
+                .attr('width', stacked ? bandWidth : barWidth );
+            })
+      else
+        d3.transition(bars)
+          .delay(function(d,i) { return i * delay/ data[0].values.length })
+            .attr('x', function(d,i) {
+              return d.series * barWidth
+            })
+            .attr('width', barWidth)
+            .each('end', function() {
+              d3.transition(d3.select(this))
+                .attr('y', function(d,i) {
+                  return getY(d,i) < 0 ?
+                    y(0) :
+                    y(getY(d,i))
+                })
+                .attr('height', function(d,i) {
+                  return Math.abs(y(getY(d,i)) - y(0))
+                });
+            })
+
+
+      //store old scales for use in transitions on update
+      x0 = x.copy();
+      y0 = y.copy();
+
+    });
+
+    return chart;
+  }
+
+
+  //============================================================
+  // Expose Public Variables
+  //------------------------------------------------------------
+
+  chart.dispatch = dispatch;
+
+  chart.options = nv.utils.optionsFunc.bind(chart);
+
+  chart.x = function(_) {
+    if (!arguments.length) return getX;
+    getX = _;
+    return chart;
+  };
+
+  chart.y = function(_) {
+    if (!arguments.length) return getY;
+    getY = _;
+    return chart;
+  };
+
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
+    margin.right  = typeof _.right  != 'undefined' ? _.right  : margin.right;
+    margin.bottom = typeof _.bottom != 'undefined' ? _.bottom : margin.bottom;
+    margin.left   = typeof _.left   != 'undefined' ? _.left   : margin.left;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.xScale = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+
+  chart.yScale = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+
+  chart.xDomain = function(_) {
+    if (!arguments.length) return xDomain;
+    xDomain = _;
+    return chart;
+  };
+
+  chart.yDomain = function(_) {
+    if (!arguments.length) return yDomain;
+    yDomain = _;
+    return chart;
+  };
+
+  chart.xRange = function(_) {
+    if (!arguments.length) return xRange;
+    xRange = _;
+    return chart;
+  };
+
+  chart.yRange = function(_) {
+    if (!arguments.length) return yRange;
+    yRange = _;
+    return chart;
+  };
+
+  chart.forceY = function(_) {
+    if (!arguments.length) return forceY;
+    forceY = _;
+    return chart;
+  };
+
+  chart.stacked = function(_) {
+    if (!arguments.length) return stacked;
+    stacked = _;
+    return chart;
+  };
+
+  chart.clipEdge = function(_) {
+    if (!arguments.length) return clipEdge;
+    clipEdge = _;
+    return chart;
+  };
+
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = nv.utils.getColor(_);
+    return chart;
+  };
+
+  chart.id = function(_) {
+    if (!arguments.length) return id;
+    id = _;
+    return chart;
+  };
+
+  chart.delay = function(_) {
+    if (!arguments.length) return delay;
+    delay = _;
+    return chart;
+  };
+
+  //============================================================
+
+
+  return chart;
+}
+
+nv.models.multiBarTimeSeriesChart = function() {
+  "use strict";
+  //============================================================
+  // Public Variables with Default Settings
+  //------------------------------------------------------------
+
+  var multibar = nv.models.multiBarTimeSeries()
+    , xAxis = nv.models.axis()
+    , yAxis = nv.models.axis()
+    , legend = nv.models.legend()
+    , controls = nv.models.legend()
+    ;
+
+  var margin = {top: 30, right: 20, bottom: 50, left: 60}
+    , width = null
+    , height = null
+    , color = nv.utils.defaultColor()
+    , showControls = true
+    , showLegend = true
+    , reduceXTicks = true // if false a tick will show for every data point
+    , rotateLabels = 0
+    , tooltips = true
+    , tooltip = function(key, x, y, e, graph) {
+        return '<h3>' + key + '</h3>' +
+               '<p>' +  y + ' on ' + x + '</p>'
+      }
+    , x //can be accessed via chart.xScale()
+    , y //can be accessed via chart.yScale()
+    , noData = "No Data Available."
+    , dispatch = d3.dispatch('tooltipShow', 'tooltipHide')
+    ;
+
+  multibar
+    .stacked(false)
+    ;
+  xAxis
+    .orient('bottom')
+    .tickPadding(7)
+    .highlightZero(false)
+    .showMaxMin(false)
+    ;
+  yAxis
+    .orient('left')
+    .tickFormat(d3.format(',.1f'))
+    ;
+
+  //============================================================
+
+
+  //============================================================
+  // Private Variables
+  //------------------------------------------------------------
+
+  var showTooltip = function(e, offsetElement) {
+    var left = e.pos[0] + ( offsetElement.offsetLeft || 0 ),
+        top = e.pos[1] + ( offsetElement.offsetTop || 0),
+        x = xAxis.tickFormat()(multibar.x()(e.point, e.pointIndex)),
+        y = yAxis.tickFormat()(multibar.y()(e.point, e.pointIndex)),
+        content = tooltip(e.series.key, x, y, e, chart);
+
+    nv.tooltip.show([left, top], content, e.value < 0 ? 'n' : 's', null, offsetElement);
+  };
+
+  //============================================================
+
+
+  function chart(selection) {
+    selection.each(function(data) {
+      var container = d3.select(this),
+          that = this;
+
+      var availableWidth = (width  || parseInt(container.style('width')) || 960)
+                             - margin.left - margin.right,
+          availableHeight = (height || parseInt(container.style('height')) || 400)
+                             - margin.top - margin.bottom;
+
+      chart.update = function() { selection.transition().call(chart) };
+      chart.container = this;
+
+
+      //------------------------------------------------------------
+      // Display noData message if there's nothing to show.
+
+      if (!data || !data.length || !data.filter(function(d) { return d.values.length }).length) {
+        var noDataText = container.selectAll('.nv-noData').data([noData]);
+
+        noDataText.enter().append('text')
+          .attr('class', 'nvd3 nv-noData')
+          .attr('dy', '-.7em')
+          .style('text-anchor', 'middle');
+
+        noDataText
+          .attr('x', margin.left + availableWidth / 2)
+          .attr('y', margin.top + availableHeight / 2)
+          .text(function(d) { return d });
+
+        return chart;
+      } else {
+        container.selectAll('.nv-noData').remove();
+      }
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup Scales
+
+      x = multibar.xScale();
+      y = multibar.yScale();
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup containers and skeleton of chart
+
+      var wrap = container.selectAll('g.nv-wrap.nv-multiBarWithLegend').data([data]);
+      var gEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-multiBarWithLegend').append('g');
+      var g = wrap.select('g');
+
+      gEnter.append('g').attr('class', 'nv-x nv-axis');
+      gEnter.append('g').attr('class', 'nv-y nv-axis');
+      gEnter.append('g').attr('class', 'nv-barsWrap');
+      gEnter.append('g').attr('class', 'nv-legendWrap');
+      gEnter.append('g').attr('class', 'nv-controlsWrap');
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Legend
+
+      if (showLegend) {
+        legend.width(availableWidth / 2);
+
+        g.select('.nv-legendWrap')
+            .datum(data)
+            .call(legend);
+
+        if ( margin.top != legend.height()) {
+          margin.top = legend.height();
+          availableHeight = (height || parseInt(container.style('height')) || 400)
+                             - margin.top - margin.bottom;
+        }
+
+        g.select('.nv-legendWrap')
+            .attr('transform', 'translate(' + (availableWidth / 2) + ',' + (-margin.top) +')');
+      }
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Controls
+
+      if (showControls) {
+        var controlsData = [
+          { key: 'Grouped', disabled: multibar.stacked() },
+          { key: 'Stacked', disabled: !multibar.stacked() }
+        ];
+
+        controls.width(180).color(['#444', '#444', '#444']);
+        g.select('.nv-controlsWrap')
+            .datum(controlsData)
+            .attr('transform', 'translate(0,' + (-margin.top) +')')
+            .call(controls);
+      }
+
+      //------------------------------------------------------------
+
+
+      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+
+      //------------------------------------------------------------
+      // Main Chart Component(s)
+
+      multibar
+        .width(availableWidth)
+        .height(availableHeight)
+        .color(data.map(function(d,i) {
+          return d.color || color(d, i);
+        }).filter(function(d,i) { return !data[i].disabled }))
+
+
+      var barsWrap = g.select('.nv-barsWrap')
+          .datum(data.filter(function(d) { return !d.disabled }))
+
+      d3.transition(barsWrap).call(multibar);
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup Axes
+
+      xAxis
+        .scale(x)
+        .ticks(availableWidth / 100)        
+        .tickSize(-availableHeight, 0);
+
+      g.select('.nv-x.nv-axis')
+          .attr('transform', 'translate(0,' + y.range()[0] + ')');
+      d3.transition(g.select('.nv-x.nv-axis'))
+          .call(xAxis);
+
+      var xTicks = g.select('.nv-x.nv-axis > g').selectAll('g');
+
+      xTicks
+          .selectAll('line, text')
+          .style('opacity', 1)
+
+      if (reduceXTicks)
+        xTicks
+          .filter(function(d,i) {
+              return i % Math.ceil(data[0].values.length / (availableWidth / 100)) !== 0;
+            })
+          .selectAll('text, line')
+          .style('opacity', 0);
+
+      if(rotateLabels)
+        xTicks
+            .selectAll('text')
+            .attr('transform', function(d,i,j) { return 'rotate('+rotateLabels+' 0,0)' })
+            .attr('text-transform', rotateLabels > 0 ? 'start' : 'end');
+
+      yAxis
+        .scale(y)
+        .ticks( availableHeight / 36 )
+        .tickSize( -availableWidth, 0);
+
+      d3.transition(g.select('.nv-y.nv-axis'))
+          .call(yAxis);
+
+      //------------------------------------------------------------
+
+
+
+      //============================================================
+      // Event Handling/Dispatching (in chart's scope)
+      //------------------------------------------------------------
+
+      legend.dispatch.on('legendClick', function(d,i) {
+        d.disabled = !d.disabled;
+
+        if (!data.filter(function(d) { return !d.disabled }).length) {
+          data.map(function(d) {
+            d.disabled = false;
+            wrap.selectAll('.nv-series').classed('disabled', false);
+            return d;
+          });
+        }
+
+        selection.transition().call(chart);
+      });
+
+      controls.dispatch.on('legendClick', function(d,i) {
+        if (!d.disabled) return;
+        controlsData = controlsData.map(function(s) {
+          s.disabled = true;
+          return s;
+        });
+        d.disabled = false;
+
+        switch (d.key) {
+          case 'Grouped':
+            multibar.stacked(false);
+            break;
+          case 'Stacked':
+            multibar.stacked(true);
+            break;
+        }
+
+        selection.transition().call(chart);
+      });
+
+      dispatch.on('tooltipShow', function(e) {
+        if (tooltips) showTooltip(e, that.parentNode)
+      });
+
+      //============================================================
+
+
+    });
+
+    return chart;
+  }
+
+
+  //============================================================
+  // Event Handling/Dispatching (out of chart's scope)
+  //------------------------------------------------------------
+
+  multibar.dispatch.on('elementMouseover.tooltip', function(e) {
+    e.pos = [e.pos[0] +  margin.left, e.pos[1] + margin.top];
+    dispatch.tooltipShow(e);
+  });
+
+  multibar.dispatch.on('elementMouseout.tooltip', function(e) {
+    dispatch.tooltipHide(e);
+  });
+  dispatch.on('tooltipHide', function() {
+    if (tooltips) nv.tooltip.cleanup();
+  });
+
+  //============================================================
+
+
+  //============================================================
+  // Expose Public Variables
+  //------------------------------------------------------------
+
+  // expose chart's sub-components
+  chart.dispatch = dispatch;
+  chart.multibar = multibar;
+  chart.legend = legend;
+  chart.xAxis = xAxis;
+  chart.yAxis = yAxis;
+
+  d3.rebind(chart, multibar, 'x', 'y', 'xDomain', 'yDomain', 'xRange', 'yRange', 'forceX', 'forceY', 'clipEdge', 'id', 'stacked', 'delay');
+
+  chart.options = nv.utils.optionsFunc.bind(chart);
+  
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
+    margin.right  = typeof _.right  != 'undefined' ? _.right  : margin.right;
+    margin.bottom = typeof _.bottom != 'undefined' ? _.bottom : margin.bottom;
+    margin.left   = typeof _.left   != 'undefined' ? _.left   : margin.left;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = nv.utils.getColor(_);
+    legend.color(color);
+    return chart;
+  };
+
+  chart.showControls = function(_) {
+    if (!arguments.length) return showControls;
+    showControls = _;
+    return chart;
+  };
+
+  chart.showLegend = function(_) {
+    if (!arguments.length) return showLegend;
+    showLegend = _;
+    return chart;
+  };
+
+  chart.reduceXTicks= function(_) {
+    if (!arguments.length) return reduceXTicks;
+    reduceXTicks = _;
+    return chart;
+  };
+
+  chart.rotateLabels = function(_) {
+    if (!arguments.length) return rotateLabels;
+    rotateLabels = _;
+    return chart;
+  }
+
+  chart.tooltip = function(_) {
+    if (!arguments.length) return tooltip;
+    tooltip = _;
+    return chart;
+  };
+
+  chart.tooltips = function(_) {
+    if (!arguments.length) return tooltips;
+    tooltips = _;
+    return chart;
+  };
+
+  chart.tooltipContent = function(_) {
+    if (!arguments.length) return tooltip;
+    tooltip = _;
+    return chart;
+  };
+
+  chart.noData = function(_) {
+    if (!arguments.length) return noData;
+    noData = _;
+    return chart;
+  };
+
+  //============================================================
+
+
+  return chart;
+}
+
 nv.models.multiChart = function() {
   "use strict";
   //============================================================
@@ -9457,8 +10433,6 @@ nv.models.multiChart = function() {
   // Private Variables
   //------------------------------------------------------------
 
-
-
   var x = d3.scale.linear(),
       yScale1 = d3.scale.linear(),
       yScale2 = d3.scale.linear(),
@@ -9469,8 +10443,8 @@ nv.models.multiChart = function() {
       bars1 = nv.models.multiBar().stacked(false).yScale(yScale1),
       bars2 = nv.models.multiBar().stacked(false).yScale(yScale2),
 
-      stack1 = nv.models.multiBar().stacked(true).yScale(yScale1),
-      stack2 = nv.models.multiBar().stacked(true).yScale(yScale2),
+      stack1 = nv.models.stackedArea().yScale(yScale1),
+      stack2 = nv.models.stackedArea().yScale(yScale2),
 
       xAxis = nv.models.axis().scale(x).orient('bottom').tickPadding(5),
       yAxis1 = nv.models.axis().scale(yScale1).orient('left'),
@@ -9498,18 +10472,16 @@ nv.models.multiChart = function() {
       chart.container = this;
 
       var availableWidth = (width  || parseInt(container.style('width')) || 960)
-                             - (margin.left ||60) - (margin.right ||20),
+                             - margin.left - margin.right,
           availableHeight = (height || parseInt(container.style('height')) || 400)
-                             - (margin.top||30) - (margin.bottom ||50);
+                             - margin.top - margin.bottom;
 
-      var dataLines1 = data.filter(function(d) {return  d.type == 'line' && d.yAxis == 1})
-      var dataLines2 = data.filter(function(d) {return  d.type == 'line' && d.yAxis == 2})
-      var dataBars1 = data.filter(function(d) {return  d.type == 'bar' && d.yAxis == 1})
-      var dataBars2 = data.filter(function(d) {return  d.type == 'bar' && d.yAxis == 2})
-      var dataStack1 = data.filter(function(d) {return d.type == 'stackedbar' && d.yAxis == 1})
-      var dataStack2 = data.filter(function(d) {return  d.type == 'stackedbar' && d.yAxis == 2})
-
-
+      var dataLines1 = data.filter(function(d) {return !d.disabled && d.type == 'line' && d.yAxis == 1})
+      var dataLines2 = data.filter(function(d) {return !d.disabled && d.type == 'line' && d.yAxis == 2})
+      var dataBars1 = data.filter(function(d) {return !d.disabled && d.type == 'bar' && d.yAxis == 1})
+      var dataBars2 = data.filter(function(d) {return !d.disabled && d.type == 'bar' && d.yAxis == 2})
+      var dataStack1 = data.filter(function(d) {return !d.disabled && d.type == 'area' && d.yAxis == 1})
+      var dataStack2 = data.filter(function(d) {return !d.disabled && d.type == 'area' && d.yAxis == 2})
 
       var series1 = data.filter(function(d) {return !d.disabled && d.yAxis == 1})
             .map(function(d) {
@@ -9558,7 +10530,7 @@ nv.models.multiChart = function() {
         if ( margin.top != legend.height()) {
           margin.top = legend.height();
           availableHeight = (height || parseInt(container.style('height')) || 400)
-                             - (margin.top||30) - (margin.bottom ||50);
+                             - margin.top - margin.bottom;
         }
 
         g.select('.legendWrap')
@@ -9601,31 +10573,31 @@ nv.models.multiChart = function() {
         .height(availableHeight)
         .color(data.map(function(d,i) {
           return d.color || color[i % color.length];
-        }).filter(function(d,i) { return !data[i].disabled && data[i].yAxis == 1 && data[i].type == 'stackedbar'}));
+        }).filter(function(d,i) { return !data[i].disabled && data[i].yAxis == 1 && data[i].type == 'area'}));
 
       stack2
         .width(availableWidth)
         .height(availableHeight)
         .color(data.map(function(d,i) {
           return d.color || color[i % color.length];
-        }).filter(function(d,i) { return !data[i].disabled && data[i].yAxis == 2 && data[i].type == 'stackedbar'}));
+        }).filter(function(d,i) { return !data[i].disabled && data[i].yAxis == 2 && data[i].type == 'area'}));
 
       g.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 
       var lines1Wrap = g.select('.lines1Wrap')
-          .datum(dataLines1.filter(function(d){return !d.disabled}))
+          .datum(dataLines1)
       var bars1Wrap = g.select('.bars1Wrap')
-          .datum(dataBars1.filter(function(d){return !d.disabled}))
+          .datum(dataBars1)
       var stack1Wrap = g.select('.stack1Wrap')
-          .datum(dataStack1.filter(function(d){return !d.disabled}))
+          .datum(dataStack1)
 
       var lines2Wrap = g.select('.lines2Wrap')
-          .datum(dataLines2.filter(function(d){return !d.disabled}))
+          .datum(dataLines2)
       var bars2Wrap = g.select('.bars2Wrap')
-          .datum(dataBars2.filter(function(d){return !d.disabled}))
+          .datum(dataBars2)
       var stack2Wrap = g.select('.stack2Wrap')
-          .datum(dataStack2.filter(function(d){return !d.disabled}))
+          .datum(dataStack2)
 
       var extraValue1 = dataStack1.length ? dataStack1.map(function(a){return a.values}).reduce(function(a,b){
         return a.map(function(aVal,i){return {x: aVal.x, y: aVal.y + b[i].y}})
@@ -9741,54 +10713,37 @@ nv.models.multiChart = function() {
     dispatch.tooltipHide(e);
   });
 
-  stack1.dispatch.on('elementMouseover.tooltip', function(e) {
-    e.pos = [e.pos[0] +  margin.left, e.pos[1] + margin.top];
+  stack1.dispatch.on('tooltipShow', function(e) {
+    //disable tooltips when value ~= 0
+    //// TODO: consider removing points from voronoi that have 0 value instead of this hack
+    if (!Math.round(stack1.y()(e.point) * 100)) {  // 100 will not be good for very small numbers... will have to think about making this valu dynamic, based on data range
+      setTimeout(function() { d3.selectAll('.point.hover').classed('hover', false) }, 0);
+      return false;
+    }
+
+    e.pos = [e.pos[0] + margin.left, e.pos[1] + margin.top],
     dispatch.tooltipShow(e);
   });
 
-  stack1.dispatch.on('elementMouseout.tooltip', function(e) {
+  stack1.dispatch.on('tooltipHide', function(e) {
     dispatch.tooltipHide(e);
   });
 
-  stack2.dispatch.on('elementMouseover.tooltip', function(e) {
-    e.pos = [e.pos[0] +  margin.left, e.pos[1] + margin.top];
+  stack2.dispatch.on('tooltipShow', function(e) {
+    //disable tooltips when value ~= 0
+    //// TODO: consider removing points from voronoi that have 0 value instead of this hack
+    if (!Math.round(stack2.y()(e.point) * 100)) {  // 100 will not be good for very small numbers... will have to think about making this valu dynamic, based on data range
+      setTimeout(function() { d3.selectAll('.point.hover').classed('hover', false) }, 0);
+      return false;
+    }
+
+    e.pos = [e.pos[0] + margin.left, e.pos[1] + margin.top],
     dispatch.tooltipShow(e);
   });
 
-  stack2.dispatch.on('elementMouseout.tooltip', function(e) {
+  stack2.dispatch.on('tooltipHide', function(e) {
     dispatch.tooltipHide(e);
   });
-  // stack1.dispatch.on('tooltipShow', function(e) {
-  //   //disable tooltips when value ~= 0
-  //   //// TODO: consider removing points from voronoi that have 0 value instead of this hack
-  //   if (!Math.round(stack1.y()(e.point) * 100)) {  // 100 will not be good for very small numbers... will have to think about making this valu dynamic, based on data range
-  //     setTimeout(function() { d3.selectAll('.point.hover').classed('hover', false) }, 0);
-  //     return false;
-  //   }
-
-  //   e.pos = [e.pos[0] + margin.left, e.pos[1] + margin.top],
-  //   dispatch.tooltipShow(e);
-  // });
-
-  // stack1.dispatch.on('tooltipHide', function(e) {
-  //   dispatch.tooltipHide(e);
-  // });
-
-  // stack2.dispatch.on('tooltipShow', function(e) {
-  //   //disable tooltips when value ~= 0
-  //   //// TODO: consider removing points from voronoi that have 0 value instead of this hack
-  //   if (!Math.round(stack2.y()(e.point) * 100)) {  // 100 will not be good for very small numbers... will have to think about making this valu dynamic, based on data range
-  //     setTimeout(function() { d3.selectAll('.point.hover').classed('hover', false) }, 0);
-  //     return false;
-  //   }
-
-  //   e.pos = [e.pos[0] + margin.left, e.pos[1] + margin.top],
-  //   dispatch.tooltipShow(e);
-  // });
-
-  // stack2.dispatch.on('tooltipHide', function(e) {
-  //   dispatch.tooltipHide(e);
-  // });
 
     lines1.dispatch.on('elementMouseover.tooltip', function(e) {
     e.pos = [e.pos[0] +  margin.left, e.pos[1] + margin.top];
@@ -10277,6 +11232,245 @@ nv.models.ohlcBar = function() {
     if (!arguments.length) return id;
     id = _;
     return chart;
+  };
+
+  //============================================================
+
+
+  return chart;
+}
+
+//Code adapted from Jason Davies' "Parallel Coordinates"
+// http://bl.ocks.org/jasondavies/1341281
+
+nv.models.parallelCoordinates = function() {
+  "use strict";
+  //============================================================
+  // Public Variables with Default Settings
+  //------------------------------------------------------------
+
+
+  var margin = {top: 30, right: 10, bottom: 10, left: 10}
+    , width = 960
+    , height = 500
+    , x = d3.scale.ordinal()
+    , y = {}
+    , dimensions = []
+    , color = nv.utils.getColor(d3.scale.category20c().range())
+    , axisLabel = function(d) { return d; }
+    , filters = []
+    , active = []
+    , dispatch = d3.dispatch('brush')
+    ;
+
+  //============================================================
+
+
+  //============================================================
+  // Private Variables
+  //------------------------------------------------------------
+
+
+  //============================================================
+
+
+  function chart(selection) {
+    selection.each(function(data) {
+      var availableWidth = width - margin.left - margin.right,
+          availableHeight = height - margin.top - margin.bottom,
+          container = d3.select(this);
+
+      active = data; //set all active before first brush call
+
+      chart.update = function() { }; //This is a placeholder until this chart is made resizeable
+
+      //------------------------------------------------------------
+      // Setup Scales
+
+      x
+        .rangePoints([0, availableWidth], 1)
+        .domain(dimensions);
+
+      // Extract the list of dimensions and create a scale for each.
+      dimensions.forEach(function(d) {
+          y[d] = d3.scale.linear()
+              .domain(d3.extent(data, function(p) { return +p[d]; }))
+              .range([availableHeight, 0]);
+
+          y[d].brush = d3.svg.brush().y(y[d]).on('brush', brush);
+
+          return d != 'name';
+        })
+
+
+      //------------------------------------------------------------
+
+
+      //------------------------------------------------------------
+      // Setup containers and skeleton of chart
+
+      var wrap = container.selectAll('g.nv-wrap.nv-parallelCoordinates').data([data]);
+      var wrapEnter = wrap.enter().append('g').attr('class', 'nvd3 nv-wrap nv-parallelCoordinates');
+      var gEnter = wrapEnter.append('g');
+      var g = wrap.select('g')
+
+      gEnter.append('g').attr('class', 'nv-parallelCoordinatesWrap');
+
+      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      //------------------------------------------------------------
+
+
+      var line = d3.svg.line(),
+          axis = d3.svg.axis().orient('left'),
+          background,
+          foreground;
+
+
+      // Add grey background lines for context.
+      background = gEnter.append('g')
+          .attr('class', 'background')
+        .selectAll('path')
+          .data(data)
+        .enter().append('path')
+          .attr('d', path)
+        ;
+
+      // Add blue foreground lines for focus.
+      foreground = gEnter.append('g')
+          .attr('class', 'foreground')
+        .selectAll('path')
+          .data(data)
+        .enter().append('path')
+          .attr('d', path)
+        ;
+
+      // Add a group element for each dimension.
+      var dimension = g.selectAll('.dimension')
+          .data(dimensions)
+        .enter().append('g')
+          .attr('class', 'dimension')
+          .attr('transform', function(d) { return 'translate(' + x(d) + ',0)'; });
+
+      // Add an axis and title.
+      dimension.append('g')
+          .attr('class', 'axis')
+          .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
+        .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', -9)
+          .text(String);
+
+      // Add and store a brush for each axis.
+      dimension.append('g')
+          .attr('class', 'brush')
+          .each(function(d) { d3.select(this).call(y[d].brush); })
+        .selectAll('rect')
+          .attr('x', -8)
+          .attr('width', 16);
+
+
+      // Returns the path for a given data point.
+      function path(d) {
+        return line(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+      }
+
+      // Handles a brush event, toggling the display of foreground lines.
+      function brush() {
+        var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
+            extents = actives.map(function(p) { return y[p].brush.extent(); });
+
+        filters = []; //erase current filters
+        actives.forEach(function(d,i) {
+          filters[i] = {
+            dimension: d,
+            extent: extents[i]
+          }
+        });
+
+        active = []; //erase current active list
+        foreground.style('display', function(d) {
+          var isActive = actives.every(function(p, i) {
+            return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+          });
+          if (isActive) active.push(d);
+          return isActive ? null : 'none';
+        });
+
+        dispatch.brush({
+          filters: filters,
+          active: active
+        });
+
+      }
+
+
+
+    });
+
+    return chart;
+  }
+
+
+  //============================================================
+  // Expose Public Variables
+  //------------------------------------------------------------
+
+
+  chart.dispatch = dispatch;
+  chart.options = nv.utils.optionsFunc.bind(chart);
+  
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
+    margin.right  = typeof _.right  != 'undefined' ? _.right  : margin.right;
+    margin.bottom = typeof _.bottom != 'undefined' ? _.bottom : margin.bottom;
+    margin.left   = typeof _.left   != 'undefined' ? _.left   : margin.left;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = nv.utils.getColor(_)
+    return chart;
+  };
+
+  chart.xScale = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+
+  chart.yScale = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+
+  chart.dimensions = function(_) {
+    if (!arguments.length) return dimensions;
+    dimensions = _;
+    return chart;
+  };
+
+  chart.filters = function() {
+    return filters;
+  };
+
+  chart.active = function() {
+    return active;
   };
 
   //============================================================
@@ -11025,7 +12219,6 @@ nv.models.scatter = function() {
     , singlePoint  = false
     , dispatch     = d3.dispatch('elementClick', 'elementMouseover', 'elementMouseout')
     , useVoronoi   = true
-    , showLabel    = false //@zl
     ;
 
   //============================================================
@@ -11154,10 +12347,9 @@ nv.models.scatter = function() {
                 */
                 var pX = getX(point,pointIndex);
                 var pY = getY(point,pointIndex);
-                var gid = (typeof groupIndex === 'undefined')? 0 : groupIndex; //@zl
-              //https://github.com/luke3141/nvd3/commit/e39ea4084c580acd5abb6e3da08e54722c09eca7
-                return [x(pX) + Math.floor(Math.random() * 100 + 1)/1000000, //@zl
-                        y(pY) + gid/100 + Math.floor(Math.random() * 10+ 1)/1000000, //@zl -- this could cause issue in scatter func. 
+
+                return [x(pX)+ Math.random() * 1e-7,
+                        y(pY)+ Math.random() * 1e-7,
                         groupIndex,
                         pointIndex, point]; //temp hack to add noise untill I think of a better way so there are no duplicates
               })
@@ -11195,7 +12387,7 @@ nv.models.scatter = function() {
           }
 
 
-          if(vertices.length ) {
+          if(vertices.length) {
             // Issue #283 - Adding 2 dummy points to the voronoi b/c voronoi requires min 3 points to work
             vertices.push([x.range()[0] - 20, y.range()[0] - 20, null, null]);
             vertices.push([x.range()[1] + 20, y.range()[1] + 20, null, null]);
@@ -11209,23 +12401,6 @@ nv.models.scatter = function() {
               [width + 10,height + 10],
               [width + 10,-10]
           ]);
-
-
-//@zl - https://github.com/luke3141/nvd3/commit/e39ea4084c580acd5abb6e3da08e54722c09eca7
-     // delete duplicates from vertices - essential assumption for d3.geom.voronoi
-/**
-     var epsilon = 1e-6; // d3 uses 1e-6 to determine equivalence.
-     vertices = vertices.sort(function(a,b){return ((a[0] - b[0]) || (a[1] - b[1]))});
-     for (var i = 0; i < vertices.length - 1; ) {
-   if ((Math.abs(vertices[i][0] - vertices[i+1][0]) < epsilon) &&
-       (Math.abs(vertices[i][1] - vertices[i+1][1]) < epsilon)) {
-       vertices.splice(i+1, 1);
-   } else {
-       i++;
-   }
-     }
-**/
-//====================================================================================
 
           var voronoi = d3.geom.voronoi(vertices).map(function(d, i) {
               return {
@@ -11243,15 +12418,10 @@ nv.models.scatter = function() {
           pointPaths.exit().remove();
           pointPaths
               .attr('d', function(d) {
-                if (typeof d === 'undefined' || d.data.length === 0 || typeof d.data[0] === 'undefined' ) { //@zl
+                if (d.data.length === 0)
                     return 'M 0 0'
-                  }
-                else{
-                   var cleandata = d.data; //@zl
-                    if (d.data[0].length == 2) //@zl
-                       cleandata = d.data.map(function(d){ return [d[0]||0 , d[1]||0]; }); //@zl
-                    return 'M' + cleandata.join('L') + 'Z'; //@zl
-                  }
+                else
+                    return 'M' + d.data.join('L') + 'Z';
               });
 
           var mouseEventCallback = function(d,mDispatch) {
@@ -11367,40 +12537,6 @@ nv.models.scatter = function() {
 
         var points = groups.selectAll('circle.nv-point')
             .data(function(d) { return d.values }, pointKey);
-
-//@zl-------------------
-if(showLabel)
-{
-        var titles =  groups.selectAll('text')
-            .data(function(d) { return d.values }, pointKey);
-
-        titles.enter().append('text')
-            .style('fill', function (d,i) { return d.color })
-            .style('stroke-opacity', 0)
-            .style('fill-opacity', 1)
-            .attr('x', function(d,i) { return nv.utils.NaNtoZero(x0(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
-            .attr('y', function(d,i) { return nv.utils.NaNtoZero(y0(getY(d,i))) })
-            .text(function(d,i){return d.tooltip;});
-
-        titles.exit().remove();
-
-        groups.exit().selectAll('text.nv-point').transition()
-            .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) })
-            .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) })
-            .remove();
-
-        titles.each(function(d,i) {
-          d3.select(this)
-            .classed('nv-point', true)
-            .classed('nv-point-' + i, false)
-            .classed('hover',false);
-
-        });
-         titles.transition()
-             .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
-            .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) });
-}
-//-------------------            
         points.enter().append('circle')
             .style('fill', function (d,i) { return d.color })
             .style('stroke', function (d,i) { return d.color })
@@ -11711,12 +12847,7 @@ if(showLabel)
     singlePoint = _;
     return chart;
   };
-//@zl------------------------
-  chart.showLabel = function(_){
-    if (!arguments.length) return showLabel;
-    showLabel = _;
-    return chart;
-};
+
   //============================================================
 
 
@@ -11763,7 +12894,6 @@ nv.models.scatterChart = function() {
     , dispatch     = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState')
     , noData       = "No Data Available."
     , transitionDuration = 250
-    , showLabel    = false //@zl
     ;
 
   scatter
@@ -11908,7 +13038,7 @@ nv.models.scatterChart = function() {
       // Legend
 
       if (showLegend) {
-        var legendWidth = (showControls) ?  (availableWidth -180) : availableWidth; //@zl
+        var legendWidth = (showControls) ? availableWidth / 2 : availableWidth;
         legend.width(legendWidth);
 
         wrap.select('.nv-legendWrap')
@@ -11958,10 +13088,7 @@ nv.models.scatterChart = function() {
           .color(data.map(function(d,i) {
             return d.color || color(d, i);
           }).filter(function(d,i) { return !data[i].disabled }));
-//@zl-------------
-      if (showLabel)
-        scatter.showLabel(true)
-//----------------
+
       if (xPadding !== 0)
         scatter.xDomain(null);
 
@@ -12349,14 +13476,6 @@ nv.models.scatterChart = function() {
     return chart;
   };
 
-//@zl-------------------------
-  chart.showLabel = function(_) {
-    if (!arguments.length) return showLabel;
-    showLabel = _;
-    return chart;
-  };
-
-
   //============================================================
 
 
@@ -12377,7 +13496,6 @@ nv.models.scatterPlusLineChart = function() {
     , distX        = nv.models.distribution()
     , distY        = nv.models.distribution()
     ;
-    d3.fisheye = false; //@zl
 
   var margin       = {top: 30, right: 20, bottom: 50, left: 75}
     , width        = null
@@ -12404,7 +13522,6 @@ nv.models.scatterPlusLineChart = function() {
     , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState')
     , noData       = "No Data Available."
     , transitionDuration = 250
-    , showLabel    = false //@zl
     ;
 
   scatter
@@ -12559,7 +13676,7 @@ nv.models.scatterPlusLineChart = function() {
       // Legend
 
       if (showLegend) {
-        legend.width( availableWidth - 180); //@zl
+        legend.width( availableWidth / 2 );
 
         wrap.select('.nv-legendWrap')
             .datum(data)
@@ -12572,7 +13689,7 @@ nv.models.scatterPlusLineChart = function() {
         }
 
         wrap.select('.nv-legendWrap')
-            .attr('transform', 'translate(' + (180) + ',' + (-margin.top) +')'); //@zl
+            .attr('transform', 'translate(' + (availableWidth / 2) + ',' + (-margin.top) +')');
       }
 
       //------------------------------------------------------------
@@ -12600,12 +13717,8 @@ nv.models.scatterPlusLineChart = function() {
           .height(availableHeight)
           .color(data.map(function(d,i) {
             return d.color || color(d, i);
-          }).filter(function(d,i) { return !data[i].disabled }));
+          }).filter(function(d,i) { return !data[i].disabled }))
 
-//@zl-------
-if (showLabel)
-      scatter.showLabel(showLabel);
-//---------
       wrap.select('.nv-scatterWrap')
           .datum(data.filter(function(d) { return !d.disabled }))
           .call(scatter);
@@ -12625,13 +13738,13 @@ if (showLabel)
 
       regLine
           .transition()
-          .attr('x1',  function(d,i) {return (typeof d.slope !== 'undefined')? x.range()[0]: x(d.intercept);}) //@zl
-          .attr('x2', function(d,i) {return (typeof d.slope !== 'undefined')? x.range()[1]: x(d.intercept);}) //@zl
-          .attr('y1', function(d,i) {return (typeof d.slope !== 'undefined')? y(x.domain()[0] * d.slope + d.intercept) :y.range()[0] }) //@zl
-          .attr('y2', function(d,i) { return (typeof d.slope !== 'undefined')? y(x.domain()[1] * d.slope + d.intercept):y.range()[1] }) //@zl
+          .attr('x1', x.range()[0])
+          .attr('x2', x.range()[1])
+          .attr('y1', function(d,i) {return y(x.domain()[0] * d.slope + d.intercept) })
+          .attr('y2', function(d,i) { return y(x.domain()[1] * d.slope + d.intercept) })
           .style('stroke', function(d,i,j) { return color(d,j) })
           .style('stroke-opacity', function(d,i) {
-             return (d.disabled || (typeof d.slope === 'undefined' && typeof d.intercept === 'undefined'))? 0 : 1   //@zl
+            return (d.disabled || typeof d.slope === 'undefined' || typeof d.intercept === 'undefined') ? 0 : 1 
           });
 
       //------------------------------------------------------------
@@ -12982,12 +14095,7 @@ if (showLabel)
     transitionDuration = _;
     return chart;
   };
-  //@zl --------------------
-  chart.showLabel = function(_) {
-    if (!arguments.length) return showLabel;
-    showLabel = _;
-    return chart;
-  };
+
   //============================================================
 
 
@@ -13068,7 +14176,7 @@ nv.models.sparkline = function() {
               var yValues = data.map(function(d, i) { return getY(d,i); });
               function pointIndex(index) {
                   if (index != -1) {
-                var result = data[index];
+	              var result = data[index];
                       result.pointIndex = index;
                       return result;
                   } else {
@@ -13494,8 +14602,8 @@ nv.models.stackedArea = function() {
     , height = 500
     , color = nv.utils.defaultColor() // a function that computes the color
     , id = Math.floor(Math.random() * 100000) //Create semi-unique ID incase user doesn't selet one
-    , getX = function(d) { return d.x; } // accessor to get the x value from a data point
-    , getY = function(d) { return d.y; } // accessor to get the y value from a data point //@Zl - fix for the duplicated data base issue...
+    , getX = function(d) { return d.x } // accessor to get the x value from a data point
+    , getY = function(d) { return d.y } // accessor to get the y value from a data point
     , style = 'stack'
     , offset = 'zero'
     , order = 'default'
@@ -13841,9 +14949,9 @@ nv.models.stackedArea = function() {
   };
 
   chart.interpolate = function(_) {
-      if (!arguments.length) return interpolate;
-      interpolate = _;
-      return chart;
+	    if (!arguments.length) return interpolate;
+	    interpolate = _;
+	    return chart;
   };
   //============================================================
 
