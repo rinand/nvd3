@@ -1,5 +1,7 @@
 
-// set up main nv object
+// 
+// Zipline nvd3 1.8.1-zl
+//set up main nv object
 var nv = {};
 
 // the major global objects under the nv namespace
