@@ -33,6 +33,7 @@ nv.models.scatterChart = function() {
         , dispatch = d3.dispatch('stateChange', 'changeState', 'renderEnd')
         , noData       = null
         , duration = 250
+        , showLabel    = false //@zl
         ;
 
     scatter.xScale(x).yScale(y);
@@ -180,8 +181,9 @@ nv.models.scatterChart = function() {
                 .color(data.map(function(d,i) {
                     d.color = d.color || color(d, i);
                     return d.color;
-                }).filter(function(d,i) { return !data[i].disabled }));
-
+                }).filter(function(d,i) { return !data[i].disabled }))
+                .showLabel(showLabel);
+            
             wrap.select('.nv-scatterWrap')
                 .datum(data.filter(function(d) { return !d.disabled }))
                 .call(scatter);
@@ -207,23 +209,24 @@ nv.models.scatterChart = function() {
                 .style('stroke-opacity', 0);
 
             // don't add lines unless we have slope and intercept to use
+            // check intercept only to support slope = 0 or infinite
             regLine.filter(function(d) {
-                return d.intercept && d.slope;
+                return d.intercept;
             })
                 .watchTransition(renderWatch, 'scatterPlusLineChart: regline')
-                .attr('x1', x.range()[0])
-                .attr('x2', x.range()[1])
+                .attr('x1', function(d, i) { return (typeof d.slope !== 'undefined')? x.range()[0] : x(d.intercept); })
+                .attr('x2', function(d, i) { return  (typeof d.slope !== 'undefined')? x.range()[1] : x(d.intercept); })
                 .attr('y1', function (d, i) {
-                    return y(x.domain()[0] * d.slope + d.intercept)
+                   return (typeof d.slope !== 'undefined')? y(x.domain()[0] * d.slope + d.intercept) : y.range()[0]; 
                 })
                 .attr('y2', function (d, i) {
-                    return y(x.domain()[1] * d.slope + d.intercept)
+                    return (typeof d.slope !== 'undefined')? y(x.domain()[1] * d.slope + d.intercept) : y.range()[1];
                 })
                 .style('stroke', function (d, i, j) {
                     return color(d, j)
                 })
                 .style('stroke-opacity', function (d, i) {
-                    return (d.disabled || typeof d.slope === 'undefined' || typeof d.intercept === 'undefined') ? 0 : 1
+                    return (d.disabled || (typeof d.slope === 'undefined' && typeof d.intercept === 'undefined')) ? 0 : 1
                 });
 
             // Setup Axes
@@ -375,7 +378,8 @@ nv.models.scatterChart = function() {
             legend.color(color);
             distX.color(color);
             distY.color(color);
-        }}
+        }},
+        showLabel: {get: function(){return showLabel;}, set: function(_){showLabel=_;}}
     });
 
     nv.utils.inheritOptions(chart, scatter);

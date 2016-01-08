@@ -41,6 +41,7 @@ nv.models.scatter = function() {
         , useVoronoi   = true
         , duration     = 250
         , interactiveUpdateDelay = 300
+        , showLabel    = false //@zl
         ;
 
 
@@ -173,9 +174,10 @@ nv.models.scatter = function() {
                                      */
                                     var pX = getX(point,pointIndex);
                                     var pY = getY(point,pointIndex);
+                                    var gid = (typeof groupIndex === 'undefined')? 0 : groupIndex; //@zl
 
-                                    return [x(pX)+ Math.random() * 1e-4,
-                                            y(pY)+ Math.random() * 1e-4,
+                                    return [x(pX) + Math.floor(Math.random() * 100 + 1)/1000000, //@zl
+                                            y(pY) + gid/100 + Math.floor(Math.random() * 10+ 1)/1000000, //@zl -- this could cause issue in scatter func. 
                                         groupIndex,
                                         pointIndex, point]; //temp hack to add noise until I think of a better way so there are no duplicates
                                 })
@@ -381,6 +383,38 @@ nv.models.scatter = function() {
                 .style('stroke-opacity', 1)
                 .style('fill-opacity', .5);
 
+        if(showLabel)
+            {
+                    var titles =  groups.selectAll('text')
+                        .data(function(d) { return d.values }, pointKey);
+
+                    titles.enter().append('text')
+                        .style('fill', function (d,i) { return d.color })
+                        .style('stroke-opacity', 0)
+                        .style('fill-opacity', 1)
+                        .attr('x', function(d,i) { return nv.utils.NaNtoZero(x0(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
+                        .attr('y', function(d,i) { return nv.utils.NaNtoZero(y0(getY(d,i))) })
+                        .text(function(d,i){return d.tooltip;});
+
+                    titles.exit().remove();
+
+                    groups.exit().selectAll('text.nv-point').transition()
+                        .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) })
+                        .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) })
+                        .remove();
+
+                    titles.each(function(d,i) {
+                      d3.select(this)
+                        .classed('nv-point', true)
+                        .classed('nv-point-' + i, false)
+                        .classed('hover',false);
+
+                    });
+                     titles.transition()
+                         .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
+                        .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) });
+            }
+
             // create the points, maintaining their IDs from the original data set
             var points = groups.selectAll('path.nv-point')
                 .data(function(d) {
@@ -538,7 +572,8 @@ nv.models.scatter = function() {
             if (useVoronoi === false) {
                 clipVoronoi = false;
             }
-        }}
+        }},
+        showLabel: {get: function(){return showLabel;}, set: function(_){ showLabel = _;}},
     });
 
     nv.utils.initOptions(chart);
