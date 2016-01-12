@@ -456,7 +456,7 @@ nv.models.scatter = function() {
                         return 'translate(' + dx + ',' + nv.utils.NaNtoZero(y0(getY(d[0],d[1]))) + ')';
                     })
                     .text(function(d,i){
-                        return d[0].tooltip;});
+                        return d[0].label;});
                 titles.exit().remove();
                 groups.exit().selectAll('path.nv-label')
                     .watchTransition(renderWatch, 'scatter exit')
