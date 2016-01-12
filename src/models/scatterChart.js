@@ -33,7 +33,7 @@ nv.models.scatterChart = function() {
         , dispatch = d3.dispatch('stateChange', 'changeState', 'renderEnd')
         , noData       = null
         , duration = 250
-        , showLabel    = false //@zl
+        , showLabels    = false //@zl
         ;
 
     scatter.xScale(x).yScale(y);
@@ -182,7 +182,7 @@ nv.models.scatterChart = function() {
                     d.color = d.color || color(d, i);
                     return d.color;
                 }).filter(function(d,i) { return !data[i].disabled }))
-                .showLabel(showLabel);
+                .showLabels(showLabels);
             
             wrap.select('.nv-scatterWrap')
                 .datum(data.filter(function(d) { return !d.disabled }))
@@ -379,7 +379,7 @@ nv.models.scatterChart = function() {
             distX.color(color);
             distY.color(color);
         }},
-        showLabel: {get: function(){return showLabel;}, set: function(_){showLabel=_;}}
+        showLabels: {get: function(){return showLabels;}, set: function(_){showLabels=_;}}
     });
 
     nv.utils.inheritOptions(chart, scatter);

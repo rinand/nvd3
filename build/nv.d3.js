@@ -1,4 +1,4 @@
-/* nvd3 version 1.8.1-dev (https://github.com/novus/nvd3) 2016-01-08 */
+/* nvd3 version 1.8.1-dev (https://github.com/novus/nvd3) 2016-01-12 */
 (function(){
 
 // 
@@ -11288,7 +11288,7 @@ nv.models.scatter = function() {
         , useVoronoi   = true
         , duration     = 250
         , interactiveUpdateDelay = 300
-        , showLabel    = false //@zl
+        , showLabels    = false //@zl
         ;
 
 
@@ -11630,38 +11630,6 @@ nv.models.scatter = function() {
                 .style('stroke-opacity', 1)
                 .style('fill-opacity', .5);
 
-        if(showLabel)
-            {
-                    var titles =  groups.selectAll('text')
-                        .data(function(d) { return d.values }, pointKey);
-
-                    titles.enter().append('text')
-                        .style('fill', function (d,i) { return d.color })
-                        .style('stroke-opacity', 0)
-                        .style('fill-opacity', 1)
-                        .attr('x', function(d,i) { return nv.utils.NaNtoZero(x0(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
-                        .attr('y', function(d,i) { return nv.utils.NaNtoZero(y0(getY(d,i))) })
-                        .text(function(d,i){return d.tooltip;});
-
-                    titles.exit().remove();
-
-                    groups.exit().selectAll('text.nv-point').transition()
-                        .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) })
-                        .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) })
-                        .remove();
-
-                    titles.each(function(d,i) {
-                      d3.select(this)
-                        .classed('nv-point', true)
-                        .classed('nv-point-' + i, false)
-                        .classed('hover',false);
-
-                    });
-                     titles.transition()
-                         .attr('x', function(d,i) { return nv.utils.NaNtoZero(x(getX(d,i))) + Math.sqrt(z(getSize(d,i))/Math.PI) })
-                        .attr('y', function(d,i) { return nv.utils.NaNtoZero(y(getY(d,i))) });
-            }
-
             // create the points, maintaining their IDs from the original data set
             var points = groups.selectAll('path.nv-point')
                 .data(function(d) {
@@ -11710,6 +11678,52 @@ nv.models.scatter = function() {
                     .type(function(d) { return getShape(d[0]); })
                     .size(function(d) { return z(getSize(d[0],d[1])) })
             );
+
+
+            if(showLabels)
+            {      
+                var titles =  groups.selectAll('.nv-label')
+                    .data(function(d) {
+                        return d.values.map(
+                            function (point, pointIndex) {
+                                return [point, pointIndex]
+                            }).filter(
+                                function(pointArray, pointIndex) {
+                                    return pointActive(pointArray[0], pointIndex)
+                                })
+                        });
+
+                titles.enter().append('text')
+                    .style('fill', function (d,i) { 
+                        return d.color })
+                    .style('stroke-opacity', 0)
+                    .style('fill-opacity', 1)
+                    .attr('transform', function(d) {
+                        var dx = nv.utils.NaNtoZero(x0(getX(d[0],d[1]))) + Math.sqrt(z(getSize(d[0],d[1]))/Math.PI) + 2;
+                        return 'translate(' + dx + ',' + nv.utils.NaNtoZero(y0(getY(d[0],d[1]))) + ')';
+                    })
+                    .text(function(d,i){
+                        return d[0].tooltip;});
+                titles.exit().remove();
+                groups.exit().selectAll('path.nv-label')
+                    .watchTransition(renderWatch, 'scatter exit')
+                    .attr('transform', function(d) {
+                        var dx = nv.utils.NaNtoZero(x(getX(d[0],d[1])))+ Math.sqrt(z(getSize(d[0],d[1]))/Math.PI)+2;
+                        return 'translate(' + dx + ',' + nv.utils.NaNtoZero(y(getY(d[0],d[1]))) + ')';
+                    })
+                    .remove();
+               titles.each(function(d) {
+                  d3.select(this)
+                    .classed('nv-label', true)
+                    .classed('nv-label-' + d[1], false)
+                    .classed('hover',false);
+                });
+                titles.watchTransition(renderWatch, 'scatter labels')
+                    .attr('transform', function(d) {
+                        var dx = nv.utils.NaNtoZero(x(getX(d[0],d[1])))+ Math.sqrt(z(getSize(d[0],d[1]))/Math.PI)+2;
+                        return 'translate(' + dx + ',' + nv.utils.NaNtoZero(y(getY(d[0],d[1]))) + ')'
+                    });
+            }
 
             // Delay updating the invisible interactive layer for smoother animation
             if( interactiveUpdateDelay )
@@ -11820,7 +11834,7 @@ nv.models.scatter = function() {
                 clipVoronoi = false;
             }
         }},
-        showLabel: {get: function(){return showLabel;}, set: function(_){ showLabel = _;}},
+        showLabels: {get: function(){return showLabels;}, set: function(_){ showLabels = _;}},
     });
 
     nv.utils.initOptions(chart);
@@ -11861,7 +11875,7 @@ nv.models.scatterChart = function() {
         , dispatch = d3.dispatch('stateChange', 'changeState', 'renderEnd')
         , noData       = null
         , duration = 250
-        , showLabel    = false //@zl
+        , showLabels    = false //@zl
         ;
 
     scatter.xScale(x).yScale(y);
@@ -12010,7 +12024,7 @@ nv.models.scatterChart = function() {
                     d.color = d.color || color(d, i);
                     return d.color;
                 }).filter(function(d,i) { return !data[i].disabled }))
-                .showLabel(showLabel);
+                .showLabels(showLabels);
             
             wrap.select('.nv-scatterWrap')
                 .datum(data.filter(function(d) { return !d.disabled }))
@@ -12207,7 +12221,7 @@ nv.models.scatterChart = function() {
             distX.color(color);
             distY.color(color);
         }},
-        showLabel: {get: function(){return showLabel;}, set: function(_){showLabel=_;}}
+        showLabels: {get: function(){return showLabels;}, set: function(_){showLabels=_;}}
     });
 
     nv.utils.inheritOptions(chart, scatter);
