@@ -516,6 +516,7 @@ nv.models.linePlusBarChart = function() {
     //------------------------------------------------------------
 
     lines.dispatch.on('elementMouseover.tooltip', function(evt) {
+        evt.point.x = evt.point.x || chart.x()(evt.point, evt.pointIndex) || evt.pointIndex;
         tooltip
             .duration(100)
             .valueFormatter(function(d, i) {
@@ -530,7 +531,8 @@ nv.models.linePlusBarChart = function() {
     });
 
     bars.dispatch.on('elementMouseover.tooltip', function(evt) {
-        evt.value = chart.x()(evt.data);
+        evt.value = chart.x()(evt.data, evt.index);
+        //evt.value = chart.x()(evt.data);
         evt['series'] = {
             value: chart.y()(evt.data),
             color: evt.color

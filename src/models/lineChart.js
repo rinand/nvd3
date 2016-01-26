@@ -384,21 +384,23 @@ nv.models.lineChart = function() {
                             return lines.x()(d,i) >= extent[0] && lines.x()(d,i) <= extent[1];
                         });
 
-                        pointIndex = nv.interactiveBisect(currentValues, e.pointXValue, lines.x());
-                        var point = currentValues[pointIndex];
-                        var pointYValue = chart.y()(point, pointIndex);
-                        if (pointYValue !== null) {
-                            lines.highlightPoint(series.seriesIndex, pointIndex, true);
-                        }
-                        if (point === undefined) return;
-                        if (singlePoint === undefined) singlePoint = point;
-                        if (pointXLocation === undefined) pointXLocation = chart.xScale()(chart.x()(point,pointIndex));
-                        allData.push({
-                            key: series.key,
-                            value: pointYValue,
-                            color: color(series,series.seriesIndex),
-                            data: point
-                        });
+                        if (currentValues.length > 0 ) {
+                            pointIndex = nv.interactiveBisect(currentValues, e.pointXValue, lines.x());
+                            var point = currentValues[pointIndex];
+                            var pointYValue = chart.y()(point, pointIndex);
+                            if (pointYValue !== null) {
+                                lines.highlightPoint(series.seriesIndex, pointIndex, true);
+                            }
+                            if (point === undefined) return;
+                            if (singlePoint === undefined) singlePoint = point;
+                            if (pointXLocation === undefined) pointXLocation = chart.xScale()(chart.x()(point,pointIndex));
+                            allData.push({
+                                key: series.key,
+                                value: pointYValue,
+                                color: color(series,series.seriesIndex),
+                                data: point
+                            });
+                         }
                     });
                 //Highlight the tooltip entry based on which point the mouse is closest to.
                 if (allData.length > 2) {

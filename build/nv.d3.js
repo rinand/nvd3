@@ -1,4 +1,4 @@
-/* nvd3 version 1.8.1-dev (https://github.com/novus/nvd3) 2016-01-12 */
+/* nvd3 version 1.8.1-dev (https://github.com/novus/nvd3) 2016-01-20 */
 (function(){
 
 // 
@@ -7270,6 +7270,7 @@ nv.models.linePlusBarChart = function() {
     //------------------------------------------------------------
 
     lines.dispatch.on('elementMouseover.tooltip', function(evt) {
+        evt.point.x = evt.point.x || chart.x()(evt.point, evt.pointIndex) || evt.pointIndex;
         tooltip
             .duration(100)
             .valueFormatter(function(d, i) {
@@ -7284,7 +7285,8 @@ nv.models.linePlusBarChart = function() {
     });
 
     bars.dispatch.on('elementMouseover.tooltip', function(evt) {
-        evt.value = chart.x()(evt.data);
+        evt.value = chart.x()(evt.data, evt.index);
+        //evt.value = chart.x()(evt.data);
         evt['series'] = {
             value: chart.y()(evt.data),
             color: evt.color
@@ -9325,6 +9327,9 @@ nv.models.multiChart = function() {
                 };
                 tooltip
                     .duration(0)
+                    .headerFormatter(function(d, i) {
+                       return xAxis.tickFormat()(d, i);
+                    })
                     .valueFormatter(function(d, i) {
                         return yaxis.tickFormat()(d, i);
                     })
@@ -9342,6 +9347,9 @@ nv.models.multiChart = function() {
                 };
                 tooltip
                     .duration(100)
+                    .headerFormatter(function(d, i) {
+                       return xAxis.tickFormat()(d, i);
+                    }) 
                     .valueFormatter(function(d, i) {
                         return yaxis.tickFormat()(d, i);
                     })
@@ -9355,6 +9363,9 @@ nv.models.multiChart = function() {
                 evt.point['y'] = stack1.y()(evt.point);
                 tooltip
                     .duration(0)
+                    .headerFormatter(function(d, i) {
+                       return xAxis.tickFormat()(d, i);
+                    })
                     .valueFormatter(function(d, i) {
                         return yaxis.tickFormat()(d, i);
                     })
@@ -9373,6 +9384,9 @@ nv.models.multiChart = function() {
                 };
                 tooltip
                     .duration(0)
+                    .headerFormatter(function(d, i) {
+                       return xAxis.tickFormat()(d, i);
+                    })
                     .valueFormatter(function(d, i) {
                         return yaxis.tickFormat()(d, i);
                     })
